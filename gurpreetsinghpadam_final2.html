@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Gurpreet Singh Padam — Product Manager, 7+ years fintech & marketplace. LOS, Collections, PD App, Analytics. Delhi, India.">
+<meta property="og:title" content="Gurpreet Singh Padam — PM Portfolio">
+<meta name="theme-color" content="#f5a623">
+<title>Gurpreet Singh Padam — Product Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root{
+  --bg:#07070f;--sur:#0d0d1c;--card:#121224;--card2:#181830;
+  --gold:#f5a623;--gold-a:rgba(245,166,35,.12);--gold-b:rgba(245,166,35,.06);
+  --blue:#4f9eff;--blue-a:rgba(79,158,255,.12);
+  --green:#00d084;--red:#ff6b4a;--purple:#bf7fff;
+  --text:#eaeaf6;--sub:#a0a0c0;--muted:#6868a0;--border:rgba(255,255,255,.07);
+  --shadow:rgba(0,0,0,.45);
+  --card-shadow:0 8px 32px rgba(0,0,0,.4),0 2px 8px rgba(0,0,0,.25);
+  --card-hover:0 28px 64px rgba(0,0,0,.55),0 8px 20px rgba(0,0,0,.35);
+  --logo-mix:difference;
+  transition:background .3s,color .3s;
+}
+:root.light{
+  --bg:#f2f2f9;--sur:#ffffff;--card:#fafaff;--card2:#ededf8;
+  --gold:#b8700a;--gold-a:rgba(184,112,10,.1);--gold-b:rgba(184,112,10,.05);
+  --blue:#1a56c4;--blue-a:rgba(26,86,196,.1);
+  --green:#0a7a4a;--red:#b03020;--purple:#6d28d9;
+  --text:#111128;--sub:#44445e;--muted:#66668a;--border:rgba(0,0,0,.09);
+  --shadow:rgba(0,0,0,.1);
+  --card-shadow:0 4px 20px rgba(0,0,0,.08),0 1px 4px rgba(0,0,0,.05);
+  --card-hover:0 16px 48px rgba(0,0,0,.14),0 4px 12px rgba(0,0,0,.08);
+  --logo-mix:normal;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none;transition:background .35s,color .35s}
+
+/* ===== CUSTOM CURSOR ===== */
+.cur,.cur-r{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%}
+.cur{width:8px;height:8px;background:var(--gold);mix-blend-mode:var(--logo-mix)}
+.cur-r{width:30px;height:30px;border:1px solid rgba(245,166,35,.4);z-index:9998;transition:width .2s,height .2s,border-color .2s}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:600;padding:.9rem 3.5rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  background:rgba(7,7,15,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);transition:all .3s}
+:root.light nav{background:rgba(242,242,249,.92)}
+.n-logo{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.12em;color:var(--gold);flex-shrink:0}
+.n-links{display:flex;gap:1.5rem;list-style:none;flex-wrap:wrap}
+.n-links a{color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.06em;font-weight:500;transition:color .25s;position:relative;padding-bottom:2px}
+.n-links a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .25s;transform-origin:left}
+.n-links a:hover,.n-links a.active{color:var(--gold)}
+.n-links a.active::after,.n-links a:hover::after{transform:scaleX(1)}
+.nav-right{display:flex;align-items:center;gap:.8rem;flex-shrink:0}
+
+/* Theme toggle */
+.theme-btn{
+  width:38px;height:22px;border-radius:11px;
+  background:var(--card2);border:1px solid var(--border);
+  cursor:none;position:relative;transition:all .3s;flex-shrink:0;
+}
+.theme-btn::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--gold);transition:transform .3s,background .3s;
+}
+:root.light .theme-btn::after{transform:translateX(16px)}
+.theme-icon{font-size:.7rem;position:absolute;inset:0;display:flex;align-items:center;padding:0 5px;justify-content:space-between;pointer-events:none;color:var(--muted)}
+
+/* Mobile hamburger */
+.ham-btn{display:none;background:transparent;border:none;cursor:none;color:var(--gold);font-size:1.1rem;padding:.2rem .4rem}
+
+/* ===== SHARED ===== */
+.s-lbl{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;font-weight:500}
+.s-ttl{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5vw,4.2rem);line-height:.95;letter-spacing:.02em;color:var(--text)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 3.5rem}
+section{padding:6rem 0}
+.clip{clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+
+/* 3D card base */
+.card-3d{
+  transform:perspective(900px) rotateX(0) rotateY(0) translateZ(0);
+  transition:transform .35s ease,box-shadow .35s ease;
+  box-shadow:var(--card-shadow);
+  will-change:transform;
+}
+.card-3d:hover{
+  transform:perspective(900px) rotateX(-1deg) rotateY(1deg) translateZ(12px);
+  box-shadow:var(--card-hover);
+}
+
+/* ===== HERO ===== */
+#hero{
+  height:82vh;min-height:540px;position:relative;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+#hcanvas{position:absolute;inset:0;width:100%;height:100%}
+.hero-c{position:relative;z-index:2;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);
+  margin-bottom:1.2rem;opacity:0;animation:fadeUp .6s .3s ease forwards;
+  display:flex;align-items:center;justify-content:center;gap:.7rem;font-weight:500}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:30px;height:1px;background:rgba(245,166,35,.45)}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,10vw,8rem);
+  line-height:.9;letter-spacing:.015em;opacity:0;animation:fadeUp .6s .45s ease forwards}
+.hn1{display:block;color:var(--text)}.hn2{display:block;color:var(--gold)}
+.hn3{display:block;-webkit-text-stroke:1px rgba(200,200,240,.2);color:transparent}
+:root.light .hn3{-webkit-text-stroke:1px rgba(0,0,50,.15)}
+.hero-sub{margin-top:1.2rem;font-size:.82rem;letter-spacing:.12em;color:var(--sub);
+  opacity:0;animation:fadeUp .6s .6s ease forwards}
+.hero-sub em{color:var(--blue);font-style:normal;font-weight:500}
+.hero-badges{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;
+  opacity:0;animation:fadeUp .6s .7s ease forwards}
+.hero-badge{padding:.25rem .7rem;border:1px solid var(--border);font-size:.68rem;
+  letter-spacing:.06em;color:var(--sub);border-radius:2px}
+.hero-ctas{margin-top:2rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .6s .8s ease forwards}
+.btn-g{padding:.78rem 1.8rem;background:var(--gold);color:#07070f;font-family:'Inter',sans-serif;
+  font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;
+  border:none;cursor:none;border-radius:3px;
+  box-shadow:0 4px 20px rgba(245,166,35,.35);
+  transition:all .3s}
+.btn-g:hover{background:#ffc245;transform:translateY(-3px);box-shadow:0 8px 30px rgba(245,166,35,.45)}
+.btn-o{padding:.78rem 1.8rem;background:transparent;color:var(--text);font-family:'Inter',sans-serif;
+  font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;
+  border:1px solid var(--border);cursor:none;border-radius:3px;transition:all .3s}
+.btn-o:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+.s-wheel-w{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  opacity:0;animation:fadeIn 1s 1.4s forwards}
+.s-wheel-w span{font-size:.6rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.s-wheel{width:18px;height:28px;border:1px solid var(--border);border-radius:9px;position:relative}
+.s-wheel::after{content:'';position:absolute;top:5px;left:50%;transform:translateX(-50%);
+  width:2px;height:5px;background:var(--gold);border-radius:2px;animation:swob 1.5s infinite}
+
+/* ===== ABOUT ===== */
+#about{background:var(--sur);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:4.5rem 0}
+.about-grid{display:grid;grid-template-columns:1fr 1.7fr;gap:4rem;align-items:start}
+.about-stat-big{font-family:'Bebas Neue',sans-serif;font-size:7rem;line-height:1;color:var(--gold);opacity:.1;margin-bottom:-.5rem}
+.about-stat-lbl{font-size:.72rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;font-weight:500}
+.about-text p{font-size:.9rem;line-height:1.9;color:var(--sub);margin-bottom:.9rem}
+.about-text p strong{color:var(--text);font-weight:600}
+.tag-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem}
+.tag{padding:.28rem .7rem;border:1px solid var(--border);font-size:.68rem;letter-spacing:.06em;color:var(--muted);border-radius:2px;transition:all .25s;font-weight:500}
+.tag:hover{border-color:var(--gold);color:var(--gold)}
+.tag.g{border-color:rgba(245,166,35,.3);color:var(--gold)}
+.tag.b{border-color:rgba(79,158,255,.3);color:var(--blue)}
+
+/* ===== PRODUCTS ===== */
+#products{padding:5rem 0}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3rem}
+.prod-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:3px}
+.prod-card{position:relative;min-height:360px;overflow:hidden;cursor:none;background:var(--card);
+  transition:transform .35s ease,box-shadow .35s ease;}
+.pcanvas{position:absolute;inset:0;width:100%;height:100%}
+.poverlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,15,.97) 28%,rgba(7,7,15,.3) 100%)}
+:root.light .poverlay{background:linear-gradient(to top,rgba(10,10,30,.96) 28%,rgba(10,10,30,.25) 100%)}
+.pcontent{position:absolute;bottom:0;left:0;right:0;padding:2rem;z-index:2}
+.ptag{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem;font-weight:600}
+.ptag.los{color:var(--gold)}.ptag.pd{color:var(--blue)}.ptag.col{color:var(--green)}
+.pname{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;margin-bottom:.5rem;line-height:1.15;color:#fff}
+.pdesc{font-size:.78rem;color:rgba(200,200,240,.7);line-height:1.7;margin-bottom:1.1rem;max-width:340px}
+:root.light .pdesc{color:rgba(200,200,240,.75)}
+.pchips{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem}
+.pchip{padding:.2rem .55rem;border:1px solid rgba(255,255,255,.12);font-size:.62rem;letter-spacing:.04em;color:rgba(200,200,240,.6);border-radius:2px}
+.pbtn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.3rem;
+  background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.35);
+  color:var(--gold);font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.1em;font-weight:600;
+  text-transform:uppercase;cursor:none;transition:all .3s;border-radius:2px}
+.pbtn:hover{background:rgba(245,166,35,.25);border-color:var(--gold)}
+.pbtn.b{background:rgba(79,158,255,.12);border-color:rgba(79,158,255,.35);color:var(--blue)}
+.pbtn.gr{background:rgba(0,208,132,.12);border-color:rgba(0,208,132,.35);color:var(--green)}
+.prod-card::after{content:'';position:absolute;inset:0;border:1px solid transparent;transition:border-color .4s;pointer-events:none}
+.prod-card:hover::after{border-color:rgba(245,166,35,.3)}
+
+/* ===== MODALS ===== */
+.mov{position:fixed;inset:0;z-index:800;background:rgba(4,4,14,.94);backdrop-filter:blur(16px);
+  display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.mov.open{opacity:1;pointer-events:all}
+.mbox{position:relative;width:94vw;max-width:1100px;max-height:92vh;overflow:hidden;
+  border:1px solid var(--border);background:var(--bg);
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
+  transform:translateY(24px) scale(.98);transition:transform .35s ease,opacity .35s ease}
+.mov.open .mbox{transform:translateY(0) scale(1)}
+.mclose{position:absolute;top:.9rem;right:1.1rem;z-index:10;font-size:.72rem;color:var(--muted);cursor:none;
+  transition:color .25s;padding:.3rem .5rem;background:transparent;border:none;font-family:'Inter',sans-serif;font-weight:500}
+.mclose:hover{color:var(--text)}
+/* LOS modal innards */
+.los-wrap{display:flex;flex-direction:column;height:90vh;max-height:640px}
+.los-bar{display:flex;align-items:center;gap:.9rem;padding:.55rem 1.1rem;background:rgba(0,0,0,.3);border-bottom:1px solid var(--border);flex-shrink:0}
+.ldots{display:flex;gap:.35rem}.ldots span{width:10px;height:10px;border-radius:50%}
+.d1{background:#ff5f56}.d2{background:#ffbd2e}.d3{background:#27c93f}
+.los-bar-title{font-size:.65rem;letter-spacing:.1em;color:var(--sub)}
+.los-bar-badge{margin-left:auto;padding:.15rem .5rem;background:rgba(0,208,132,.12);border:1px solid rgba(0,208,132,.3);font-size:.58rem;letter-spacing:.08em;color:var(--green);font-weight:500}
+.los-body{display:flex;flex:1;overflow:hidden}
+.los-side{width:150px;background:rgba(0,0,0,.2);border-right:1px solid var(--border);padding:.6rem 0;flex-shrink:0;display:flex;flex-direction:column}
+.lnav{padding:.45rem .9rem;font-size:.65rem;letter-spacing:.06em;color:var(--muted);cursor:none;transition:all .2s;display:flex;justify-content:space-between;align-items:center;font-weight:500}
+.lnav.active{background:rgba(245,166,35,.1);color:var(--gold);border-left:2px solid var(--gold)}
+.lnav:hover:not(.active){color:var(--text)}
+.lbadge{padding:.08rem .32rem;background:rgba(245,166,35,.2);font-size:.55rem;color:var(--gold);border-radius:2px}
+.lbadge.r{background:rgba(255,107,74,.2);color:var(--red)}
+.los-main{flex:1;overflow-y:auto;padding:1.1rem;display:flex;flex-direction:column;gap:.9rem}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.kpi{background:var(--card);padding:.85rem;border:1px solid var(--border)}
+.kpi-num{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:var(--gold);line-height:1}
+.kpi-lbl{font-size:.6rem;letter-spacing:.08em;color:var(--muted);margin:.2rem 0 .12rem;text-transform:uppercase;font-weight:500}
+.kpi-d{font-size:.6rem;color:var(--green);font-weight:500}
+.los-sec{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-bottom:.4rem;border-bottom:1px solid var(--border);margin-bottom:.6rem;font-weight:600}
+.pipeline{display:flex;align-items:center;gap:.25rem;overflow-x:auto;padding-bottom:.3rem}
+.p-stage{background:var(--card2);border:1px solid var(--border);padding:.45rem .65rem;min-width:82px;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 50%,calc(100% - 6px) 100%,0 100%)}
+.p-stage:not(:first-child){margin-left:-6px;padding-left:10px}
+.p-stage.s1{border-color:rgba(245,166,35,.35);background:rgba(245,166,35,.07)}
+.p-stage.s5{border-color:rgba(0,208,132,.35);background:rgba(0,208,132,.05)}
+.psc{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;line-height:1}
+.psn{font-size:.55rem;letter-spacing:.05em;color:var(--muted);margin-top:.08rem;font-weight:500}
+.pss{font-size:.55rem;color:var(--green);margin-top:.1rem;font-weight:500}
+.ltable{width:100%;border-collapse:collapse;font-size:.65rem}
+.ltable th{color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:.32rem .5rem;text-align:left;border-bottom:1px solid var(--border);font-weight:500}
+.ltable td{padding:.38rem .5rem;border-bottom:1px solid rgba(255,255,255,.025);color:var(--sub)}
+.ltable td:first-child{color:var(--text);font-weight:500}
+.ltable tr:hover td{background:rgba(255,255,255,.02)}
+.lsp{display:inline-block;padding:.1rem .42rem;border-radius:2px;font-size:.57rem;font-weight:500}
+.lsp.doc{background:rgba(79,158,255,.15);color:var(--blue)}.lsp.credit{background:rgba(245,166,35,.15);color:var(--gold)}
+.lsp.pd{background:rgba(191,127,255,.15);color:var(--purple)}.lsp.dis{background:rgba(0,208,132,.15);color:var(--green)}
+.lsp.app{background:rgba(255,107,74,.12);color:var(--red)}
+.mini-bars{display:flex;align-items:flex-end;gap:3px;height:34px;margin-top:.45rem}
+.mb{width:17px;background:linear-gradient(to top,var(--gold),rgba(245,166,35,.2));border-radius:1px}
+/* PD modal */
+.pd-body{display:flex;height:90vh;max-height:640px}
+.pd-info{flex:1;padding:2.2rem;background:var(--sur);border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
+.pd-tag{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:.8rem;font-weight:600}
+.pd-ttl{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;line-height:.95;margin-bottom:1rem;color:var(--text)}
+.pd-desc{font-size:.82rem;color:var(--sub);line-height:1.85;margin-bottom:1.2rem}
+.pd-feats{display:flex;flex-direction:column;gap:.5rem}
+.pd-feat{display:flex;align-items:flex-start;gap:.55rem;font-size:.78rem;color:var(--sub)}
+.pd-fi{color:var(--blue);flex-shrink:0;margin-top:.05rem}
+.pd-feat strong{color:var(--text);font-weight:600}
+.pd-phone-w{width:300px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.15);padding:1.8rem}
+.phone{width:230px;height:490px;background:var(--card);border:2px solid rgba(79,158,255,.22);border-radius:32px;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.notch{width:72px;height:15px;background:var(--bg);border-radius:0 0 9px 9px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2}
+.pscreen{position:absolute;inset:0;overflow-y:auto;padding-top:18px;display:flex;flex-direction:column}
+.app-hdr{background:rgba(0,0,0,.2);padding:.5rem .8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;flex-shrink:0}
+.app-back{color:var(--blue);font-size:.65rem;font-weight:600}
+.app-ttl{font-size:.65rem;font-weight:600;color:var(--text);flex:1;text-align:center}
+.app-case-b{background:rgba(79,158,255,.07);border-bottom:1px solid rgba(79,158,255,.12);padding:.42rem .8rem;flex-shrink:0}
+.case-id{font-size:.58rem;color:var(--blue);letter-spacing:.08em;font-weight:600}
+.case-nm{font-size:.65rem;color:var(--text);margin-top:.1rem;font-weight:500}
+.prog-w{padding:.55rem .8rem;background:rgba(0,0,0,.1);flex-shrink:0}
+.prog-bar{height:4px;background:rgba(79,158,255,.15);border-radius:2px;overflow:hidden}
+.prog-fill{width:75%;height:100%;background:linear-gradient(to right,var(--blue),var(--green))}
+.prog-txt{display:flex;justify-content:space-between;margin-top:.28rem}
+.prog-txt span{font-size:.56rem;color:var(--muted);font-weight:500}
+.app-secs{padding:.42rem .8rem;display:flex;flex-direction:column;gap:.25rem;flex-shrink:0}
+.app-sec{display:flex;align-items:center;gap:.4rem;padding:.38rem .5rem;border:1px solid var(--border);font-size:.63rem;border-radius:3px;font-weight:500}
+.app-sec.done{border-color:rgba(0,208,132,.35);color:var(--green);background:rgba(0,208,132,.05)}
+.app-sec.active{border-color:rgba(79,158,255,.4);color:var(--blue);background:rgba(79,158,255,.06)}
+.app-sec.pend{color:var(--muted)}
+.app-form{padding:.5rem .8rem;flex:1}
+.app-field{margin-bottom:.48rem}
+.app-field label{display:block;font-size:.56rem;letter-spacing:.05em;color:var(--muted);margin-bottom:.15rem;text-transform:uppercase;font-weight:600}
+.app-field input,.app-field select{width:100%;background:rgba(0,0,0,.15);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif;font-size:.64rem;padding:.28rem .42rem;border-radius:2px;outline:none;font-weight:400}
+.app-acts{display:flex;gap:.3rem;padding:.55rem .8rem;background:rgba(0,0,0,.15);border-top:1px solid var(--border);flex-shrink:0}
+.app-act{flex:1;padding:.38rem .25rem;font-family:'Inter',sans-serif;font-size:.6rem;border:none;cursor:none;border-radius:2px;font-weight:600}
+.act-gps{background:rgba(79,158,255,.15);color:var(--blue);border:1px solid rgba(79,158,255,.25)}
+.act-photo{background:rgba(245,166,35,.12);color:var(--gold);border:1px solid rgba(245,166,35,.25)}
+.act-sub{background:var(--blue);color:#fff}
+
+/* ===== CASE STUDIES ===== */
+#cases{background:var(--sur);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.cs-grid{display:flex;flex-direction:column;gap:3px}
+.cs-card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.cs-card:hover{border-color:rgba(245,166,35,.2);box-shadow:0 4px 24px rgba(245,166,35,.06)}
+.cs-trigger{width:100%;display:flex;align-items:center;gap:1.2rem;padding:1.6rem 2rem;cursor:none;background:transparent;border:none;color:var(--text);text-align:left}
+.cs-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:rgba(245,166,35,.12);transition:color .3s;flex-shrink:0;width:54px}
+.cs-card:hover .cs-num,.cs-card.open .cs-num{color:rgba(245,166,35,.3)}
+.cs-head{flex:1}
+.cs-co{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.35rem;font-weight:600}
+.cs-co.capri{color:var(--gold)}.cs-co.cars{color:var(--blue)}.cs-co.stanza{color:var(--green)}
+.cs-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;line-height:1.15;margin-bottom:.35rem;color:var(--text)}
+.cs-tagline{font-size:.78rem;color:var(--sub);line-height:1.6}
+.cs-peek{display:flex;gap:1.2rem;margin-left:auto;flex-shrink:0}
+.cs-pnum{text-align:center}
+.cs-pn{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;line-height:1;color:var(--gold)}
+.cs-pl{font-size:.58rem;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;font-weight:500}
+.cs-arr{font-size:.9rem;color:var(--muted);transition:transform .4s,color .3s;flex-shrink:0;margin-left:.8rem}
+.cs-card.open .cs-arr{transform:rotate(180deg);color:var(--gold)}
+.cs-panel{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1)}
+.cs-card.open .cs-panel{max-height:1200px}
+.cs-inner{padding:0 2rem 2rem}
+.cs-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-bottom:1.5rem}
+.cs-col{padding:1.4rem;background:var(--bg);border:1px solid var(--border)}
+.cs-col-hd{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);font-weight:700}
+.cs-col-hd.prob{color:var(--red)}.cs-col-hd.sol{color:var(--blue)}.cs-col-hd.res{color:var(--green)}
+.cs-col p{font-size:.8rem;color:var(--sub);line-height:1.8}
+.cs-col p strong{color:var(--text);font-weight:600}
+.cs-col ul{list-style:none;margin-top:.5rem}
+.cs-col ul li{font-size:.78rem;color:var(--sub);line-height:1.75;padding-left:1rem;position:relative;margin-bottom:.28rem}
+.cs-col ul li::before{content:'›';position:absolute;left:0;font-weight:700}
+.cs-vis{background:var(--bg);border:1px solid var(--border);padding:1.4rem}
+.cs-vis-title{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem;font-weight:700}
+.cs-vis-title::after{content:'';flex:1;height:1px;background:var(--border)}
+/* Flow steps */
+.flow-steps{display:flex;flex-direction:column;gap:0}
+.flow-step{display:flex;align-items:flex-start;gap:.8rem;padding:.65rem 0}
+.flow-step+.flow-step{border-top:1px solid var(--border)}
+.flow-n{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0}
+.flow-n.gold{background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.35);color:var(--gold)}
+.flow-n.blue{background:rgba(79,158,255,.15);border:1px solid rgba(79,158,255,.35);color:var(--blue)}
+.flow-n.green{background:rgba(0,208,132,.15);border:1px solid rgba(0,208,132,.35);color:var(--green)}
+.flow-n.red{background:rgba(255,107,74,.12);border:1px solid rgba(255,107,74,.3);color:var(--red)}
+.flow-txt{font-size:.8rem;color:var(--sub);line-height:1.65;padding-top:.18rem}
+.flow-txt strong{color:var(--text);font-weight:600}
+/* Result chips */
+.result-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+.rchip{padding:.3rem .7rem;border-radius:3px;font-size:.72rem;font-weight:600}
+.rchip.gold{background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.3);color:var(--gold)}
+.rchip.green{background:rgba(0,208,132,.1);border:1px solid rgba(0,208,132,.3);color:var(--green)}
+.rchip.blue{background:rgba(79,158,255,.1);border:1px solid rgba(79,158,255,.3);color:var(--blue)}
+/* Cohort */
+.cf-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.45rem}
+.cf-lbl{font-size:.72rem;color:var(--sub);width:95px;text-align:right;flex-shrink:0;font-weight:500}
+.cf-bar-w{flex:1;height:20px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden}
+.cf-bar{height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:.4rem;font-size:.6rem;font-weight:600;transition:width 1.3s cubic-bezier(.16,1,.3,1);width:0;border-radius:2px}
+.cf-bar.c0{background:rgba(79,158,255,.5);color:var(--blue)}.cf-bar.c1{background:rgba(79,158,255,.38);color:var(--blue)}.cf-bar.c2{background:rgba(0,208,132,.42);color:var(--green)}
+.cf-v{font-size:.65rem;color:var(--muted);width:34px;font-weight:500}
+.ch-matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:.6rem}
+.chc{padding:.5rem;background:rgba(255,255,255,.025);text-align:center;border:1px solid var(--border)}
+.chc.hd{background:rgba(79,158,255,.06);border-color:rgba(79,158,255,.2)}
+.chc-n{font-size:.6rem;color:var(--muted);margin-bottom:.18rem;font-weight:500}
+.chc-v{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--blue)}
+/* WA flow */
+.wa-step{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.5rem}
+.wa-n{width:22px;height:22px;border-radius:50%;background:rgba(0,208,132,.15);border:1px solid rgba(0,208,132,.3);color:var(--green);font-size:.6rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700}
+.wa-txt{font-size:.78rem;color:var(--sub);line-height:1.65;padding-top:.12rem;font-weight:400}
+.wa-txt strong{color:var(--text);font-weight:600}
+.wa-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:1rem}
+.wa-stat{background:rgba(0,208,132,.05);border:1px solid rgba(0,208,132,.15);padding:.65rem;text-align:center}
+.wa-stat-n{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--green)}
+.wa-stat-l{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:500}
+
+/* ===== JOURNEY ===== */
+#journey{overflow:hidden}
+.j-hdr{text-align:center;margin-bottom:4.5rem}
+.road-w{position:relative;max-width:920px;margin:0 auto;padding:0 4rem}
+.road-strip{position:absolute;left:50%;transform:translateX(-50%);top:0;bottom:0;width:60px;background:var(--card);box-shadow:0 0 30px rgba(0,0,0,.4)}
+.road-strip::before{content:'';position:absolute;left:50%;transform:translateX(-50%);top:0;bottom:0;width:2px;background:repeating-linear-gradient(to bottom,var(--gold) 0,var(--gold) 14px,transparent 14px,transparent 28px);animation:dash .65s linear infinite;opacity:.6}
+.road-e{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.03)}
+.road-e.l{left:calc(50% - 30px)}.road-e.r{right:calc(50% - 30px)}
+.ms{position:relative;display:flex;align-items:flex-start;margin-bottom:4.5rem;opacity:0;transition:opacity .65s ease,transform .65s ease}
+.ms.ml{transform:translateX(55px)}.ms.mr{transform:translateX(-55px);flex-direction:row-reverse}
+.ms.min{opacity:1;transform:translateX(0)}
+.mdot{position:absolute;left:50%;top:1.7rem;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;z-index:3;background:var(--gold);box-shadow:0 0 0 5px rgba(245,166,35,.15),0 0 18px rgba(245,166,35,.5);animation:dotP 2.5s infinite}
+.mdot.cur{background:var(--green);animation:dotPG 2.5s infinite;box-shadow:0 0 0 5px rgba(0,208,132,.15),0 0 18px rgba(0,208,132,.5)}
+.mcard{width:calc(50% - 50px);background:var(--card);border:1px solid var(--border);padding:1.4rem;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  transition:border-color .3s,box-shadow .3s;box-shadow:var(--card-shadow)}
+.mcard:hover{border-color:rgba(245,166,35,.2);box-shadow:var(--card-hover)}
+.ms.ml .mcard{margin-right:auto}.ms.mr .mcard{margin-left:auto}
+.myr{font-size:.65rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.3rem;text-transform:uppercase;font-weight:600}
+.mrole{font-size:1rem;font-weight:700;line-height:1.25;margin-bottom:.18rem;color:var(--text)}
+.mco{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.75rem;font-weight:600}
+.mco.g{color:var(--green)}
+.mul{list-style:none}
+.mul li{font-size:.78rem;color:var(--sub);line-height:1.75;padding-left:.9rem;position:relative;margin-bottom:.25rem}
+.mul li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:.7rem}
+.mbadge{margin-top:.8rem;padding:.38rem .7rem;background:rgba(245,166,35,.07);border-left:2px solid var(--gold);font-size:.7rem;color:var(--gold);font-weight:500}
+.mbadge.g{background:rgba(0,208,132,.07);border-color:var(--green);color:var(--green)}
+/* Connector line fix — sibling, not ::after on clipped card */
+.ms-line{position:absolute;top:calc(1.7rem + 6px);height:1px;background:rgba(245,166,35,.25);z-index:1}
+.ms.ml .ms-line{right:calc(50% - 50px);width:50px}
+.ms.mr .ms-line{left:calc(50% - 50px);width:50px}
+
+/* ===== DATA ANALYTICS ===== */
+#data-analytics{background:var(--sur);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.da-intro{display:grid;grid-template-columns:1fr 2fr;gap:3.5rem;align-items:center;margin-bottom:3.5rem}
+.da-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.da-card{background:var(--card);border:1px solid var(--border);padding:1.6rem;transition:border-color .3s}
+.da-card:hover{border-color:rgba(79,158,255,.2)}
+.da-full{grid-column:1/-1;background:var(--card);border:1px solid var(--border);padding:1.6rem}
+.da-ttl{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:.35rem;display:flex;align-items:center;gap:.5rem;font-weight:700}
+.da-ttl::after{content:'';flex:1;height:1px;background:var(--border)}
+.da-sub{font-size:.78rem;color:var(--sub);margin-bottom:1.2rem;line-height:1.7}
+.fun-row{display:flex;align-items:center;gap:.65rem;margin-bottom:.5rem}
+.fun-lbl{font-size:.72rem;color:var(--sub);width:80px;text-align:right;flex-shrink:0;font-weight:500}
+.fun-track{flex:1;height:22px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden}
+.fun-fill{height:100%;width:0;transition:width 1.4s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;justify-content:flex-end;padding-right:.4rem;font-size:.6rem;font-weight:600;border-radius:2px}
+.fun-fill.f0{background:rgba(245,166,35,.65);color:var(--gold)}.fun-fill.f1{background:rgba(245,166,35,.5);color:var(--gold)}
+.fun-fill.f2{background:rgba(79,158,255,.55);color:var(--blue)}.fun-fill.f3{background:rgba(79,158,255,.45);color:var(--blue)}
+.fun-fill.f4{background:rgba(79,158,255,.35);color:var(--blue)}.fun-fill.f5{background:rgba(0,208,132,.5);color:var(--green)}
+.fun-pct{font-size:.65rem;color:var(--muted);width:30px;font-weight:500}
+
+/* ===== SKILLS ===== */
+#skills{border-top:1px solid var(--border)}
+.sk-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:2.8rem}
+.sk-hd{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;padding-bottom:.6rem;border-bottom:1px solid var(--border);margin-bottom:1.3rem;font-weight:700}
+.sk-hd.pm{color:var(--gold)}.sk-hd.da{color:var(--blue)}
+.sk-row{margin-bottom:1.1rem}
+.sk-top{display:flex;justify-content:space-between;margin-bottom:.38rem}
+.sk-name{font-size:.78rem;color:var(--text);font-weight:500}
+.sk-pct{font-size:.72rem;color:var(--muted);font-weight:600}
+.sk-track{height:3px;background:rgba(255,255,255,.06);border-radius:2px}
+.sk-fill{height:100%;width:0;transition:width 1.4s cubic-bezier(.16,1,.3,1);border-radius:2px}
+.sk-fill.pm{background:linear-gradient(to right,var(--gold),rgba(245,166,35,.35))}
+.sk-fill.da{background:linear-gradient(to right,var(--blue),rgba(79,158,255,.35))}
+.tool-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:2.5rem;padding-top:1.8rem;border-top:1px solid var(--border)}
+.tchip{padding:.3rem .72rem;border:1px solid var(--border);font-size:.68rem;letter-spacing:.04em;color:var(--muted);transition:all .25s;cursor:default;border-radius:2px;font-weight:500}
+.tchip:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ===== IMPACT ===== */
+#impact{text-align:center;position:relative;overflow:hidden;background:var(--bg)}
+.imp-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(245,166,35,.05) 0%,transparent 65%)}
+.imp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-top:3rem}
+.imp-card{background:var(--card);border:1px solid var(--border);padding:2rem 1rem;transition:all .3s;
+  transform:perspective(600px) translateZ(0);
+}
+.imp-card:hover{border-color:rgba(245,166,35,.3);transform:perspective(600px) translateZ(18px);box-shadow:var(--card-hover)}
+.imp-num{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;line-height:1;color:var(--gold)}
+.imp-unit{font-size:1.6rem}
+.imp-lbl{font-size:.68rem;letter-spacing:.07em;color:var(--muted);margin-top:.4rem;text-transform:uppercase;font-weight:500}
+.bc-wrap{margin-top:2.8rem;background:var(--card);border:1px solid var(--border);padding:1.6rem;box-shadow:var(--card-shadow)}
+.bc-ttl{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:1.4rem;display:flex;align-items:center;gap:.6rem;font-weight:700}
+.bc-ttl::after{content:'';flex:1;height:1px;background:var(--border)}
+.barchart{display:flex;align-items:flex-end;gap:.9rem;height:110px}
+.bc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:.4rem;height:100%;justify-content:flex-end}
+.bc-v{font-family:'Bebas Neue',sans-serif;font-size:.9rem;color:var(--blue)}
+.bc-v.g{color:var(--gold)}
+.bbar{width:100%;height:0;transition:height 1.6s cubic-bezier(.16,1,.3,1);border-radius:2px 2px 0 0;background:linear-gradient(to top,var(--blue),rgba(79,158,255,.2))}
+.bbar.g{background:linear-gradient(to top,var(--gold),rgba(245,166,35,.2))}
+.bc-l{font-size:.6rem;color:var(--muted);text-align:center;font-weight:500}
+.bc-s{font-size:.55rem;color:rgba(100,100,150,.6);text-align:center}
+
+/* ===== BLOG ===== */
+#blog{background:var(--sur);border-top:1px solid var(--border)}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3rem}
+.blog-card{background:var(--card);border:1px solid var(--border);padding:1.6rem;cursor:none;transition:all .3s;position:relative;overflow:hidden;
+  transform:perspective(800px) translateZ(0);box-shadow:var(--card-shadow)}
+.blog-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.blog-card:hover::before{transform:scaleX(1)}
+.blog-card:hover{transform:perspective(800px) translateZ(14px);box-shadow:var(--card-hover)}
+.csbadge{display:inline-block;padding:.18rem .5rem;margin-bottom:.65rem;background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.25);font-size:.58rem;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;border-radius:2px;font-weight:600}
+.bcat{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.65rem;font-weight:600}
+.bcat.pm{color:var(--gold)}.bcat.da{color:var(--blue)}.bcat.ct{color:var(--green)}
+.btitle{font-size:1rem;font-weight:700;line-height:1.4;margin-bottom:.65rem;color:var(--text)}
+.bexc{font-size:.8rem;color:var(--sub);line-height:1.8}
+.bmeta{margin-top:1.2rem;padding-top:.7rem;border-top:1px solid var(--border);font-size:.65rem;color:var(--muted);font-weight:500}
+
+/* ===== CONTACT ===== */
+#contact{text-align:center;position:relative;overflow:hidden}
+.ctbg{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(245,166,35,.06) 0%,transparent 65%)}
+.ctinner{position:relative;z-index:1}
+.ct-email{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,4vw,2.8rem);color:var(--gold);letter-spacing:.04em;text-decoration:none;display:inline-block;margin:2rem 0;transition:opacity .3s,letter-spacing .3s}
+.ct-email:hover{opacity:.7;letter-spacing:.08em}
+.ct-row{display:flex;justify-content:center;gap:2rem;margin-top:1.2rem;flex-wrap:wrap}
+.ct-lnk{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s;font-weight:500}
+.ct-lnk:hover{color:var(--gold)}
+
+footer{padding:1.4rem 3.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+footer span{font-size:.68rem;letter-spacing:.06em;color:var(--muted);font-weight:500}
+
+/* ===== BTT ===== */
+#btt{position:fixed;bottom:1.8rem;right:1.8rem;z-index:500;width:38px;height:38px;
+  background:var(--gold-a);border:1px solid rgba(245,166,35,.35);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;cursor:none;transition:all .3s;
+  border-radius:3px;opacity:0;pointer-events:none;font-size:.9rem;font-weight:700;
+  box-shadow:0 4px 16px rgba(0,0,0,.2)}
+#btt.show{opacity:1;pointer-events:all}
+#btt:hover{background:rgba(245,166,35,.25);border-color:var(--gold);transform:translateY(-3px)}
+
+/* ===== KEYFRAMES ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes swob{0%,100%{top:5px;opacity:1}80%{top:18px;opacity:0}}
+@keyframes dash{from{background-position:0 0}to{background-position:0 28px}}
+@keyframes dotP{0%,100%{box-shadow:0 0 0 5px rgba(245,166,35,.15),0 0 18px rgba(245,166,35,.5)}50%{box-shadow:0 0 0 10px rgba(245,166,35,.05),0 0 30px rgba(245,166,35,.7)}}
+@keyframes dotPG{0%,100%{box-shadow:0 0 0 5px rgba(0,208,132,.15),0 0 18px rgba(0,208,132,.5)}50%{box-shadow:0 0 0 10px rgba(0,208,132,.05),0 0 30px rgba(0,208,132,.7)}}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){nav{padding:.9rem 2rem}.n-links{gap:1rem}.n-links a{font-size:.68rem}.wrap{padding:0 2rem}}
+@media(max-width:768px){
+  .n-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--sur);border-bottom:1px solid var(--border);padding:.4rem 0;z-index:600}
+  .n-links.mo{display:flex}
+  .n-links.mo li a{display:block;padding:.65rem 1.5rem;font-size:.75rem}
+  .ham-btn{display:block}
+  .wrap{padding:0 1.3rem}
+  section{padding:4rem 0}
+  .hero-name{font-size:clamp(3rem,18vw,6rem)}
+  .hero-ctas{flex-direction:column;align-items:center}
+  .btn-g,.btn-o{width:100%;max-width:240px;text-align:center}
+  .about-grid{grid-template-columns:1fr;gap:1.5rem}
+  .about-grid>div:first-child{display:none}
+  .prod-grid,.prod-grid-3{grid-template-columns:1fr}
+  .cs-trigger{flex-wrap:wrap;gap:.6rem}
+  .cs-num{font-size:2.2rem;width:42px}
+  .cs-peek{margin-left:0}
+  .cs-3col{grid-template-columns:1fr}
+  .da-intro{grid-template-columns:1fr;gap:1.5rem}
+  .da-grid{grid-template-columns:1fr}
+  .da-full{grid-column:auto}
+  .sk-grid{grid-template-columns:1fr;gap:2.5rem}
+  .imp-grid{grid-template-columns:repeat(2,1fr)}
+  .blog-grid{grid-template-columns:1fr}
+  .ct-row{flex-direction:column;align-items:center;gap:.8rem}
+  footer{flex-direction:column;text-align:center;padding:1.2rem 1.5rem}
+  .road-w{padding:0 1rem}
+  .mcard{width:calc(50% - 38px)}
+  .ms-line{display:none}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .pd-phone-w{display:none}
+  .los-side{display:none}
+}
+@media(max-width:480px){.imp-grid{grid-template-columns:1fr 1fr};.cs-3col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="cur-r"></div>
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="n-logo">GSP</div>
+  <ul class="n-links" id="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#cases">Cases</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#data-analytics">Data</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark/light mode">
+      <span class="theme-icon"><span>🌙</span><span>☀️</span></span>
+    </button>
+    <button class="ham-btn" onclick="document.getElementById('nav-links').classList.toggle('mo')">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hcanvas"></canvas>
+  <div class="hero-c">
+    <p class="hero-eyebrow">Product Manager · Fintech · Data Analytics</p>
+    <h1 class="hero-name">
+      <span class="hn1">Gurpreet</span>
+      <span class="hn2">Singh</span>
+      <span class="hn3">Padam</span>
+    </h1>
+    <p class="hero-sub">7+ Years &nbsp;·&nbsp; <em>LOS · Collections · PD App · Analytics</em> &nbsp;·&nbsp; Delhi, India</p>
+    <div class="hero-badges">
+      <span class="hero-badge">Micro LAP PM</span>
+      <span class="hero-badge">Collections PM</span>
+      <span class="hero-badge">Data-Driven</span>
+      <span class="hero-badge">gurpreetsinghpadam.com</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="#products" class="btn-g">View Products</a>
+      <a href="#cases" class="btn-o">Case Studies</a>
+      <a href="https://www.linkedin.com/in/gurpreet-singh-analytics/" target="_blank" class="btn-o">Download CV ↗</a>
+    </div>
+  </div>
+  <div class="s-wheel-w"><div class="s-wheel"></div><span>Scroll</span></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <div class="about-stat-big">7+</div>
+        <div class="about-stat-lbl">Years Experience</div>
+      </div>
+      <div class="about-text">
+        <p class="s-lbl">About Me</p>
+        <h2 class="s-ttl" style="margin-bottom:1.2rem">Builder. Analyst. PM.</h2>
+        <p>Product Manager with <strong>7+ years</strong> designing data-driven products in fintech and marketplace. Currently leading <strong>two product lines at Capri Global Capital</strong> — Micro LAP (LOS & PD App) and Collections (Field App & Web Portal).</p>
+        <p>Supporting <strong>1000+ loan journeys</strong> monthly alongside <strong>1,200+ field agents</strong> managing ~28,000 collection cases. Previously drove cost reduction, booking automation, and cohort-based CAC optimization at <strong>Zomato, Stanza Living,</strong> and <strong>Cars24</strong>.</p>
+        <div class="tag-row">
+          <span class="tag g">PRD Writing</span><span class="tag g">Workflow Design</span><span class="tag g">Stakeholder Mgmt</span><span class="tag g">Roadmap Planning</span>
+          <span class="tag b">SQL</span><span class="tag b">Funnel Analysis</span><span class="tag b">Cohort Analysis</span><span class="tag b">Power BI · Looker</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" style="padding:5rem 0">
+  <div class="wrap" style="margin-bottom:2.5rem"><p class="s-lbl">What I Own</p><h2 class="s-ttl">Products I Build</h2></div>
+  <div class="prod-grid">
+    <div class="prod-card" id="los-card" onclick="openModal('los')">
+      <canvas class="pcanvas" id="lcanvas"></canvas>
+      <div class="poverlay"></div>
+      <div class="pcontent">
+        <div class="ptag los">◆ Capri Global · Micro LAP</div>
+        <div class="pname">Loan Origination<br>System (LOS)</div>
+        <div class="pdesc">End-to-end loan platform managing 1000+ monthly journeys — from application through document validation, credit assessment, PD, and disbursement.</div>
+        <div class="pchips"><span class="pchip">Multi-stage workflow</span><span class="pchip">eSign integration</span><span class="pchip">PD Audio AI</span><span class="pchip">TAT tracking</span></div>
+        <button class="pbtn">Open Dashboard ↗</button>
+      </div>
+    </div>
+    <div class="prod-card" onclick="openModal('pd')">
+      <canvas class="pcanvas" id="pdcanvas"></canvas>
+      <div class="poverlay" style="background:linear-gradient(to top,rgba(7,7,15,.97) 28%,rgba(7,15,30,.28) 100%)"></div>
+      <div class="pcontent">
+        <div class="ptag pd">◆ Capri Global · Field App</div>
+        <div class="pname">PD Application<br>(Athema)</div>
+        <div class="pdesc">Field app for sales & credit officers — structured PD forms, audio recording with AI analysis, GPS verification, photo capture, and direct LOS integration.</div>
+        <div class="pchips"><span class="pchip">Audio recording</span><span class="pchip">AI transcript</span><span class="pchip">GPS verified</span><span class="pchip">Offline capable</span></div>
+        <button class="pbtn b">Open App ↗</button>
+      </div>
+    </div>
+  </div>
+  <div class="prod-grid-3">
+    <div class="prod-card" style="min-height:280px" onclick="openModal('col')">
+      <canvas class="pcanvas" id="colcanvas"></canvas>
+      <div class="poverlay" style="background:linear-gradient(to top,rgba(7,7,15,.97) 28%,rgba(4,14,10,.3) 100%)"></div>
+      <div class="pcontent" style="padding:1.6rem">
+        <div class="ptag col">◆ Capri Global · Collections</div>
+        <div class="pname" style="font-size:1.3rem">Collections<br>Field App</div>
+        <div class="pdesc" style="font-size:.75rem">1,200+ field agents · 28,000 cases/month. AI route optimization, digital receipts, trail capture, and real-time DPD tracking.</div>
+        <div class="pchips"><span class="pchip">AI route optimizer</span><span class="pchip">Digital receipt</span><span class="pchip">Bucket tracking</span></div>
+        <button class="pbtn gr" style="font-size:.62rem;padding:.5rem 1rem">Open App ↗</button>
+      </div>
+    </div>
+    <div class="prod-card" style="min-height:280px" onclick="openModal('col')">
+      <canvas class="pcanvas" id="portalcanvas"></canvas>
+      <div class="poverlay" style="background:linear-gradient(to top,rgba(7,7,15,.97) 28%,rgba(4,14,10,.3) 100%)"></div>
+      <div class="pcontent" style="padding:1.6rem">
+        <div class="ptag col">◆ Capri Global · Collections</div>
+        <div class="pname" style="font-size:1.3rem">Collections<br>Web Portal</div>
+        <div class="pdesc" style="font-size:.75rem">Role-based hierarchy (AM→RM→RCM→ZSM→NSM) with MTD/YTD dashboards, bucket movement tracking, and performance visibility at every level.</div>
+        <div class="pchips"><span class="pchip">6-level hierarchy</span><span class="pchip">MTD / YTD</span><span class="pchip">Bucket tracking</span></div>
+        <button class="pbtn gr" style="font-size:.62rem;padding:.5rem 1rem">Open Portal ↗</button>
+      </div>
+    </div>
+    <div class="prod-card" style="min-height:280px;cursor:default;background:var(--card2)">
+      <div class="pcontent" style="padding:1.6rem">
+        <div class="ptag" style="color:var(--muted)">◆ Impact at Scale</div>
+        <div style="margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+          <div style="text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--gold);line-height:1">1000+</div><div style="font-size:.62rem;color:rgba(200,200,240,.6);margin-top:.2rem;font-weight:500">Loan journeys/month</div></div>
+          <div style="text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--green);line-height:1">1,200+</div><div style="font-size:.62rem;color:rgba(200,200,240,.6);margin-top:.2rem;font-weight:500">Field agents</div></div>
+          <div style="text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--blue);line-height:1">28K</div><div style="font-size:.62rem;color:rgba(200,200,240,.6);margin-top:.2rem;font-weight:500">Collection cases/month</div></div>
+          <div style="text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--purple);line-height:1">30%</div><div style="font-size:.62rem;color:rgba(200,200,240,.6);margin-top:.2rem;font-weight:500">TAT reduction</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOS MODAL -->
+<div class="mov" id="modal-los">
+  <div class="mbox">
+    <button class="mclose" onclick="closeModal('los')">✕ Close</button>
+    <div class="los-wrap">
+      <div class="los-bar"><div class="ldots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="los-bar-title">⬡ LOS Platform · Capri Global Capital · Micro LAP</div><div class="los-bar-badge">● Live</div></div>
+      <div class="los-body">
+        <div class="los-side">
+          <div class="lnav active">⊞ Dashboard</div><div class="lnav">◈ Cases <span class="lbadge">247</span></div>
+          <div class="lnav">⊡ Documents <span class="lbadge r">12</span></div><div class="lnav">◉ PD Queue <span class="lbadge">8</span></div>
+          <div class="lnav">◇ Credit</div><div class="lnav">✍ eSign <span class="lbadge">34</span></div>
+          <div class="lnav">🎙 PD Audio</div><div class="lnav">✦ Disburse</div><div class="lnav">≡ Reports</div>
+          <div class="lnav" style="margin-top:auto;border-top:1px solid var(--border);padding-top:.5rem">⚙ Settings</div>
+        </div>
+        <div class="los-main">
+          <div class="kpi-row">
+            <div class="kpi"><div class="kpi-num" id="kpi1">0</div><div class="kpi-lbl">Active Cases</div><div class="kpi-d">↑ 12% MoM</div></div>
+            <div class="kpi"><div class="kpi-num">2.3d</div><div class="kpi-lbl">Avg TAT</div><div class="kpi-d">↓ 30% vs baseline</div></div>
+            <div class="kpi"><div class="kpi-num" id="kpi3">0</div><div class="kpi-lbl">Data Accuracy</div><div class="kpi-d">↑ 25% improvement</div></div>
+            <div class="kpi"><div class="kpi-num">₹84Cr</div><div class="kpi-lbl">Disbursed MTD</div><div class="kpi-d">↑ 18% MoM</div></div>
+          </div>
+          <div><div class="los-sec">LOAN PIPELINE — Current Month</div>
+            <div class="pipeline">
+              <div class="p-stage s1"><div class="psc">312</div><div class="psn">Application</div><div class="pss">+8%</div></div>
+              <div class="p-stage"><div class="psc">248</div><div class="psn">Doc Review</div><div class="pss">0.8d</div></div>
+              <div class="p-stage"><div class="psc">187</div><div class="psn">Credit</div><div class="pss">1.1d</div></div>
+              <div class="p-stage"><div class="psc">94</div><div class="psn">PD Stage</div><div class="pss">0.4d</div></div>
+              <div class="p-stage"><div class="psc">62</div><div class="psn">eSign</div><div class="pss">0.2d</div></div>
+              <div class="p-stage s5"><div class="psc">58</div><div class="psn">Disbursed</div><div class="pss">₹14.2Cr</div></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+            <div><div class="los-sec">TAT TREND (days) — 8 months</div>
+              <div class="mini-bars"><div class="mb" style="height:36px"></div><div class="mb" style="height:33px"></div><div class="mb" style="height:30px"></div><div class="mb" style="height:27px"></div><div class="mb" style="height:24px"></div><div class="mb" style="height:21px"></div><div class="mb" style="height:19px"></div><div class="mb" style="height:17px;background:linear-gradient(to top,var(--green),rgba(0,208,132,.2))"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:.57rem;color:var(--muted);margin-top:.25rem;font-weight:500"><span>Jan</span><span>Aug</span></div>
+            </div>
+            <div><div class="los-sec">AUTOMATION SAVINGS</div>
+              <div style="display:flex;flex-direction:column;gap:.35rem;margin-top:.4rem">
+                <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.62rem;color:var(--muted);width:62px;font-weight:500">Doc Check</span><div style="flex:1;height:7px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden"><div style="width:82%;height:100%;background:rgba(0,208,132,.5);border-radius:2px"></div></div><span style="font-size:.6rem;color:var(--green);font-weight:700">-82%</span></div>
+                <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.62rem;color:var(--muted);width:62px;font-weight:500">eSign TAT</span><div style="flex:1;height:7px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden"><div style="width:75%;height:100%;background:rgba(245,166,35,.5);border-radius:2px"></div></div><span style="font-size:.6rem;color:var(--gold);font-weight:700">-3d</span></div>
+                <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.62rem;color:var(--muted);width:62px;font-weight:500">PD Audit</span><div style="flex:1;height:7px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden"><div style="width:90%;height:100%;background:rgba(79,158,255,.5);border-radius:2px"></div></div><span style="font-size:.6rem;color:var(--blue);font-weight:700">-90%</span></div>
+                <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.62rem;color:var(--muted);width:62px;font-weight:500">Routing</span><div style="flex:1;height:7px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden"><div style="width:95%;height:100%;background:rgba(191,127,255,.5);border-radius:2px"></div></div><span style="font-size:.6rem;color:var(--purple);font-weight:700">Auto</span></div>
+              </div>
+            </div>
+          </div>
+          <div><div class="los-sec">RECENT CASES</div>
+            <table class="ltable">
+              <tr><th>Case ID</th><th>Borrower</th><th>Amount</th><th>Stage</th><th>TAT</th><th>eSign</th></tr>
+              <tr><td>MIC-2024-3847</td><td>Ramesh K.</td><td>₹18.5L</td><td><span class="lsp credit">Credit</span></td><td>1.2d</td><td style="color:var(--muted)">—</td></tr>
+              <tr><td>MIC-2024-3846</td><td>Sunita M.</td><td>₹22.0L</td><td><span class="lsp pd">PD Stage</span></td><td>2.0d</td><td style="color:var(--muted)">—</td></tr>
+              <tr><td>MIC-2024-3845</td><td>Vikram R.</td><td>₹15.0L</td><td><span class="lsp" style="background:rgba(245,166,35,.12);color:var(--gold)">eSign</span></td><td>2.3d</td><td style="color:var(--gold)">⏳ Pending</td></tr>
+              <tr><td>MIC-2024-3844</td><td>Pooja D.</td><td>₹30.0L</td><td><span class="lsp dis">Disbursed ✓</span></td><td>2.1d</td><td style="color:var(--green)">✓ Signed</td></tr>
+              <tr><td>MIC-2024-3843</td><td>Anand P.</td><td>₹12.5L</td><td><span class="lsp app">Application</span></td><td>0.2d</td><td style="color:var(--muted)">—</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PD MODAL -->
+<div class="mov" id="modal-pd">
+  <div class="mbox">
+    <button class="mclose" onclick="closeModal('pd')">✕ Close</button>
+    <div class="pd-body">
+      <div class="pd-info">
+        <div class="pd-tag">◆ Field Application · Athema PD App</div>
+        <div class="pd-ttl">PD Application<br>with AI Audio</div>
+        <div class="pd-desc">Field app used by 150+ officers for structured Personal Discussions — now with AI-powered audio recording that auto-transcribes, generates summaries, checks topic coverage, and flags compliance risks.</div>
+        <div class="pd-feats">
+          <div class="pd-feat"><span class="pd-fi">🎙</span><div><strong>Audio Recording</strong> — PD session recorded, auto-uploaded on submission</div></div>
+          <div class="pd-feat"><span class="pd-fi">🤖</span><div><strong>AI Transcript & Summary</strong> — Speech-to-text + NLP generates structured PD summary</div></div>
+          <div class="pd-feat"><span class="pd-fi">✅</span><div><strong>Coverage Checklist</strong> — Flags if income, property, liabilities, purpose topics were discussed</div></div>
+          <div class="pd-feat"><span class="pd-fi">🚨</span><div><strong>Money Demand Detection</strong> — Flags any demand language in audio for compliance audit</div></div>
+          <div class="pd-feat"><span class="pd-fi">📍</span><div><strong>GPS Verified</strong> — Location captured at time of PD for audit trail</div></div>
+          <div class="pd-feat"><span class="pd-fi">🔗</span><div><strong>LOS Integration</strong> — Transcript + summary auto-attached to case, no re-entry</div></div>
+        </div>
+      </div>
+      <div class="pd-phone-w">
+        <div class="phone"><div class="notch"></div>
+          <div class="pscreen">
+            <div class="app-hdr"><span class="app-back">←</span><span class="app-ttl">Athema · PD Form</span><span style="font-size:.6rem;color:var(--muted)">⋮</span></div>
+            <div class="app-case-b"><div class="case-id">CASE · MIC-2024-3847</div><div class="case-nm">Ramesh Kumar · ₹18.5L</div></div>
+            <div class="prog-w"><div class="prog-bar"><div class="prog-fill"></div></div><div class="prog-txt"><span>Progress</span><span>3 / 4 complete</span></div></div>
+            <div class="app-secs">
+              <div class="app-sec done">✓ Borrower Details</div>
+              <div class="app-sec done">✓ Property Verification</div>
+              <div class="app-sec active">🎙 PD Recording</div>
+              <div class="app-sec pend">○ AI Summary Review</div>
+            </div>
+            <div style="padding:.5rem .8rem;background:rgba(245,166,35,.06);border-bottom:1px solid var(--border);flex-shrink:0">
+              <div style="font-size:.58rem;color:var(--gold);font-weight:600;margin-bottom:.25rem">🎙 Recording Active — 04:32</div>
+              <div style="height:20px;display:flex;align-items:center;gap:1px">
+                <script>document.write(Array.from({length:30},(_,i)=>`<div style="width:3px;height:${4+Math.floor(Math.random()*12)}px;background:rgba(245,166,35,${.4+Math.random()*.5});border-radius:1px"></div>`).join(''))</script>
+              </div>
+            </div>
+            <div class="app-form">
+              <div class="app-field"><label>AI Topic Coverage</label></div>
+              <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.5rem">
+                <div style="display:flex;align-items:center;gap:.4rem;font-size:.6rem"><span style="color:var(--green)">✓</span><span style="color:var(--sub)">Income sources discussed</span></div>
+                <div style="display:flex;align-items:center;gap:.4rem;font-size:.6rem"><span style="color:var(--green)">✓</span><span style="color:var(--sub)">Property details covered</span></div>
+                <div style="display:flex;align-items:center;gap:.4rem;font-size:.6rem"><span style="color:var(--gold)">⏳</span><span style="color:var(--sub)">Liabilities — in progress</span></div>
+                <div style="display:flex;align-items:center;gap:.4rem;font-size:.6rem"><span style="color:var(--muted)">○</span><span style="color:var(--muted)">Loan purpose — pending</span></div>
+              </div>
+              <div style="padding:.4rem .55rem;background:rgba(0,208,132,.06);border:1px solid rgba(0,208,132,.2);border-radius:2px;font-size:.6rem;color:var(--green);font-weight:500">No money demand detected ✓</div>
+            </div>
+            <div class="app-acts">
+              <button class="app-act act-gps">📍 GPS</button>
+              <button class="app-act act-photo">📷 Photo</button>
+              <button class="app-act act-sub">Submit →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COLLECTIONS MODAL -->
+<div class="mov" id="modal-col">
+  <div class="mbox">
+    <button class="mclose" onclick="closeModal('col')">✕ Close</button>
+    <div class="pd-body">
+      <div class="pd-info">
+        <div class="pd-tag">◆ Collections · Field App & Web Portal</div>
+        <div class="pd-ttl">Collections<br>Product Suite</div>
+        <div class="pd-desc">Supporting 1,200+ field agents managing ~28,000 cases monthly. AI-powered route optimization, digital trail capture, instant receipts, and a 6-level hierarchy portal with real-time dashboards.</div>
+        <div class="pd-feats">
+          <div class="pd-feat"><span class="pd-fi" style="color:var(--green)">🗺</span><div><strong>AI Multi-Stop Route Optimization</strong> — Increases agent visit capacity ~20%, reduces unproductive travel</div></div>
+          <div class="pd-feat"><span class="pd-fi" style="color:var(--green)">📋</span><div><strong>Trail Capture</strong> — Call status, PTP date, customer interaction digitized with auto follow-up reminders</div></div>
+          <div class="pd-feat"><span class="pd-fi" style="color:var(--green)">🧾</span><div><strong>Digital Receipt</strong> — Instant receipt post-payment to customer, near-zero reconciliation risk</div></div>
+          <div class="pd-feat"><span class="pd-fi" style="color:var(--green)">📊</span><div><strong>Role-Based Portal</strong> — AM → RM → RCM → ZSM/ZCM → NSM/NCM hierarchy with MTD, YTD dashboards</div></div>
+          <div class="pd-feat"><span class="pd-fi" style="color:var(--green)">🪣</span><div><strong>Bucket Movement Tracking</strong> — RMs guide agents toward priority DPD segments for focused recovery</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:1.2rem">
+          <div style="background:rgba(0,208,132,.06);border:1px solid rgba(0,208,132,.15);padding:.7rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--green)">1,200+</div><div style="font-size:.6rem;color:var(--muted);font-weight:500">Field Agents</div></div>
+          <div style="background:rgba(0,208,132,.06);border:1px solid rgba(0,208,132,.15);padding:.7rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--green)">28K</div><div style="font-size:.6rem;color:var(--muted);font-weight:500">Cases/Month</div></div>
+          <div style="background:rgba(0,208,132,.06);border:1px solid rgba(0,208,132,.15);padding:.7rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--green)">+20%</div><div style="font-size:.6rem;color:var(--muted);font-weight:500">Agent Capacity</div></div>
+        </div>
+      </div>
+      <div class="pd-phone-w">
+        <div class="phone"><div class="notch"></div>
+          <div class="pscreen">
+            <div class="app-hdr"><span class="app-back">←</span><span class="app-ttl">Collections · Today</span><span style="font-size:.6rem;color:var(--muted)">⋮</span></div>
+            <div style="padding:.45rem .8rem;background:rgba(0,208,132,.07);border-bottom:1px solid rgba(0,208,132,.12);flex-shrink:0">
+              <div style="font-size:.58rem;color:var(--green);font-weight:700">📍 Route Optimized — 8 visits</div>
+              <div style="font-size:.6rem;color:var(--sub);margin-top:.12rem">AI saved est. 42 min travel time</div>
+            </div>
+            <div style="padding:.45rem .8rem;display:flex;flex-direction:column;gap:.28rem;flex-shrink:0;overflow-y:auto;flex:1">
+              <div style="font-size:.6rem;font-weight:700;color:var(--muted);letter-spacing:.08em;margin-bottom:.2rem">TODAY'S VISIT QUEUE</div>
+              <div style="background:var(--card2);border:1px solid rgba(0,208,132,.2);padding:.4rem .5rem;border-radius:2px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:.62rem;font-weight:600;color:var(--text)">Rajan S.</span><span style="font-size:.55rem;background:rgba(255,107,74,.15);color:var(--red);padding:.1rem .35rem;border-radius:2px;font-weight:600">DPD 90+</span></div>
+                <div style="font-size:.58rem;color:var(--sub);margin-top:.12rem">₹82,000 · PTP: 15 Nov</div>
+              </div>
+              <div style="background:var(--card2);border:1px solid rgba(245,166,35,.15);padding:.4rem .5rem;border-radius:2px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:.62rem;font-weight:600;color:var(--text)">Meena P.</span><span style="font-size:.55rem;background:rgba(245,166,35,.12);color:var(--gold);padding:.1rem .35rem;border-radius:2px;font-weight:600">DPD 30-60</span></div>
+                <div style="font-size:.58rem;color:var(--sub);margin-top:.12rem">₹45,000 · PTP: 20 Nov</div>
+              </div>
+              <div style="background:var(--card2);border:1px solid var(--border);padding:.4rem .5rem;border-radius:2px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:.62rem;font-weight:600;color:var(--text)">Arun K.</span><span style="font-size:.55rem;background:rgba(79,158,255,.1);color:var(--blue);padding:.1rem .35rem;border-radius:2px;font-weight:600">DPD 0-30</span></div>
+                <div style="font-size:.58rem;color:var(--sub);margin-top:.12rem">₹28,000 · Reminder</div>
+              </div>
+              <div style="padding:.4rem .5rem;border:1px solid rgba(0,208,132,.15);border-radius:2px;background:rgba(0,208,132,.04)">
+                <div style="font-size:.6rem;color:var(--green);font-weight:600">✓ Completed — Suresh M.</div>
+                <div style="font-size:.58rem;color:var(--sub);margin-top:.1rem">₹60,000 collected · Receipt sent</div>
+              </div>
+            </div>
+            <div class="app-acts">
+              <button class="app-act" style="background:rgba(0,208,132,.12);color:var(--green);border:1px solid rgba(0,208,132,.25)">🗺 Route</button>
+              <button class="app-act" style="background:rgba(245,166,35,.1);color:var(--gold);border:1px solid rgba(245,166,35,.25)">📋 Trail</button>
+              <button class="app-act act-sub" style="background:var(--green)">🧾 Receipt</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="wrap">
+    <div style="margin-bottom:3.5rem"><p class="s-lbl">In-Depth Work</p><h2 class="s-ttl">Case Studies</h2></div>
+    <div class="cs-grid">
+
+      <!-- CS1: PD AUDIO RECORDING + AI -->
+      <div class="cs-card" id="cs1">
+        <button class="cs-trigger" onclick="toggleCase('cs1')">
+          <div class="cs-num">01</div>
+          <div class="cs-head">
+            <div class="cs-co capri">◆ Capri Global Capital · LOS & PD App</div>
+            <div class="cs-title">PD Audio Recording + AI Analysis</div>
+            <div class="cs-tagline">PD officers weren't consistently covering all required discussion topics — no accountability, no audit trail. Introduced mandatory audio recording with AI transcription, coverage analysis, and money-demand detection.</div>
+          </div>
+          <div class="cs-peek"><div class="cs-pnum"><div class="cs-pn">100%</div><div class="cs-pl">Coverage</div></div><div class="cs-pnum"><div class="cs-pn">80%</div><div class="cs-pl">Audit Time ↓</div></div></div>
+          <div class="cs-arr">▾</div>
+        </button>
+        <div class="cs-panel"><div class="cs-inner">
+          <div class="cs-3col">
+            <div class="cs-col"><div class="cs-col-hd prob">⚠ The Problem</div>
+              <p>PD officers conducting verbal discussions had <strong>no accountability</strong> for topic coverage at scale — 1000+ PDs per month impossible to manually audit.</p>
+              <ul><li>No verification that income, property, liabilities, loan purpose were discussed</li><li>Risk of undisclosed <strong>money demands</strong> by field officers</li><li>Credit team couldn't efficiently review PD quality</li><li>Compliance exposure — no audit trail for regulatory review</li></ul>
+            </div>
+            <div class="cs-col"><div class="cs-col-hd sol">⚙ The Solution</div>
+              <p>Integrated <strong>audio recording</strong> in Athema PD App with AI-powered analysis pipeline.</p>
+              <ul><li>PD session recorded directly in the app during the officer's visit</li><li>Audio auto-uploads to cloud on case submission</li><li>AI model: speech-to-text → NLP analysis → structured summary</li><li>Auto-checklist: income ✓ · property ✓ · liabilities ✓ · loan purpose ✓</li><li>Flags any segment with <strong>money demand language</strong> detected</li><li>Full transcript + summary auto-attached to LOS case</li></ul>
+            </div>
+            <div class="cs-col"><div class="cs-col-hd res">✓ The Result</div>
+              <p>Compliance and quality control automated at scale — no manual review needed for standard cases.</p>
+              <ul><li><strong>100%</strong> PD topic coverage verification (from ~0% previously)</li><li>Money demand incidents <strong>detectable and actionable</strong></li><li>Credit team PD review time reduced <strong>80%+</strong> (summary vs full audio)</li><li>Full regulatory audit trail — transcript on record per case</li><li>Officer accountability improved — behaviour tracked objectively</li></ul>
+            </div>
+          </div>
+          <div class="cs-vis"><div class="cs-vis-title">◆ How the AI Pipeline Works</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+              <div class="flow-steps">
+                <div class="flow-step"><div class="flow-n gold">1</div><div class="flow-txt"><strong>PD conducted</strong> — officer records session using in-app mic during borrower visit</div></div>
+                <div class="flow-step"><div class="flow-n gold">2</div><div class="flow-txt"><strong>Case submitted</strong> — audio auto-uploads to cloud, linked to case ID in LOS</div></div>
+                <div class="flow-step"><div class="flow-n blue">3</div><div class="flow-txt"><strong>Speech-to-text</strong> — AI transcribes full conversation, timestamped segments</div></div>
+                <div class="flow-step"><div class="flow-n blue">4</div><div class="flow-txt"><strong>NLP analysis</strong> — topic model checks coverage · flags demand language · generates structured summary</div></div>
+                <div class="flow-step"><div class="flow-n green">5</div><div class="flow-txt"><strong>Results to LOS</strong> — checklist, transcript, summary auto-attached to case. Credit team sees it instantly.</div></div>
+              </div>
+              <div>
+                <div style="font-size:.65rem;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.8rem">AI Output — Sample</div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:.9rem;font-size:.72rem;line-height:1.7">
+                  <div style="color:var(--gold);font-weight:700;margin-bottom:.4rem;font-size:.65rem">PD SUMMARY · MIC-2024-3847</div>
+                  <div style="color:var(--sub)"><span style="color:var(--green);font-weight:600">✓</span> Income discussed — Self-employed, ₹42K/month</div>
+                  <div style="color:var(--sub)"><span style="color:var(--green);font-weight:600">✓</span> Property — 1BHK owned, Rohini sector 14</div>
+                  <div style="color:var(--sub)"><span style="color:var(--green);font-weight:600">✓</span> Liabilities — One existing loan (HDFC)</div>
+                  <div style="color:var(--sub)"><span style="color:var(--gold);font-weight:600">⏳</span> Loan purpose — briefly mentioned</div>
+                  <div style="margin-top:.6rem;padding:.4rem .6rem;background:rgba(0,208,132,.07);border:1px solid rgba(0,208,132,.2);border-radius:2px;color:var(--green);font-size:.65rem;font-weight:600">✓ No money demand detected</div>
+                </div>
+                <div class="result-chips" style="margin-top:1rem">
+                  <span class="rchip gold">100% Coverage ✓</span>
+                  <span class="rchip green">Compliant ✓</span>
+                  <span class="rchip blue">80% Audit Time ↓</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- CS2: eSIGN -->
+      <div class="cs-card" id="cs2">
+        <button class="cs-trigger" onclick="toggleCase('cs2')">
+          <div class="cs-num">02</div>
+          <div class="cs-head">
+            <div class="cs-co capri">◆ Capri Global Capital · LOS</div>
+            <div class="cs-title">eSign Integration — From Paper to Digital Signing</div>
+            <div class="cs-tagline">Manual document signing required physical presence or courier — adding 3–5 days to TAT per case, with compliance risk and coordination chaos for multi-party signing. Replaced with OTP-verified eSign.</div>
+          </div>
+          <div class="cs-peek"><div class="cs-pnum"><div class="cs-pn">3–5d</div><div class="cs-pl">TAT Saved</div></div><div class="cs-pnum"><div class="cs-pn">100%</div><div class="cs-pl">Compliant</div></div></div>
+          <div class="cs-arr">▾</div>
+        </button>
+        <div class="cs-panel"><div class="cs-inner">
+          <div class="cs-3col">
+            <div class="cs-col"><div class="cs-col-hd prob">⚠ The Problem</div>
+              <p>Loan documents required <strong>physical wet signatures</strong> from borrower, co-applicant, and property owner — before disbursement could proceed.</p>
+              <ul><li>Physical presence at branch or courier added <strong>3–5 days</strong> to final TAT</li><li>Multi-party coordination (borrower + co-applicant + property owner) was chaotic</li><li>Risk of document loss, tampering, or illegibility</li><li>Compliance team needed audit-proof signature records</li><li>Paper-based process couldn't scale with loan volume growth</li></ul>
+            </div>
+            <div class="cs-col"><div class="cs-col-hd sol">⚙ The Solution</div>
+              <p>Integrated an <strong>Aadhaar OTP-based eSign platform</strong> directly into the LOS workflow.</p>
+              <ul><li>After credit approval, eSign request <strong>auto-triggered</strong> from LOS</li><li>Borrower receives signing link on mobile — signs via Aadhaar OTP</li><li>Sequential multi-party workflow: borrower → co-applicant → property owner, each gets their own OTP link</li><li>Signed document is <strong>tamper-proof</strong> with hash verification</li><li>Audit trail: who signed, when, IP, device — auto-logged in LOS</li><li>RBI/NBFC compliant — legally equivalent to wet signature</li></ul>
+            </div>
+            <div class="cs-col"><div class="cs-col-hd res">✓ The Result</div>
+              <p>Signing became a mobile-first, async process — zero physical handling required.</p>
+              <ul><li>TAT reduced by <strong>3–5 days</strong> per case (signing no longer a bottleneck)</li><li><strong>100% compliance</strong> with RBI digital signature guidelines</li><li>Near-zero document loss or tampering risk</li><li>Multi-party signing coordinated automatically via LOS triggers</li><li>Disbursement speed increased — more cases closed within SLA</li></ul>
+            </div>
+          </div>
+          <div class="cs-vis"><div class="cs-vis-title">◆ eSign Flow — Before vs After</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+              <div>
+                <div style="font-size:.65rem;font-weight:700;color:var(--red);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.8rem">✗ Before — Manual Process</div>
+                <div class="flow-steps">
+                  <div class="flow-step"><div class="flow-n red">1</div><div class="flow-txt">Credit approved — RM calls borrower to visit branch</div></div>
+                  <div class="flow-step"><div class="flow-n red">2</div><div class="flow-txt">Borrower, co-applicant, property owner each sign physical docs — coordination takes <strong>2–4 days</strong></div></div>
+                  <div class="flow-step"><div class="flow-n red">3</div><div class="flow-txt">Docs couriered to HQ — <strong>1–2 more days</strong>, risk of damage/loss</div></div>
+                  <div class="flow-step"><div class="flow-n red">4</div><div class="flow-txt">Manual filing, no digital record — audit is manual and slow</div></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:.65rem;font-weight:700;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.8rem">✓ After — eSign Flow</div>
+                <div class="flow-steps">
+                  <div class="flow-step"><div class="flow-n green">1</div><div class="flow-txt">Credit approved → LOS <strong>auto-triggers</strong> eSign request instantly</div></div>
+                  <div class="flow-step"><div class="flow-n green">2</div><div class="flow-txt">Each party receives <strong>mobile OTP signing link</strong> — signs from anywhere in minutes</div></div>
+                  <div class="flow-step"><div class="flow-n green">3</div><div class="flow-txt"><strong>Sequential completion</strong> auto-tracked — LOS proceeds to disburse on all parties signed</div></div>
+                  <div class="flow-step"><div class="flow-n green">4</div><div class="flow-txt">Tamper-proof signed doc + full audit trail <strong>auto-saved</strong> to case in LOS</div></div>
+                </div>
+                <div class="result-chips" style="margin-top:.8rem">
+                  <span class="rchip green">-3 to 5 Days TAT</span>
+                  <span class="rchip gold">RBI Compliant</span>
+                  <span class="rchip blue">Zero Paper</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- CS3: CARS24 COHORT -->
+      <div class="cs-card" id="cs3">
+        <button class="cs-trigger" onclick="toggleCase('cs3')">
+          <div class="cs-num">03</div>
+          <div class="cs-head">
+            <div class="cs-co cars">◆ Cars24 · Data & Growth</div>
+            <div class="cs-title">XGBoost Cohort Engine — Reducing CAC via Precision Targeting</div>
+            <div class="cs-tagline">High CAC from spray-and-pray outreach. Built IV + XGBoost model on existing users to identify high-intent unsold car owners and assign optimal channel and frequency per cohort.</div>
+          </div>
+          <div class="cs-peek"><div class="cs-pnum"><div class="cs-pn">20%</div><div class="cs-pl">CAC Reduced</div></div></div>
+          <div class="cs-arr">▾</div>
+        </button>
+        <div class="cs-panel"><div class="cs-inner">
+          <div class="cs-3col">
+            <div class="cs-col"><div class="cs-col-hd prob">⚠ The Problem</div><p>Campaigns targeted <strong>cold users indiscriminately</strong> — ignoring warm existing users who hadn't transacted yet.</p><ul><li>No differentiation between previous & new users</li><li>Same channel and frequency for all segments</li><li>Budget wasted on low-intent users</li></ul></div>
+            <div class="cs-col"><div class="cs-col-hd sol">⚙ The Solution</div><p>Built a <strong>two-layer data model</strong> — IV for feature selection, XGBoost for propensity scoring.</p><ul><li>Identified previous users who hadn't sold their car yet</li><li>XGBoost propensity score assigned per user</li><li>Cohorts bucketed by score band</li><li>High score → WhatsApp · Mid → RCS · Low → SMS</li></ul></div>
+            <div class="cs-col"><div class="cs-col-hd res">✓ The Result</div><p>Precision targeting dramatically improved campaign efficiency.</p><ul><li>CAC reduced by <strong>15–20%</strong></li><li>Targeting accuracy +20–30%</li><li>Model refreshed monthly — repeatable engine</li><li>Communication frequency optimised per cohort</li></ul></div>
+          </div>
+          <div class="cs-vis"><div class="cs-vis-title">◆ Model Pipeline & Channel Strategy</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+              <div><div style="font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.7rem">Cohort Propensity Funnel</div>
+                <div id="cf-bars">
+                  <div class="cf-row"><div class="cf-lbl">All prev users</div><div class="cf-bar-w"><div class="cf-bar c0" data-w="100">100%</div></div><div class="cf-v">280K</div></div>
+                  <div class="cf-row"><div class="cf-lbl">IV-filtered</div><div class="cf-bar-w"><div class="cf-bar c0" data-w="72">72%</div></div><div class="cf-v">200K</div></div>
+                  <div class="cf-row"><div class="cf-lbl">High propensity</div><div class="cf-bar-w"><div class="cf-bar c1" data-w="30">30%</div></div><div class="cf-v">85K</div></div>
+                  <div class="cf-row"><div class="cf-lbl">Converted</div><div class="cf-bar-w"><div class="cf-bar c2" data-w="18">18%</div></div><div class="cf-v">50K</div></div>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem">
+                  <span style="padding:.22rem .6rem;border:1px solid rgba(79,158,255,.3);color:var(--blue);background:rgba(79,158,255,.07);font-size:.65rem;border-radius:2px;font-weight:600">IV Feature Selection</span>
+                  <span style="padding:.22rem .6rem;border:1px solid rgba(79,158,255,.3);color:var(--blue);background:rgba(79,158,255,.07);font-size:.65rem;border-radius:2px;font-weight:600">XGBoost Scoring</span>
+                  <span style="padding:.22rem .6rem;border:1px solid rgba(245,166,35,.3);color:var(--gold);background:rgba(245,166,35,.07);font-size:.65rem;border-radius:2px;font-weight:600">Channel Assignment</span>
+                </div>
+              </div>
+              <div><div style="font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.7rem">Channel × Cohort Matrix</div>
+                <div class="ch-matrix">
+                  <div class="chc hd"><div class="chc-n">Cohort</div></div><div class="chc hd"><div class="chc-n">Channel</div></div><div class="chc hd"><div class="chc-n">Freq/wk</div></div>
+                  <div class="chc"><div class="chc-n">High</div><div class="chc-v" style="color:var(--green)">85K</div></div><div class="chc"><div class="chc-n" style="color:var(--green)">WhatsApp</div></div><div class="chc"><div class="chc-v" style="font-size:.85rem;color:var(--green)">2×</div></div>
+                  <div class="chc"><div class="chc-n">Mid</div><div class="chc-v" style="color:var(--blue)">56K</div></div><div class="chc"><div class="chc-n" style="color:var(--blue)">RCS</div></div><div class="chc"><div class="chc-v" style="font-size:.85rem;color:var(--blue)">1×</div></div>
+                  <div class="chc"><div class="chc-n">Low</div><div class="chc-v" style="color:var(--muted);font-size:.85rem">59K</div></div><div class="chc"><div class="chc-n" style="color:var(--muted)">SMS</div></div><div class="chc"><div class="chc-v" style="font-size:.85rem;color:var(--muted)">0.5×</div></div>
+                </div>
+                <div style="margin-top:.7rem;padding:.6rem;background:rgba(0,208,132,.05);border:1px solid rgba(0,208,132,.15);font-size:.72rem;color:var(--green);font-weight:600">↓ CAC -15–20% vs unmodeled outreach</div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- CS4: WHATSAPP -->
+      <div class="cs-card" id="cs4">
+        <button class="cs-trigger" onclick="toggleCase('cs4')">
+          <div class="cs-num">04</div>
+          <div class="cs-head">
+            <div class="cs-co stanza">◆ Stanza Living · Product & Automation</div>
+            <div class="cs-title">WhatsApp Chatbot — Automating Lead Qualification & Booking</div>
+            <div class="cs-tagline">First insights agents drowning in basic questions — budget, duration, property. Replaced the entire initial journey with an autonomous WhatsApp chatbot that qualifies, shortlists, and books visits.</div>
+          </div>
+          <div class="cs-peek"><div class="cs-pnum"><div class="cs-pn">60%</div><div class="cs-pl">Sales Dep ↓</div></div><div class="cs-pnum"><div class="cs-pn">20%</div><div class="cs-pl">Conversion ↑</div></div></div>
+          <div class="cs-arr">▾</div>
+        </button>
+        <div class="cs-panel"><div class="cs-inner">
+          <div class="cs-3col">
+            <div class="cs-col"><div class="cs-col-hd prob">⚠ The Problem</div><p>First Insights team spent majority of time on <strong>basic qualification questions</strong> — wasting agent capacity on routine queries.</p><ul><li>Agents repeatedly answering duration, budget, location queries</li><li>High lag between lead creation and first contact</li><li>Ground staff received unqualified, incomplete handoffs</li></ul></div>
+            <div class="cs-col"><div class="cs-col-hd sol">⚙ The Solution</div><p>Implemented a <strong>WhatsApp chatbot flow</strong> replacing the initial qualification stage entirely.</p><ul><li>Lead created → automated WhatsApp message instantly sent</li><li>User qualifies via chatbot: budget, duration, city, property type</li><li>Chatbot shortlists & presents matching properties</li><li>User picks date/time for property visit</li><li>Visit notification sent directly to property staff on confirmation</li></ul></div>
+            <div class="cs-col"><div class="cs-col-hd res">✓ The Result</div><p>Automation replaced repetitive human work at scale.</p><ul><li>Sales dependency <strong>-60%</strong></li><li>Conversion <strong>+20%</strong></li><li>First contact time: hours → <strong>&lt;5 seconds</strong></li><li>Ground staff receive fully qualified, scheduled visits</li><li>Standardised data captured for every lead</li></ul></div>
+          </div>
+          <div class="cs-vis"><div class="cs-vis-title">◆ New WhatsApp Flow</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+              <div>
+                <div class="wa-step"><div class="wa-n">1</div><div class="wa-txt"><strong>Lead Created</strong> in CRM — instant trigger fired to WhatsApp</div></div>
+                <div class="wa-step"><div class="wa-n">2</div><div class="wa-txt"><strong>Chatbot qualifies</strong> user — budget, duration, city, property type</div></div>
+                <div class="wa-step"><div class="wa-n">3</div><div class="wa-txt">Chatbot <strong>shortlists & presents</strong> matching properties with details</div></div>
+                <div class="wa-step"><div class="wa-n">4</div><div class="wa-txt">User <strong>selects property</strong> and picks date/time for visit</div></div>
+                <div class="wa-step"><div class="wa-n">5</div><div class="wa-txt"><strong>Visit notification</strong> auto-sent to property staff — fully scheduled</div></div>
+              </div>
+              <div>
+                <div class="wa-stats">
+                  <div class="wa-stat"><div class="wa-stat-n">60%</div><div class="wa-stat-l">Sales Dep ↓</div></div>
+                  <div class="wa-stat"><div class="wa-stat-n">20%</div><div class="wa-stat-l">Conversion ↑</div></div>
+                  <div class="wa-stat"><div class="wa-stat-n">&lt;5s</div><div class="wa-stat-l">First Contact</div></div>
+                </div>
+                <div style="margin-top:1rem;font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem">Before vs After — Agent Touchpoints</div>
+                <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem">
+                  <span style="font-size:.65rem;color:var(--muted);width:48px;font-weight:600">Before</span>
+                  <div style="flex:1;display:flex;gap:2px">
+                    <div style="flex:1;height:20px;background:rgba(255,107,74,.2);border:1px solid rgba(255,107,74,.3);display:flex;align-items:center;justify-content:center;font-size:.57rem;color:var(--red);border-radius:2px;font-weight:600">Qualify</div>
+                    <div style="flex:1;height:20px;background:rgba(255,107,74,.2);border:1px solid rgba(255,107,74,.3);display:flex;align-items:center;justify-content:center;font-size:.57rem;color:var(--red);border-radius:2px;font-weight:600">Schedule</div>
+                    <div style="flex:1;height:20px;background:rgba(255,107,74,.2);border:1px solid rgba(255,107,74,.3);display:flex;align-items:center;justify-content:center;font-size:.57rem;color:var(--red);border-radius:2px;font-weight:600">Notify</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:.6rem">
+                  <span style="font-size:.65rem;color:var(--muted);width:48px;font-weight:600">After</span>
+                  <div style="flex:1;display:flex;gap:2px">
+                    <div style="flex:3;height:20px;background:rgba(0,208,132,.1);border:1px solid rgba(0,208,132,.3);display:flex;align-items:center;justify-content:center;font-size:.57rem;color:var(--green);border-radius:2px;font-weight:600">Bot handles all 3 steps</div>
+                    <div style="flex:1;height:20px;background:rgba(0,208,132,.2);border:1px solid rgba(0,208,132,.4);display:flex;align-items:center;justify-content:center;font-size:.57rem;color:var(--green);border-radius:2px;font-weight:600">Auto</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY ROAD -->
+<section id="journey">
+  <div class="wrap j-hdr" style="text-align:center;margin-bottom:4.5rem"><p class="s-lbl">Career Timeline</p><h2 class="s-ttl">The Road So Far</h2></div>
+  <div class="road-w">
+    <div class="road-strip"></div><div class="road-e l"></div><div class="road-e r"></div>
+    <div class="ms ml" data-m><div class="mdot"></div><div class="ms-line"></div>
+      <div class="mcard"><div class="myr">Oct 2017 — Jan 2021</div><div class="mrole">Sr. Data Analyst</div><div class="mco">Zomato Media Pvt Ltd</div><ul class="mul"><li>Reduced CTO from 13% → 6.5% — ~50% cost reduction</li><li>Built automated data pipelines & visualization systems</li><li>Root-cause analysis on data quality and systems</li></ul><div class="mbadge">~50% cost reduction achieved</div></div>
+    </div>
+    <div class="ms mr" data-m><div class="mdot"></div><div class="ms-line"></div>
+      <div class="mcard"><div class="myr">Feb 2021 — Aug 2023</div><div class="mrole">Asst. Manager — Product & Analytics</div><div class="mco">Stanza Living</div><ul class="mul"><li>+20% lead-to-booking conversion via journey redesign</li><li>-60% sales dependency via WhatsApp chatbot automation</li><li>ETL pipelines & Looker BI infrastructure</li></ul><div class="mbadge">60% sales automation unlocked</div></div>
+    </div>
+    <div class="ms ml" data-m><div class="mdot"></div><div class="ms-line"></div>
+      <div class="mcard"><div class="myr">Aug 2023 — Dec 2024</div><div class="mrole">Manager — Analytics & Growth</div><div class="mco">Cars24</div><ul class="mul"><li>-15–25% CAC via IV + XGBoost cohort targeting</li><li>Built automated cohort models; +20–30% accuracy</li><li>Led API integrations (Zoho, CleverTap); -40–50% manual effort</li></ul><div class="mbadge">~25% CAC reduction</div></div>
+    </div>
+    <div class="ms mr" data-m><div class="mdot cur"></div><div class="ms-line"></div>
+      <div class="mcard" style="border-color:rgba(0,208,132,.2)">
+        <div class="myr" style="color:var(--green)">Dec 2024 — Present ●</div>
+        <div class="mrole">Product Manager — Micro LAP & Collections</div>
+        <div class="mco g">Capri Global Capital Ltd · Gurgaon</div>
+        <ul class="mul">
+          <li><strong style="color:var(--gold)">Micro LAP:</strong> LOS & PD App — 1000+ loan journeys/month</li>
+          <li>eSign integration — signing TAT reduced 3–5 days/case</li>
+          <li>PD Audio + AI analysis — 100% coverage verification</li>
+          <li>-20–30% overall loan processing TAT</li>
+          <li><strong style="color:var(--green)">Collections:</strong> Field App & Web Portal — 1,200+ agents</li>
+          <li>AI multi-stop route optimization — +20% agent visit capacity</li>
+          <li>~28,000 collection cases managed monthly</li>
+          <li>Role-based portal (AM→RM→RCM→ZSM→NSM) with MTD/YTD dashboards</li>
+        </ul>
+        <div class="mbadge g">2 products · 1,200+ agents · 28,000 cases/month</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA ANALYTICS -->
+<section id="data-analytics">
+  <div class="wrap">
+    <div class="da-intro"><div><p class="s-lbl">Data Work</p><h2 class="s-ttl">Analytics<br>& Impact</h2></div><p style="font-size:.85rem;color:var(--sub);line-height:1.9">Every product decision I make is backed by data. Loan funnel analysis, cohort targeting, TAT reduction — the visualisations below reflect the data work I drive across the product lifecycle.</p></div>
+    <div class="da-grid">
+      <div class="da-full"><div class="da-ttl">◆ Loan Origination Funnel — Sankey Flow</div><div class="da-sub">Volume drop-off at each loan stage. Width proportional to case volume passing through.</div><svg id="ssvg" viewBox="0 0 860 240" style="width:100%;overflow:visible"></svg><div style="display:flex;gap:1.5rem;margin-top:.8rem;justify-content:center;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:.4rem;font-size:.65rem;color:var(--sub);font-weight:500"><span style="width:8px;height:8px;background:var(--gold);border-radius:50%;display:inline-block"></span>PM-owned</span><span style="display:flex;align-items:center;gap:.4rem;font-size:.65rem;color:var(--sub);font-weight:500"><span style="width:8px;height:8px;background:var(--blue);border-radius:50%;display:inline-block"></span>Credit</span><span style="display:flex;align-items:center;gap:.4rem;font-size:.65rem;color:var(--sub);font-weight:500"><span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block"></span>Disbursed</span></div></div>
+      <div class="da-card" data-vis><div class="da-ttl">◆ TAT Reduction — Monthly (Days)</div><div class="da-sub">Loan processing turnaround over 8 months. eSign + automation drove sustained reduction.</div><svg id="lsvg" viewBox="0 0 380 140" style="width:100%;height:150px"></svg></div>
+      <div class="da-card" data-vis><div class="da-ttl">◆ Conversion Funnel — Stage by Stage</div><div class="da-sub">Volume as % of total leads at each loan stage.</div>
+        <div id="funnelbars">
+          <div class="fun-row"><div class="fun-lbl">Leads</div><div class="fun-track"><div class="fun-fill f0" data-w="100">100%</div></div><div class="fun-pct">1000</div></div>
+          <div class="fun-row"><div class="fun-lbl">Qualified</div><div class="fun-track"><div class="fun-fill f1" data-w="75">75%</div></div><div class="fun-pct">750</div></div>
+          <div class="fun-row"><div class="fun-lbl">Applied</div><div class="fun-track"><div class="fun-fill f2" data-w="50">50%</div></div><div class="fun-pct">500</div></div>
+          <div class="fun-row"><div class="fun-lbl">PD Done</div><div class="fun-track"><div class="fun-fill f3" data-w="38">38%</div></div><div class="fun-pct">380</div></div>
+          <div class="fun-row"><div class="fun-lbl">Credit OK</div><div class="fun-track"><div class="fun-fill f4" data-w="26">26%</div></div><div class="fun-pct">260</div></div>
+          <div class="fun-row"><div class="fun-lbl">Disbursed</div><div class="fun-track"><div class="fun-fill f5" data-w="18.5">18.5%</div></div><div class="fun-pct">185</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <p class="s-lbl">Capabilities</p><h2 class="s-ttl">Skills & Tools</h2>
+    <div class="sk-grid" id="skgrid">
+      <div>
+        <div class="sk-hd pm">◆ Product Management</div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">PRD Writing & Documentation</span><span class="sk-pct">95%</span></div><div class="sk-track"><div class="sk-fill pm" data-p="95"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">Workflow & Process Design</span><span class="sk-pct">93%</span></div><div class="sk-track"><div class="sk-fill pm" data-p="93"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">Stakeholder Management</span><span class="sk-pct">90%</span></div><div class="sk-track"><div class="sk-fill pm" data-p="90"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">Feature Prioritization (RICE / MoSCoW)</span><span class="sk-pct">88%</span></div><div class="sk-track"><div class="sk-fill pm" data-p="88"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">User Journey Mapping</span><span class="sk-pct">92%</span></div><div class="sk-track"><div class="sk-fill pm" data-p="92"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">Agile / Scrum</span><span class="sk-pct">85%</span></div><div class="sk-track"><div class="sk-fill pm" data-p="85"></div></div></div>
+      </div>
+      <div>
+        <div class="sk-hd da">◆ Data & Analytics</div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">SQL</span><span class="sk-pct">90%</span></div><div class="sk-track"><div class="sk-fill da" data-p="90"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">Funnel & Cohort Analysis</span><span class="sk-pct">88%</span></div><div class="sk-track"><div class="sk-fill da" data-p="88"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">Power BI / Looker / Tableau</span><span class="sk-pct">85%</span></div><div class="sk-track"><div class="sk-fill da" data-p="85"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">A/B Testing & Experimentation</span><span class="sk-pct">82%</span></div><div class="sk-track"><div class="sk-fill da" data-p="82"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">KPI Definition & Root Cause Analysis</span><span class="sk-pct">90%</span></div><div class="sk-track"><div class="sk-fill da" data-p="90"></div></div></div>
+        <div class="sk-row"><div class="sk-top"><span class="sk-name">Python</span><span class="sk-pct">72%</span></div><div class="sk-track"><div class="sk-fill da" data-p="72"></div></div></div>
+      </div>
+    </div>
+    <div class="tool-row"><span class="tchip">Snowflake</span><span class="tchip">Redshift</span><span class="tchip">REST APIs</span><span class="tchip">Postman</span><span class="tchip">CleverTap</span><span class="tchip">Zoho CRM</span><span class="tchip">Google Sheets</span><span class="tchip">Jira</span><span class="tchip">Figma</span><span class="tchip">Mixpanel</span><span class="tchip">Python</span><span class="tchip">Looker</span></div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="imp-bg"></div>
+  <div class="wrap" style="position:relative;z-index:1;text-align:center">
+    <p class="s-lbl">Measured Impact</p><h2 class="s-ttl">Numbers That Matter</h2>
+    <div class="imp-grid">
+      <div class="imp-card" data-ctr><div class="imp-num"><span data-cnt="7">0</span><span class="imp-unit">+</span></div><div class="imp-lbl">Years Experience</div></div>
+      <div class="imp-card" data-ctr><div class="imp-num"><span data-cnt="50">0</span><span class="imp-unit">%</span></div><div class="imp-lbl">Cost Reduction — Zomato</div></div>
+      <div class="imp-card" data-ctr><div class="imp-num"><span data-cnt="60">0</span><span class="imp-unit">%</span></div><div class="imp-lbl">Sales Automation — Stanza</div></div>
+      <div class="imp-card" data-ctr><div class="imp-num"><span data-cnt="1200">0</span><span class="imp-unit">+</span></div><div class="imp-lbl">Field Agents — Collections</div></div>
+      <div class="imp-card" data-ctr><div class="imp-num"><span data-cnt="28">0</span><span class="imp-unit">K</span></div><div class="imp-lbl">Cases/Month — Collections</div></div>
+    </div>
+    <div class="bc-wrap" data-barchart>
+      <div class="bc-ttl">◆ Key Impact Metrics by Initiative</div>
+      <div class="barchart">
+        <div class="bc-col"><div class="bc-v g">50%</div><div class="bbar g" data-h="100"></div><div class="bc-l">Zomato</div><div class="bc-s">Cost reduction</div></div>
+        <div class="bc-col"><div class="bc-v g">60%</div><div class="bbar g" data-h="116"></div><div class="bc-l">Stanza</div><div class="bc-s">Sales automation</div></div>
+        <div class="bc-col"><div class="bc-v">20%</div><div class="bbar" data-h="42"></div><div class="bc-l">Stanza</div><div class="bc-s">Conversion ↑</div></div>
+        <div class="bc-col"><div class="bc-v">25%</div><div class="bbar" data-h="52"></div><div class="bc-l">Cars24</div><div class="bc-s">CAC reduction</div></div>
+        <div class="bc-col"><div class="bc-v">30%</div><div class="bbar" data-h="60"></div><div class="bc-l">Capri LAP</div><div class="bc-s">TAT reduction</div></div>
+        <div class="bc-col"><div class="bc-v">20%</div><div class="bbar" data-h="42"></div><div class="bc-l">Collections</div><div class="bc-s">Agent capacity ↑</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="wrap">
+    <p class="s-lbl">Thoughts & Writing</p><h2 class="s-ttl">Blog & Content</h2>
+    <div class="blog-grid">
+      <div class="blog-card"><span class="csbadge">Coming Soon</span><div class="bcat pm">Product Management</div><div class="btitle">How I Write PRDs That Actually Get Built</div><div class="bexc">A structured breakdown — from discovery questions to functional specs, validation logic, and backward compatibility. Real examples from fintech LOS workflows.</div><div class="bmeta">Gurpreet Singh Padam · PM</div></div>
+      <div class="blog-card"><span class="csbadge">Coming Soon</span><div class="bcat da">Data & Analytics</div><div class="btitle">Reducing TAT in Loan Processing: A Data PM's Playbook</div><div class="bexc">How eSign integration, PD audio automation, and workflow mapping cut loan TAT by multiple days per case at Capri Global Capital.</div><div class="bmeta">Gurpreet Singh Padam · Fintech</div></div>
+      <div class="blog-card"><span class="csbadge">Coming Soon</span><div class="bcat ct">Content & Growth</div><div class="btitle">Product Thinking Applied to Instagram Growth</div><div class="bexc">How I apply retention loops, hook frameworks, and A/B-style experimentation to grow a faceless content account without showing my face.</div><div class="bmeta">Gurpreet Singh Padam · Content</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="ctbg"></div>
+  <div class="wrap ctinner" style="text-align:center">
+    <p class="s-lbl">Let's Connect</p><h2 class="s-ttl">Open to Opportunities</h2>
+    <p style="font-size:.85rem;color:var(--sub);max-width:440px;margin:1rem auto 0;line-height:1.9">Senior PM / Business Analyst roles in fintech & marketplace. Open to product-led, data-driven organisations.</p>
+    <a href="mailto:gurpreet.zeom@gmail.com" class="ct-email">gurpreet.zeom@gmail.com</a>
+    <div class="ct-row">
+      <a href="https://www.linkedin.com/in/gurpreet-singh-analytics/" target="_blank" class="ct-lnk">LinkedIn ↗</a>
+      <a href="https://github.com/gurpreetzeom" target="_blank" class="ct-lnk">GitHub ↗</a>
+      <a href="tel:+919250946303" class="ct-lnk">+91 92509 46303</a>
+    </div>
+  </div>
+</section>
+<footer>
+  <span>© 2025 Gurpreet Singh Padam</span>
+  <span>gurpreetsinghpadam.com &nbsp;·&nbsp; gurpreetsinghpadam.in</span>
+</footer>
+
+<!-- ==================== JS ==================== -->
+<script>
+/* THEME */
+function toggleTheme(){document.documentElement.classList.toggle('light');localStorage.setItem('gsp-theme',document.documentElement.classList.contains('light')?'light':'dark')}
+if(localStorage.getItem('gsp-theme')==='light')document.documentElement.classList.add('light');
+
+/* CURSOR */
+const C=document.getElementById('cur'),CR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;C.style.transform=`translate(${mx-4}px,${my-4}px)`});
+(function aR(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;CR.style.transform=`translate(${rx-15}px,${ry-15}px)`;requestAnimationFrame(aR)})();
+document.querySelectorAll('a,button,.prod-card,.blog-card,.imp-card,.tchip,.cs-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{CR.style.width='48px';CR.style.height='48px';CR.style.borderColor='rgba(245,166,35,.7)'});
+  el.addEventListener('mouseleave',()=>{CR.style.width='30px';CR.style.height='30px';CR.style.borderColor='rgba(245,166,35,.4)'});
+});
+
+/* HERO CANVAS */
+const hc=document.getElementById('hcanvas'),hx=hc.getContext('2d');
+function rH(){hc.width=innerWidth;hc.height=innerHeight}rH();window.addEventListener('resize',rH);
+const LB=['PRD','TAT','LOS','SQL','PD','KPI','A/B','API','CRM','CAC','ETL','eSign','NPS','AI'];
+class HN{constructor(){this.rs()}rs(){this.x=Math.random()*hc.width;this.y=Math.random()*hc.height;this.vx=(Math.random()-.5)*.22;this.vy=(Math.random()-.5)*.22;this.r=Math.random()*1.4+.5;this.ig=Math.random()>.4;this.a=Math.random()*.35+.08;this.lb=LB[Math.floor(Math.random()*LB.length)];this.sl=Math.random()>.5;this.bx=Math.random()>.65}up(){this.x+=this.vx;this.y+=this.vy;if(this.x<-60||this.x>hc.width+60||this.y<-60||this.y>hc.height+60)this.rs()}dr(){const c=document.documentElement.classList.contains('light');const col=this.ig?(c?`rgba(180,112,0,${this.a})`:`rgba(245,166,35,${this.a})`):(c?`rgba(26,86,196,${this.a})`:`rgba(79,158,255,${this.a})`);if(this.bx){hx.strokeStyle=col;hx.lineWidth=.5;hx.strokeRect(this.x-9,this.y-5,24,11);if(this.sl){hx.fillStyle=col;hx.font='7px Inter';hx.fillText(this.lb,this.x-5,this.y+3)}}else{hx.beginPath();hx.arc(this.x,this.y,this.r,0,Math.PI*2);hx.fillStyle=col;hx.fill();if(this.sl){hx.fillStyle=col;hx.font='7px Inter';hx.fillText(this.lb,this.x+4,this.y-3)}}}}
+const HNS=Array.from({length:65},()=>new HN());
+(function hl(){hx.clearRect(0,0,hc.width,hc.height);for(let i=0;i<HNS.length;i++){for(let j=i+1;j<HNS.length;j++){const dx=HNS[i].x-HNS[j].x,dy=HNS[i].y-HNS[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<95){hx.beginPath();hx.strokeStyle=`rgba(245,166,35,${(1-d/95)*.07})`;hx.lineWidth=.3;hx.moveTo(HNS[i].x,HNS[i].y);hx.lineTo(HNS[j].x,HNS[j].y);hx.stroke()}}}HNS.forEach(n=>{n.up();n.dr()});requestAnimationFrame(hl)})();
+
+/* PRODUCT CANVASES */
+function initPC(id,color,labels,isLOS){
+  const cv=document.getElementById(id);if(!cv)return;
+  cv.width=cv.offsetWidth||400;cv.height=cv.offsetHeight||360;const cx=cv.getContext('2d');let t=0;
+  function fr(){cx.clearRect(0,0,cv.width,cv.height);
+    if(isLOS){const sx=labels.map((_,i)=>20+(cv.width-40)/(labels.length-1)*i),sy=cv.height/2;
+      for(let i=0;i<sx.length-1;i++){const p=(Math.sin(t*.5+i*.3)+1)/2;cx.beginPath();cx.moveTo(sx[i],sy);cx.lineTo(sx[i+1],sy);cx.strokeStyle=`rgba(${color},${.05+p*.1})`;cx.lineWidth=1.2;cx.stroke();const dx=sx[i]+(sx[i+1]-sx[i])*((t*.12+i*.2)%1);cx.beginPath();cx.arc(dx,sy,2,0,Math.PI*2);cx.fillStyle=`rgba(${color},${.35+p*.4})`;cx.fill()}
+      labels.forEach((s,i)=>{cx.strokeStyle=i===labels.length-1?'rgba(0,208,132,.45)':`rgba(${color},.3)`;cx.lineWidth=.8;cx.strokeRect(sx[i]-16,sy-12,32,22);cx.fillStyle=i===labels.length-1?'rgba(0,208,132,.05)':`rgba(${color},.04)`;cx.fillRect(sx[i]-16,sy-12,32,22);cx.fillStyle=i===labels.length-1?'rgba(0,208,132,.5)':`rgba(${color},.45)`;cx.font='6px Inter';cx.textAlign='center';cx.fillText(s,sx[i],sy+3)});
+    }else{labels.forEach((f,i)=>{const x=cv.width*.1+i*(cv.width*.22);const y=cv.height*.38+Math.sin(t*.4+i)*(cv.height*.07);const a=.1+Math.sin(t*.3+i*.5)*.04;cx.strokeStyle=`rgba(${color},${a})`;cx.lineWidth=.6;cx.strokeRect(x-28,y-16,76,28);cx.fillStyle=`rgba(${color},${a*.6})`;cx.font='7px Inter';cx.textAlign='center';cx.fillText(f,x+10,y-2)})}
+    t+=.016;requestAnimationFrame(fr)}fr()}
+function initColCanvas(id){
+  const cv=document.getElementById(id);if(!cv)return;
+  cv.width=cv.offsetWidth||400;cv.height=cv.offsetHeight||280;const cx=cv.getContext('2d');let t=0;
+  function fr(){cx.clearRect(0,0,cv.width,cv.height);
+    // Animated route paths
+    const pts=[[0.15,0.6],[0.3,0.3],[0.55,0.5],[0.72,0.25],[0.88,0.55]];
+    cx.beginPath();pts.forEach((p,i)=>{const x=p[0]*cv.width,y=p[1]*cv.height;if(i===0)cx.moveTo(x,y);else cx.lineTo(x,y)});
+    cx.strokeStyle=`rgba(0,208,132,${.08+Math.sin(t)*.04})`;cx.lineWidth=1.5;cx.stroke();
+    // Dots
+    pts.forEach((p,i)=>{const x=p[0]*cv.width,y=p[1]*cv.height;const pulse=(Math.sin(t*2+i)*.5+.5);cx.beginPath();cx.arc(x,y,3+pulse*2,0,Math.PI*2);cx.fillStyle=`rgba(0,208,132,${.4+pulse*.4})`;cx.fill()});
+    // Moving car dot
+    const seg=Math.floor((t*.3)%pts.length);const nxt=Math.min(seg+1,pts.length-1);const frac=((t*.3)%1);const cx2=pts[seg][0]+(pts[nxt][0]-pts[seg][0])*frac,cy2=pts[seg][1]+(pts[nxt][1]-pts[seg][1])*frac;
+    cx.beginPath();cx.arc(cx2*cv.width,cy2*cv.height,5,0,Math.PI*2);cx.fillStyle='rgba(0,208,132,.9)';cx.fill();
+    t+=.02;requestAnimationFrame(fr)}fr()}
+window.addEventListener('load',()=>{
+  initPC('lcanvas','245,166,35',['APP','DOC','CREDIT','PD','eSIGN','DISBURSE'],true);
+  initPC('pdcanvas','79,158,255',['BORROWER','PROPERTY','INCOME','AUDIO'],false);
+  initColCanvas('colcanvas');
+  initColCanvas('portalcanvas');
+  // 3D tilt on product cards
+  document.querySelectorAll('.prod-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5;
+      const y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform=`perspective(900px) rotateY(${x*10}deg) rotateX(${-y*7}deg) translateZ(10px)`;
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='perspective(900px) rotateY(0) rotateX(0) translateZ(0)'});
+  });
+});
+
+/* MODALS */
+function openModal(t){const m=document.getElementById(`modal-${t}`);m.classList.add('open');document.body.style.overflow='hidden';if(t==='los'){setTimeout(()=>{cnt(document.getElementById('kpi1'),1247,1200,'');cnt(document.getElementById('kpi3'),89.4,1000,'%')},200)}}
+function closeModal(t){document.getElementById(`modal-${t}`).classList.remove('open');document.body.style.overflow=''}
+function cnt(el,target,dur,sfx){if(!el)return;const s=performance.now(),dec=target%1!==0;function tk(n){const p=Math.min((n-s)/dur,1),e=1-Math.pow(1-p,3);el.textContent=(dec?(e*target).toFixed(1):Math.floor(e*target))+sfx;if(p<1)requestAnimationFrame(tk)}requestAnimationFrame(tk)}
+document.querySelectorAll('.mov').forEach(ov=>ov.addEventListener('click',e=>{if(e.target===ov)closeModal(ov.id.replace('modal-',''))}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.mov.open').forEach(m=>closeModal(m.id.replace('modal-','')))});
+
+/* CASE STUDY TOGGLE */
+function toggleCase(id){const card=document.getElementById(id),isOpen=card.classList.contains('open');document.querySelectorAll('.cs-card.open').forEach(c=>c.classList.remove('open'));if(!isOpen){card.classList.add('open');setTimeout(()=>animCV(id),300)}}
+function animCV(id){if(id==='cs3'){document.querySelectorAll('#cs3 .cf-bar').forEach(b=>{b.style.width=b.dataset.w+'%'})}}
+
+/* JOURNEY MILESTONES */
+const mObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('min')})},{threshold:.15});
+document.querySelectorAll('[data-m]').forEach(m=>mObs.observe(m));
+
+/* SKILLS */
+let skD=false;
+new IntersectionObserver(es=>{if(es[0].isIntersecting&&!skD){skD=true;document.querySelectorAll('.sk-fill').forEach(f=>{f.style.width=f.dataset.p+'%'})}},{threshold:.3}).observe(document.getElementById('skgrid'));
+
+/* COUNTERS */
+const cObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('[data-cnt]').forEach(s=>{const t=+s.dataset.cnt,dur=t>100?2000:1400,start=performance.now();function tk(n){const p=Math.min((n-start)/dur,1),e=1-Math.pow(1-p,3);s.textContent=Math.floor(e*t);if(p<1)requestAnimationFrame(tk);else s.textContent=t}requestAnimationFrame(tk)});cObs.unobserve(e.target)}})},{threshold:.5});
+document.querySelectorAll('[data-ctr]').forEach(el=>cObs.observe(el));
+
+/* BAR CHART */
+const bObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.bbar').forEach(b=>{b.style.height=b.dataset.h+'px'});bObs.unobserve(e.target)}})},{threshold:.4});
+document.querySelectorAll('[data-barchart]').forEach(el=>bObs.observe(el));
+
+/* FUNNEL */
+let fD=false;
+new IntersectionObserver(es=>{if(es[0].isIntersecting&&!fD){fD=true;document.querySelectorAll('.fun-fill').forEach(f=>{f.style.width=f.dataset.w+'%'})}},{threshold:.3}).observe(document.getElementById('funnelbars'));
+
+/* SANKEY + LINE CHART */
+let svBuilt=false;
+new IntersectionObserver(es=>{if(es[0].isIntersecting&&!svBuilt){svBuilt=true;buildSankey();buildLine()}},{threshold:.1}).observe(document.getElementById('data-analytics'));
+
+function buildSankey(){
+  const svg=document.getElementById('ssvg');if(!svg)return;
+  const W=860,H=220,pX=22,nW=18,mH=160;
+  const stages=[{n:'Leads\nGen',v:1000,c:'#f5a623'},{n:'Qualified',v:750,c:'#f5a623'},{n:'Applied',v:500,c:'#4f9eff'},{n:'PD\nDone',v:380,c:'#4f9eff'},{n:'Credit\nOK',v:265,c:'#4f9eff'},{n:'Disbursed',v:185,c:'#00d084'}];
+  const cW=(W-2*pX-nW)/(stages.length-1);
+  stages.forEach((s,i)=>{s.x=pX+i*cW;s.h=Math.max((s.v/1000)*mH,5);s.y=(H-mH)/2+(mH-s.h)/2});
+  let h=`<defs>`;
+  for(let i=0;i<stages.length-1;i++){h+=`<linearGradient id="fg${i}" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="${stages[i].c}" stop-opacity=".22"/><stop offset="100%" stop-color="${stages[i+1].c}" stop-opacity=".22"/></linearGradient>`}
+  h+=`</defs>`;
+  for(let i=0;i<stages.length-1;i++){
+    const s=stages[i],t=stages[i+1],mx=(s.x+nW+t.x)/2;
+    h+=`<path d="M${s.x+nW} ${s.y} C${mx} ${s.y} ${mx} ${t.y} ${t.x} ${t.y} L${t.x} ${t.y+t.h} C${mx} ${t.y+t.h} ${mx} ${s.y+t.h} ${s.x+nW} ${s.y+t.h}Z" fill="url(#fg${i})" stroke="${stages[i].c}" stroke-width=".5" stroke-opacity=".5" opacity="0"><animate attributeName="opacity" from="0" to="1" dur=".5s" begin="${i*.16+.3}s" fill="freeze"/></path>`;
+    const dropH=s.h-t.h;if(dropH>4){h+=`<text x="${(s.x+nW+t.x)/2}" y="${H+15}" text-anchor="middle" fill="rgba(255,107,74,.55)" font-size="9" font-family="Inter" opacity="0">−${Math.round(((s.v-t.v)/s.v)*100)}%<animate attributeName="opacity" from="0" to="1" dur=".3s" begin="${i*.16+.7}s" fill="freeze"/></text>`}
+  }
+  stages.forEach((s,i)=>{
+    h+=`<rect x="${s.x}" y="${s.y}" width="${nW}" height="${s.h}" fill="${s.c}" rx="2" opacity="0"><animate attributeName="opacity" from="0" to=".88" dur=".35s" begin="${i*.14}s" fill="freeze"/></rect>`;
+    s.n.split('\n').forEach((l,li,arr)=>{h+=`<text x="${s.x+nW/2}" y="${s.y-6-(arr.length-1-li)*12}" text-anchor="middle" fill="${s.c}" font-size="9" font-family="Inter" font-weight="600" opacity="0">${l}<animate attributeName="opacity" from="0" to="1" dur=".3s" begin="${i*.14+.15}s" fill="freeze"/></text>`});
+    h+=`<text x="${s.x+nW/2}" y="${s.y+s.h+13}" text-anchor="middle" fill="rgba(228,228,240,.75)" font-size="10" font-family="Inter" font-weight="700" opacity="0">${s.v.toLocaleString()}<animate attributeName="opacity" from="0" to="1" dur=".3s" begin="${i*.14+.2}s" fill="freeze"/></text>`;
+  });
+  svg.innerHTML=h;
+}
+function buildLine(){
+  const svg=document.getElementById('lsvg');if(!svg)return;
+  const W=380,H=130,pL=28,pB=22,pT=12,pR=12;
+  const vals=[7.8,7.2,6.5,5.9,5.4,5.0,4.8,4.6];const mnths=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'];
+  const minV=4,maxV=8.5,cw=W-pL-pR,ch=H-pB-pT;
+  const px=vals.map((_,i)=>pL+i*cw/(vals.length-1));const py=vals.map(v=>pT+ch-(v-minV)/(maxV-minV)*ch);
+  let d=`M${px[0]} ${py[0]}`;for(let i=1;i<px.length;i++){const cpx=(px[i]+px[i-1])/2;d+=` C${cpx} ${py[i-1]} ${cpx} ${py[i]} ${px[i]} ${py[i]}`}
+  let h=`<defs><linearGradient id="lg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#4f9eff" stop-opacity=".18"/><stop offset="100%" stop-color="#4f9eff" stop-opacity="0"/></linearGradient></defs>`;
+  h+=`<line x1="${pL}" y1="${pT}" x2="${pL}" y2="${H-pB}" stroke="rgba(255,255,255,.05)" stroke-width="1"/><line x1="${pL}" y1="${H-pB}" x2="${W-pR}" y2="${H-pB}" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
+  [5,6,7].forEach(v=>{const gy=pT+ch-(v-minV)/(maxV-minV)*ch;h+=`<line x1="${pL}" y1="${gy}" x2="${W-pR}" y2="${gy}" stroke="rgba(255,255,255,.03)" stroke-width="1" stroke-dasharray="3,3"/><text x="${pL-3}" y="${gy+3}" text-anchor="end" fill="rgba(150,150,180,.6)" font-size="8" font-family="Inter" font-weight="500">${v}d</text>`});
+  h+=`<path d="${d} L${px[px.length-1]} ${H-pB} L${pL} ${H-pB}Z" fill="url(#lg)"/>`;
+  h+=`<path d="${d}" fill="none" stroke="#4f9eff" stroke-width="2" stroke-linecap="round" stroke-dasharray="600" stroke-dashoffset="600"><animate attributeName="stroke-dashoffset" from="600" to="0" dur="1.8s" begin="0.2s" fill="freeze" calcMode="spline" keySplines="0.16 1 0.3 1"/></path>`;
+  vals.forEach((v,i)=>{const last=i===vals.length-1;h+=`<circle cx="${px[i]}" cy="${py[i]}" r="${last?3.5:2}" fill="${last?'#00d084':'#4f9eff'}" opacity="0"><animate attributeName="opacity" from="0" to="1" dur=".25s" begin="${i*.18+1}s" fill="freeze"/></circle>`;if(last)h+=`<text x="${px[i]}" y="${py[i]-8}" text-anchor="middle" fill="#00d084" font-size="9" font-family="Inter" font-weight="700" opacity="0">4.6d↓<animate attributeName="opacity" from="0" to="1" dur=".25s" begin="${i*.18+1.1}s" fill="freeze"/></text>`});
+  [0,3,7].forEach(i=>{h+=`<text x="${px[i]}" y="${H-pB+13}" text-anchor="middle" fill="rgba(150,150,180,.55)" font-size="8" font-family="Inter">${mnths[i]}</text>`});
+  svg.innerHTML=h;
+}
+
+/* SCROLL: NAV ACTIVE + BTT */
+const bttBtn=document.getElementById('btt');
+const navAs=document.querySelectorAll('.n-links a[href^="#"]');
+const secs=[...document.querySelectorAll('section[id]')];
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  document.getElementById('nav').style.borderBottomColor=y>80?'rgba(245,166,35,.15)':'var(--border)';
+  if(bttBtn)bttBtn.classList.toggle('show',y>500);
+  let cur='';secs.forEach(s=>{if(y>=s.offsetTop-110)cur=s.id});
+  navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+</script>
+</body>
+</html>
