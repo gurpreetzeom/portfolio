@@ -23,6 +23,13 @@
 .grid{display:block;column-count:2;column-gap:20px}.case{display:inline-flex;width:100%;break-inside:avoid;margin:0 0 20px;vertical-align:top}.case .metrics{margin-top:0}.case.featured{display:grid;column-span:all;grid-template-columns:1.25fr .85fr;align-items:start;margin-bottom:20px;gap:24px 32px}.featured-copy{grid-column:1;min-width:0}.featured-copy>.kicker{padding-right:28px;font-size:12px}.case.featured>.flow{grid-column:2;grid-row:1;align-self:start;margin-top:27px}.case.featured>.case-detail{grid-column:1/-1;margin-top:0}.case.featured .metrics{margin-top:0}.case.featured .project-index{top:28px}.section-head{grid-template-columns:.28fr 1.72fr;gap:24px;margin-bottom:22px}section{padding:38px 0}.rally-track{height:210px}.rally-shell{margin-top:20px}.milestone-banner{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;padding:18px 22px;background:#1b3549;color:#f5f8fb;border-top:4px solid var(--company-color,#d9ed8b)}.milestone-number{font:700 30px/1 Manrope,sans-serif;color:var(--company-color,#d9ed8b);border-right:1px solid #718899;padding-right:17px}.milestone-banner h3{font-size:24px;line-height:1.2;margin:3px 0 5px}.milestone-banner .milestone-meta{font-size:14px;color:#d9e5ed;margin:0}.milestone-banner .milestone-highlight{font-size:16px;color:#f0f5fa;margin:7px 0 0}.milestone-banner .milestone-label{font:12px/1.5 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em;color:#d9e5ed}.milestone-banner.arrived{animation:milestone-in .35s ease-out}@keyframes milestone-in{from{opacity:.6;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:760px){.grid{column-count:1}.case.featured{display:flex;gap:0}.case.featured>.flow{margin-top:16px;padding:0}.case.featured>.case-detail{margin-top:20px}.section-head{grid-template-columns:1fr;gap:10px}.rally-track{height:165px}section{padding:30px 0}.milestone-banner{padding:16px;gap:12px}.milestone-banner h3{font-size:22px}.milestone-number{font-size:25px;padding-right:12px}.milestone-banner .milestone-highlight{font-size:14px}}
 @media(prefers-reduced-motion:reduce){.milestone-banner.arrived{animation:none}}
+
+/* Keep project cards in ordered, evenly aligned rows. */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;column-count:auto;align-items:stretch}
+.grid>.case{display:flex;width:auto;min-width:0;margin:0}
+.grid>.case:not(.featured)>.metrics{margin-top:auto}
+.grid>.case.featured{display:grid;grid-column:1/-1;margin:0;grid-template-columns:1.25fr .85fr}
+@media(max-width:760px){.grid{grid-template-columns:minmax(0,1fr);gap:16px}.grid>.case.featured{display:flex}.grid>.case:not(.featured)>.metrics{margin-top:0}}
 </style></head>
 <body>
 <a class="skip" href="#work">Skip to selected work</a>
