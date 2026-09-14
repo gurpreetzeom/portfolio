@@ -124,6 +124,87 @@
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.career-rail{scroll-behavior:auto}}
 </style>
+<style id="proof-hierarchy-refinement">
+
+/* Consistent proof panels: explicit ink colors also protect contrast in the dark card. */
+.case .journey-snapshot{
+  padding:24px;background:#f5f7f8;color:#152c3c;border:1px solid #b5c3cc;
+  border-radius:8px;box-shadow:0 3px 12px #152c3c06;
+}
+.case .journey-snapshot figcaption{padding-bottom:16px;border-bottom:1px solid #d0dbe2}
+.case .journey-snapshot figcaption strong{color:#152c3c;font-size:17px;line-height:1.4;letter-spacing:-.02em}
+.case .journey-snapshot .snapshot-label{color:#465e6e;font:700 11px/1.6 Manrope,system-ui,sans-serif;letter-spacing:.07em}
+.snapshot-flow{gap:18px;margin:20px 0}
+.snapshot-flow li{
+  flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:9px;
+  min-height:100px;padding:12px;text-align:left;font-size:13px;line-height:1.45;
+  background:#eaf0f4;border-color:#c4d1da;color:#233f52;overflow-wrap:anywhere;
+}
+.snapshot-step{font:800 12px/1.4 Manrope,system-ui,sans-serif;color:#526a7b;font-variant-numeric:tabular-nums}
+.snapshot-flow li+li:before{left:-17px;top:50%;transform:translateY(-50%);font-size:14px}
+.snapshot-flow li:last-child{background:#e3ecf9;border-color:#8fadd3;box-shadow:inset 0 3px 0 #175ac6;color:#153f76}
+.snapshot-flow li:last-child .snapshot-step{color:#175ac6}
+/* Outcome strip ties the simplified journey to an already reported result. */
+.snapshot-outcome{display:grid;gap:5px;padding:16px 0;border-top:1px solid #d0dbe2;margin-bottom:12px}
+.snapshot-outcome .snapshot-label{margin:0}
+.snapshot-outcome>strong{font:800 clamp(23px,2.3vw,30px)/1.25 Manrope,system-ui,sans-serif;color:#175ac6;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.snapshot-outcome-caption{font-size:13px;line-height:1.55;color:#304e63}
+.case .journey-snapshot .snapshot-note{color:#465e6e;line-height:1.6}
+.snapshot-comparison{gap:18px;margin:20px 0}
+.comparison-row{font-size:13px;gap:8px 12px;color:#304e63}
+.comparison-row strong{font-size:26px;line-height:1.25}
+.comparison-row:last-child strong{color:#175ac6}
+.comparison-track{height:10px;border-radius:5px}
+/* Lending proof is a distinct, light visual layer within the navy case study. */
+.case.featured>.journey-snapshot{
+  margin:8px 0;padding:28px;background:#f5f7f8;border:1px solid #d5e0e8;
+  border-top:3px solid #90b3e3;box-shadow:0 8px 24px #071a2b18;
+}
+.case.featured .snapshot-flow li{min-height:92px}
+.case.featured .snapshot-outcome{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:24px;align-items:center}
+.case.featured .snapshot-outcome .snapshot-label{grid-column:1/-1}
+.case.featured .snapshot-outcome-caption{max-width:30ch}
+/* Shared rhythm and clearer affordances without changing interaction logic. */
+main>section:not(.exploration){padding-block:48px}
+.section-head{margin-bottom:28px}
+.work-filters{gap:10px;margin-bottom:28px}
+.filter{min-height:48px;font-weight:700;transition:background .16s,border-color .16s,box-shadow .16s}
+.filter.active{background:#175ac6;border-color:#175ac6;box-shadow:0 2px 6px #175ac618}
+.case h3{margin-top:14px;margin-bottom:18px;text-wrap:pretty}
+.case>.kicker,.featured-copy .kicker{font-weight:600;letter-spacing:.055em}
+.case-detail summary{min-height:56px;padding-block:12px;line-height:1.5;transition:background .16s}
+.case-detail summary:hover{background:#175ac609}
+.featured .case-detail summary:hover{background:#ffffff09}
+.case-detail summary:active{background:#175ac614}
+.featured .case-detail summary:active{background:#ffffff14}
+.btn,.choice,.arcade-tab,summary,.filter{touch-action:manipulation}
+.drive-controls .direction{touch-action:none}
+@media(min-width:761px) and (max-width:1100px){
+  .case:not(.featured) .snapshot-flow{grid-template-columns:1fr}
+  .case:not(.featured) .snapshot-flow li{flex-direction:row;align-items:center;min-height:52px}
+  .case:not(.featured) .snapshot-flow li+li:before{content:'↓';left:17px;top:-18px;transform:none;line-height:18px}
+}
+@media(max-width:760px){
+  main>section:not(.exploration){padding-block:40px}
+  .section-head,.work-filters{margin-bottom:24px}
+  .case .journey-snapshot{padding:18px}
+  .case.featured>.journey-snapshot{margin:24px 0 4px;padding:20px}
+  .snapshot-flow{gap:18px}
+  .snapshot-flow li,.case.featured .snapshot-flow li{flex-direction:row;align-items:center;gap:12px;min-height:56px;padding:12px}
+  .snapshot-step{flex-shrink:0}
+  .snapshot-flow li+li:before{content:'↓';left:17px;top:-18px;transform:none;line-height:18px}
+  .case.featured .snapshot-outcome{grid-template-columns:minmax(0,1fr);gap:6px}
+  .case-detail{margin-top:24px}
+  .case-detail summary{min-height:56px}
+  .choice{padding:16px 12px}
+  .choice.correct-answer,.choice.wrong-answer{padding:15px 11px}
+  .arcade-tab{min-height:56px}
+  .rally-hud{padding-block:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  .filter,.case-detail summary{transition:none}
+}
+</style>
 </head>
 <body>
 <a class="skip" href="#work">Skip to selected work</a>
@@ -136,19 +217,27 @@
 <main><section id="work"><div class="wrap"><div class="section-head reveal"><div class="kicker">01 / Project notes</div><div><h2>The problem. The decision. The result.</h2><p>Five examples of my work across lending, collections, growth and operations. These summaries describe my scope, product decisions and reported results. Customer information, internal screens and proprietary rules are omitted. Figures are rounded or shown as ranges where appropriate.</p></div></div><div class="work-filters" role="group" aria-label="Filter selected work"><button type="button" class="filter active" data-filter="all" aria-pressed="true">All work <span>05</span></button><button type="button" class="filter" data-filter="fintech" aria-pressed="false">Fintech & lending</button><button type="button" class="filter" data-filter="growth" aria-pressed="false">Growth & operations</button></div><p class="sr-only" id="filter-status" role="status"></p><div class="grid">
 <article data-category="fintech" class="card case featured reveal"><div class="featured-copy"><div><div class="kicker">Capri Global • Lending Platform</div><span class="project-index" aria-hidden="true">01</span><h3>Connecting field assessments to the lending decision</h3><p>I own GAIA, the Loan Origination System, and Athena, the Personal Discussion mobile app. My scope connects sales and credit assessments with underwriting and disbursement, including the business rules, approvals and exception paths that govern each handoff.</p><div class="tags"><span class="tag">LOS</span><span class="tag">Athena PD App</span><span class="tag">Micro-LAP</span><span class="tag">Underwriting</span><span class="tag">KYC / AML</span><span class="tag">Workflow Design</span><span class="tag">PRDs</span></div></div></div><div class="featured-outcomes"><div class="metrics" aria-label="Reported results and operating scale"><div class="metric"><b>~10–12 → ~7–8</b><span>days, login-to-disbursement turnaround</span></div><div class="metric"><b>~8–9 → ~3–4</b><span>hours, Sales PD process</span></div><div class="metric"><b>162</b><span>branches supported</span></div><div class="metric"><b>~1,200</b><span>LOS users</span></div></div></div>
 <!-- Journey snapshot: abstract representation; no confidential screens or rules. -->
-<figure class="journey-snapshot" aria-labelledby="snapshot-lending"><figcaption id="snapshot-lending"><span class="snapshot-label">Journey snapshot</span><strong>Connected lending journey</strong></figcaption><ol class="snapshot-flow"><li>Field assessment</li><li>Credit review</li><li>Underwriting</li><li>Disbursement</li></ol><p class="snapshot-note">Simplified workflow · internal screens and business rules omitted.</p></figure>
+<figure class="journey-snapshot" aria-labelledby="snapshot-lending"><figcaption id="snapshot-lending"><span class="snapshot-label">Journey snapshot</span><strong>Connected lending journey</strong></figcaption><ol class="snapshot-flow"><li><span class="snapshot-step" aria-hidden="true">01</span><span>Field assessment</span></li><li><span class="snapshot-step" aria-hidden="true">02</span><span>Credit review</span></li><li><span class="snapshot-step" aria-hidden="true">03</span><span>Underwriting</span></li><li><span class="snapshot-step" aria-hidden="true">04</span><span>Disbursement</span></li></ol>
+<!-- Reported outcome repeats the existing card metric without adding a new claim. -->
+<div class="snapshot-outcome"><span class="snapshot-label">Reported outcome</span><strong>~10–12 → ~7–8</strong><span class="snapshot-outcome-caption">days, login-to-disbursement turnaround</span></div><p class="snapshot-note">Simplified workflow · internal screens and business rules omitted.</p></figure>
 <details class="case-detail"><summary>Explore the thinking <span aria-hidden="true">＋</span></summary><div class="detail-body"><h4>The product trade-off</h4><p>Removing a step can make a journey faster while leaving the next team with incomplete information. I focus on avoidable waiting, repeat entry and unclear ownership while keeping credit and compliance checks explicit.</p><h4>What I focused on</h4><p>Connecting mobile field assessments to the wider loan journey. Defining who can act, what information is required, when a case can advance and how exceptions return to the right owner.</p><h4>How I work</h4><p>I map where cases wait or return for correction, then work with credit, risk, operations and engineering to define the rules and exception paths. I track turnaround alongside rework and adoption to understand whether the whole journey is improving.</p></div></details></article>
 <article data-category="fintech" class="card case reveal"><div class="kicker">Capri Global • Collections</div><span class="project-index" aria-hidden="true">02</span><h3>Giving field teams more capacity for customer visits</h3><p>I owned the collections field app and management portal, connecting customer visits, collection histories and promise-to-pay tracking with management visibility. AI-based route optimisation helped teams plan their field work more efficiently.</p><div class="tags"><span class="tag">Collections</span><span class="tag">AI Routing</span><span class="tag">Field App</span><span class="tag">Dashboards</span></div><div class="metrics" aria-label="Reported results and operating scale"><div class="metric"><b>~20%</b><span>higher visit capacity following route optimisation</span></div><div class="metric"><b>1,200+</b><span>field agents supported</span></div><div class="metric"><b>~28,000</b><span>collection cases per month</span></div></div>
 <!-- Journey snapshot: abstract representation; no confidential screens or rules. -->
-<figure class="journey-snapshot" aria-labelledby="snapshot-collections"><figcaption id="snapshot-collections"><span class="snapshot-label">Journey snapshot</span><strong>Field execution and visibility</strong></figcaption><ol class="snapshot-flow"><li>Plan route</li><li>Customer visit</li><li>Record commitment</li><li>Management review</li></ol><p class="snapshot-note">Simplified workflow · internal screens and business rules omitted.</p></figure>
+<figure class="journey-snapshot" aria-labelledby="snapshot-collections"><figcaption id="snapshot-collections"><span class="snapshot-label">Journey snapshot</span><strong>Field execution and visibility</strong></figcaption><ol class="snapshot-flow"><li><span class="snapshot-step" aria-hidden="true">01</span><span>Plan route</span></li><li><span class="snapshot-step" aria-hidden="true">02</span><span>Customer visit</span></li><li><span class="snapshot-step" aria-hidden="true">03</span><span>Record commitment</span></li><li><span class="snapshot-step" aria-hidden="true">04</span><span>Management review</span></li></ol>
+<!-- Reported outcome repeats the existing card metric without adding a new claim. -->
+<div class="snapshot-outcome"><span class="snapshot-label">Reported outcome</span><strong>~20%</strong><span class="snapshot-outcome-caption">higher visit capacity following route optimisation</span></div><p class="snapshot-note">Simplified workflow · internal screens and business rules omitted.</p></figure>
 <details class="case-detail"><summary>Explore the thinking <span aria-hidden="true">＋</span></summary><div class="detail-body"><h4>The product trade-off</h4><p>Managers need a reliable record of execution, but every reporting step takes time from field work. The challenge was to capture useful information as part of the agent’s workflow while keeping daily execution manageable.</p><h4>What I focused on</h4><p>Route planning, collection histories, payment commitments and movement between delinquency buckets, with visibility appropriate to each management role.</p><h4>How I work</h4><p>I connect what the agent needs during a visit with what the manager needs to review afterwards. I evaluate routing through visit capacity; recovery performance is a separate outcome that requires its own evidence.</p></div></details></article>
 <article data-category="growth" class="card case reveal"><div class="kicker">CARS24 • Growth & Analytics</div><span class="project-index" aria-hidden="true">03</span><h3>Making customer cohorts usable in everyday campaigns</h3><p>I owned audience segmentation and cohort strategy, built automated cohort models, and connected CRM and lifecycle systems. The work gave growth teams fresher audience data and clearer visibility into funnel performance and acquisition cost.</p><div class="tags"><span class="tag">Cohorts</span><span class="tag">Lifecycle</span><span class="tag">APIs</span><span class="tag">Experimentation</span></div><div class="metrics" aria-label="Reported results and operating scale"><div class="metric"><b>15–25%</b><span>lower customer acquisition cost</span></div><div class="metric"><b>40–50%</b><span>less manual effort in cohort and campaign data workflows</span></div></div>
 <!-- Journey snapshot: abstract representation; no confidential screens or rules. -->
-<figure class="journey-snapshot" aria-labelledby="snapshot-cohorts"><figcaption id="snapshot-cohorts"><span class="snapshot-label">Journey snapshot</span><strong>From audience data to activation</strong></figcaption><ol class="snapshot-flow"><li>Audience signals</li><li>Automated cohorts</li><li>Lifecycle campaigns</li><li>Performance review</li></ol><p class="snapshot-note">Simplified workflow · internal screens and business rules omitted.</p></figure>
+<figure class="journey-snapshot" aria-labelledby="snapshot-cohorts"><figcaption id="snapshot-cohorts"><span class="snapshot-label">Journey snapshot</span><strong>From audience data to activation</strong></figcaption><ol class="snapshot-flow"><li><span class="snapshot-step" aria-hidden="true">01</span><span>Audience signals</span></li><li><span class="snapshot-step" aria-hidden="true">02</span><span>Automated cohorts</span></li><li><span class="snapshot-step" aria-hidden="true">03</span><span>Lifecycle campaigns</span></li><li><span class="snapshot-step" aria-hidden="true">04</span><span>Performance review</span></li></ol>
+<!-- Reported outcome repeats the existing card metric without adding a new claim. -->
+<div class="snapshot-outcome"><span class="snapshot-label">Reported outcome</span><strong>40–50%</strong><span class="snapshot-outcome-caption">less manual effort in cohort and campaign data workflows</span></div><p class="snapshot-note">Simplified workflow · internal screens and business rules omitted.</p></figure>
 <details class="case-detail"><summary>Explore the thinking <span aria-hidden="true">＋</span></summary><div class="detail-body"><h4>The product trade-off</h4><p>More detailed segmentation creates value only when teams can activate and maintain it. I focused on cohorts that could flow reliably into lifecycle campaigns and support measurable decisions.</p><h4>What I focused on</h4><p>Automated cohort models, API-led data flows across Zoho and CleverTap, and dashboards connecting audience decisions with campaign performance.</p><h4>How I work</h4><p>I start with the customer behaviour that should change, define the cohort and activation rules, then connect the data to the campaign workflow. I use acquisition cost and funnel performance to assess whether the segmentation is useful.</p></div></details></article>
 <article data-category="growth" class="card case reveal"><div class="kicker">Stanza Living • Product & Automation</div><span class="project-index" aria-hidden="true">04</span><h3>Helping customers progress from enquiry to booking</h3><p>I redesigned lead flows and CRM journeys and helped move key booking interactions to WhatsApp. This gave customers a more direct way to progress and reduced the need for sales intervention.</p><div class="tags"><span class="tag">WhatsApp</span><span class="tag">CRM</span><span class="tag">Journey Design</span><span class="tag">ETL / BI</span></div><div class="metrics" aria-label="Reported results and operating scale"><div class="metric"><b>20%</b><span>improvement in lead-to-booking conversion</span></div><div class="metric"><b>60%</b><span>reduction in reliance on sales intervention</span></div></div>
 <!-- Journey snapshot: abstract representation; no confidential screens or rules. -->
-<figure class="journey-snapshot" aria-labelledby="snapshot-booking"><figcaption id="snapshot-booking"><span class="snapshot-label">Journey snapshot</span><strong>A more direct booking journey</strong></figcaption><ol class="snapshot-flow"><li>Customer enquiry</li><li>CRM journey</li><li>WhatsApp interaction</li><li>Booking</li></ol><p class="snapshot-note">Simplified workflow · internal screens and business rules omitted.</p></figure>
+<figure class="journey-snapshot" aria-labelledby="snapshot-booking"><figcaption id="snapshot-booking"><span class="snapshot-label">Journey snapshot</span><strong>A more direct booking journey</strong></figcaption><ol class="snapshot-flow"><li><span class="snapshot-step" aria-hidden="true">01</span><span>Customer enquiry</span></li><li><span class="snapshot-step" aria-hidden="true">02</span><span>CRM journey</span></li><li><span class="snapshot-step" aria-hidden="true">03</span><span>WhatsApp interaction</span></li><li><span class="snapshot-step" aria-hidden="true">04</span><span>Booking</span></li></ol>
+<!-- Reported outcome repeats the existing card metric without adding a new claim. -->
+<div class="snapshot-outcome"><span class="snapshot-label">Reported outcome</span><strong>20%</strong><span class="snapshot-outcome-caption">improvement in lead-to-booking conversion</span></div><p class="snapshot-note">Simplified workflow · internal screens and business rules omitted.</p></figure>
 <details class="case-detail"><summary>Explore the thinking <span aria-hidden="true">＋</span></summary><div class="detail-body"><h4>The product trade-off</h4><p>Some customers need a conversation before booking; others need a straightforward next step. The product challenge was deciding which interactions could become self-service and where human support remained valuable.</p><h4>What I focused on</h4><p>Lead routing, CRM journeys and WhatsApp booking interactions, supported by visibility across the booking funnel.</p><h4>How I work</h4><p>I examine where leads stop progressing and where the journey depends on a sales follow-up. I connect changes to those steps with conversion and reliance on intervention, so automation is assessed through its effect on the booking journey.</p></div></details></article>
 <article data-category="growth" class="card case reveal"><div class="kicker">Zomato • Analytics & Operations</div><span class="project-index" aria-hidden="true">05</span><h3>Understanding what drives customer support chats</h3><p>I used root-cause analysis and automated reporting to identify friction in customer support workflows and inform process changes. The work supported a reduction in Chat to Order from 13% to 6.5%.</p><div class="tags"><span class="tag">Root Cause</span><span class="tag">Data Systems</span><span class="tag">Automation</span></div><div class="metrics" aria-label="Reported Chat-to-Order result"><div class="metric"><b>13% → 6.5%</b><span>Chat-to-Order reduction</span></div></div>
 <!-- Visual proof: comparison of existing reported values, on the same scale. -->
