@@ -26,3 +26,8 @@
 .destruction-impact-shot,.destruction-impact-machine,.destruction-impact-rocket{background:none;animation:none;box-shadow:none}
 .destruction-impact-shot::before,.destruction-impact-machine::before,.destruction-impact-rocket::before{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#fff8deee 0 8%,#b5bdc499 14%,transparent 55%);animation:shatter-flash .45s ease-out forwards}
 .destruction-impact-rocket::before{box-shadow:0 0 35px #fa7f3980}
+/* Trails and muzzle flashes paint over the barrel tip without blocking controls. */
+.destruction-canvas{z-index:99999}
+.destruction-gun-art{transition:none}
+.destruction-launcher.firing .destruction-gun-art{animation:gun-glint .15s ease-out}
+@keyframes gun-glint{50%{filter:brightness(1.35)}}
