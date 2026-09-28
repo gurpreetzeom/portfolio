@@ -10,8 +10,10 @@
   const launcher = document.createElement('div');
   launcher.className = 'destruction-launcher';
   launcher.hidden = true;
-  launcher.setAttribute('aria-hidden', 'true');
-  launcher.innerHTML = '<span class="destruction-launcher-icon">🔥</span><span class="destruction-launcher-name">FIRE</span>';
+  launcher.tabIndex = 0;
+  launcher.setAttribute('role', 'button');
+  launcher.setAttribute('aria-label', 'Drag weapon to reposition it. Arrow keys also move it.');
+  launcher.innerHTML = '<span class="destruction-launcher-icon">🔥</span><span class="destruction-launcher-name">FIRE</span><span class="destruction-drag-hint">DRAG TO MOVE</span>';
   const canvas = document.createElement('canvas');
   canvas.className = 'destruction-canvas';
   canvas.hidden = true;
@@ -26,6 +28,7 @@
     rocket: { icon: '🚀', name: 'ROCKET LAUNCHER', color: '#ff9b39', rate: 600, speed: 410, threshold: 1 }
   };
   let mode = 'fire', active = false, firing = false, pointerId = null, aim = { x: 0, y: 0 };
+  let dragging = null;
   let projectiles = [], sparks = [], damage = new WeakMap(), lastShot = 0, previous = 0, frame = 0;
   const changed = new Set();
   function resize() {
@@ -36,6 +39,12 @@
   function muzzle() {
     const rect = launcher.getBoundingClientRect();
     return { x: rect.right - 12, y: rect.top + rect.height * .30 };
+  }
+  function moveLauncher(x, y) {
+    const rect = launcher.getBoundingClientRect();
+    launcher.style.left = Math.max(4, Math.min(innerWidth - rect.width - 4, x)) + 'px';
+    launcher.style.top = Math.max(4, Math.min(innerHeight - rect.height - 4, y)) + 'px';
+    launcher.style.bottom = 'auto';
   }
   function setWeapon(type) {
     mode = type;
@@ -144,6 +153,7 @@
   function stop() { firing = false; pointerId = null; launcher.classList.remove('firing'); }
   function restore() {
     stop(); active = false; document.body.classList.remove('destruction-active');
+    dragging = null; launcher.classList.remove('dragging');
     toolbar.hidden = launcher.hidden = canvas.hidden = true;
     for (const node of changed) { node.style.visibility = ''; node.classList.remove('destruction-hit'); delete node.dataset.effect; }
     changed.clear(); damage = new WeakMap(); projectiles = []; sparks = [];
@@ -161,6 +171,31 @@
     const button = event.target.closest('[data-tool]');
     if (button) { stop(); setWeapon(button.dataset.tool); }
   });
+  launcher.addEventListener('pointerdown', event => {
+    if (!active || !event.isPrimary) return;
+    event.preventDefault(); stop();
+    const rect = launcher.getBoundingClientRect();
+    dragging = { id: event.pointerId, dx: event.clientX - rect.left, dy: event.clientY - rect.top };
+    launcher.classList.add('dragging');
+    launcher.setPointerCapture(event.pointerId);
+  });
+  launcher.addEventListener('pointermove', event => {
+    if (dragging?.id === event.pointerId) moveLauncher(event.clientX - dragging.dx, event.clientY - dragging.dy);
+  });
+  function endDrag(event) {
+    if (dragging?.id !== event.pointerId) return;
+    dragging = null; launcher.classList.remove('dragging');
+  }
+  launcher.addEventListener('pointerup', endDrag);
+  launcher.addEventListener('pointercancel', endDrag);
+  launcher.addEventListener('lostpointercapture', endDrag);
+  launcher.addEventListener('keydown', event => {
+    const offsets = { ArrowLeft: [-20, 0], ArrowRight: [20, 0], ArrowUp: [0, -20], ArrowDown: [0, 20] };
+    if (!active || !offsets[event.key]) return;
+    event.preventDefault();
+    const rect = launcher.getBoundingClientRect(), [dx, dy] = offsets[event.key];
+    moveLauncher(rect.left + dx, rect.top + dy);
+  });
   document.addEventListener('pointerdown', event => {
     if (!active || !event.isPrimary || toolbar.contains(event.target) || launcher.contains(event.target) || !event.target.closest('main, header')) return;
     event.preventDefault(); event.stopPropagation();
@@ -177,5 +212,10 @@
     if (active && !toolbar.contains(event.target) && event.target !== start) { event.preventDefault(); event.stopPropagation(); }
   }, true);
   document.addEventListener('keydown', event => { if (active && event.key === 'Escape') restore(); });
-  addEventListener('resize', () => { if (active) resize(); });
+  addEventListener('resize', () => {
+    if (!active) return;
+    resize();
+    const rect = launcher.getBoundingClientRect();
+    if (launcher.style.top) moveLauncher(rect.left, rect.top);
+  });
 })();
