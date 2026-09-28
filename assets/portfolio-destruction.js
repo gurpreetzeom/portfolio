@@ -6,14 +6,14 @@
   toolbar.hidden = true;
   toolbar.setAttribute('role', 'group');
   toolbar.setAttribute('aria-label', 'Portfolio destruction controls');
-  toolbar.innerHTML = '<span class="destruction-instruction">Aim at the page · hold to fire</span><div class="destruction-weapons"><button type="button" data-tool="fire" aria-pressed="true">🔥 Fire</button><button type="button" data-tool="ice" aria-pressed="false">❄️ Freeze ray</button><button type="button" data-tool="shot" aria-pressed="false">🔫 Pistol</button><button type="button" data-tool="machine" aria-pressed="false">⚙️ Machine gun</button><button type="button" data-tool="rocket" aria-pressed="false">🚀 Rocket launcher</button></div><button type="button" class="destruction-exit">Restore site ✕</button>';
+  toolbar.innerHTML = '<span class="destruction-instruction">Aim at the page · hold to fire</span><div class="destruction-weapons"><button type="button" data-tool="fire" aria-pressed="true">🔥 Fire</button><button type="button" data-tool="ice" aria-pressed="false">❄️ Freeze ray</button><button type="button" data-tool="shot" aria-pressed="false">🔫 Pistol</button><button type="button" data-tool="machine" aria-pressed="false">⚙️ Machine gun</button><button type="button" data-tool="rocket" aria-pressed="false">🚀 Rocket launcher</button></div><button type="button" class="destruction-sound" aria-pressed="true" aria-label="Mute weapon sounds">♪ On</button><button type="button" class="destruction-exit">Restore site ✕</button>';
   const launcher = document.createElement('div');
   launcher.className = 'destruction-launcher';
   launcher.hidden = true;
   launcher.tabIndex = 0;
   launcher.setAttribute('role', 'button');
   launcher.setAttribute('aria-label', 'Drag weapon to reposition it. Arrow keys also move it.');
-  launcher.innerHTML = '<span class="destruction-launcher-icon">🔥</span><span class="destruction-launcher-name">FIRE</span><span class="destruction-drag-hint">DRAG TO MOVE</span>';
+  launcher.innerHTML = '<span class="destruction-gun-art" aria-hidden="true"></span><span class="destruction-launcher-name">FIRE</span><span class="destruction-drag-hint">DRAG TO MOVE</span>';
   const canvas = document.createElement('canvas');
   canvas.className = 'destruction-canvas';
   canvas.hidden = true;
@@ -21,16 +21,56 @@
   document.body.append(canvas, launcher, toolbar);
   const ctx = canvas.getContext('2d');
   const weapons = {
-    fire: { icon: '🔥', name: 'FLAMETHROWER', color: '#ff7926', rate: 62, speed: 570, threshold: 4 },
-    ice: { icon: '❄️', name: 'FREEZE RAY', color: '#72dcff', rate: 68, speed: 900, threshold: 4 },
-    shot: { icon: '🔫', name: 'PISTOL', color: '#ffdc82', rate: 240, speed: 1100, threshold: 2 },
-    machine: { icon: '⚙️', name: 'MACHINE GUN', color: '#ffda71', rate: 58, speed: 1050, threshold: 5 },
-    rocket: { icon: '🚀', name: 'ROCKET LAUNCHER', color: '#ff9b39', rate: 600, speed: 410, threshold: 1 }
+    fire: { name: 'FLAMETHROWER', color: '#ff7926', rate: 58, speed: 630 },
+    ice: { name: 'FREEZE RAY', color: '#72dcff', rate: 68, speed: 930 },
+    shot: { name: 'PISTOL', color: '#ffdc82', rate: 250, speed: 1300 },
+    machine: { name: 'MACHINE GUN', color: '#ffda71', rate: 65, speed: 1250 },
+    rocket: { name: 'ROCKET LAUNCHER', color: '#ff9b39', rate: 680, speed: 480 }
   };
+  const gunShapes = {
+    fire: '<rect x="5" y="23" width="23" height="24" rx="8" fill="#c84e35"/><path d="M20 24V14h18l9 11" fill="none" stroke="#ffa64b" stroke-width="5"/><path d="M22 25h45l12-6h20v13H78l-12-4H22z" fill="#526b77"/><rect x="88" y="21" width="17" height="9" rx="2" fill="#eeb443"/><path d="M43 30 36 55h17l8-23" fill="#294353"/><circle cx="15" cy="35" r="7" fill="#ffaf50"/>',
+    ice: '<path d="M12 25h64l10-9h16v16H85l-10-5H12z" fill="#447386"/><path d="M40 30 36 56h17l8-26" fill="#27445a"/><rect x="15" y="17" width="35" height="9" rx="4" fill="#71dfff"/><circle cx="67" cy="26" r="7" fill="#a8f1ff"/><path d="m99 15 10 9-10 9" fill="#e7fbff"/>',
+    shot: '<path d="M15 19h56l7 7h22v9H75l-5-6H51L43 56H28l5-27H15z" fill="#394d5b"/><rect x="22" y="17" width="44" height="5" rx="2" fill="#99aeb8"/><rect x="83" y="23" width="20" height="7" fill="#1b313f"/><path d="M43 31h16l-5 8H40z" fill="#d1a758"/>',
+    machine: '<path d="M8 24h68v11H8z" fill="#425b6a"/><rect x="77" y="22" width="31" height="4" rx="2" fill="#a1b3b8"/><rect x="77" y="29" width="31" height="4" rx="2" fill="#a1b3b8"/><path d="M28 34 19 55h18l10-21" fill="#2c404d"/><path d="M49 34 55 57h18l-6-23" fill="#677c87"/><rect x="12" y="17" width="21" height="7" rx="2" fill="#8399a5"/>',
+    rocket: '<rect x="7" y="17" width="87" height="22" rx="9" fill="#617984"/><rect x="24" y="19" width="56" height="18" rx="6" fill="#354d5b"/><path d="M92 16 111 28 92 40z" fill="#e9a750"/><path d="M35 39 30 56h18l7-17" fill="#2b434f"/><rect x="14" y="12" width="28" height="6" rx="2" fill="#9aaeb5"/><path d="M4 19v18" stroke="#d9a651" stroke-width="7"/>'
+  };
+  let audioContext, noiseBuffer, soundOn = true;
+  function audio() {
+    try {
+      audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+      if (audioContext.state === 'suspended') audioContext.resume();
+      if (!noiseBuffer) {
+        noiseBuffer = audioContext.createBuffer(1, audioContext.sampleRate * .5, audioContext.sampleRate);
+        const channel = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < channel.length; i++) channel[i] = Math.random() * 2 - 1;
+      }
+      return audioContext;
+    } catch { return null; }
+  }
+  function sound(type, hit = false) {
+    if (!soundOn || !audioContext) return;
+    const ac = audioContext, now = ac.currentTime;
+    const gain = ac.createGain(); gain.connect(ac.destination);
+    const length = hit ? .25 : type === 'rocket' ? .44 : type === 'fire' ? .13 : type === 'ice' ? .19 : .11;
+    const volume = hit ? .045 : type === 'machine' ? .023 : type === 'fire' ? .012 : .04;
+    gain.gain.setValueAtTime(volume, now);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + length);
+    if (type === 'fire' || type === 'machine' || hit) {
+      const noise = ac.createBufferSource(); noise.buffer = noiseBuffer;
+      const filter = ac.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.setValueAtTime(hit ? 330 : type === 'fire' ? 850 : 2200, now);
+      noise.connect(filter).connect(gain); noise.start(now); noise.stop(now + length);
+    } else {
+      const oscillator = ac.createOscillator(); oscillator.type = type === 'ice' ? 'sine' : 'sawtooth';
+      oscillator.frequency.setValueAtTime(type === 'ice' ? 780 : type === 'rocket' ? 180 : 260, now);
+      oscillator.frequency.exponentialRampToValueAtTime(type === 'ice' ? 240 : type === 'rocket' ? 55 : 75, now + length);
+      oscillator.connect(gain); oscillator.start(now); oscillator.stop(now + length);
+    }
+  }
   let mode = 'fire', active = false, firing = false, pointerId = null, aim = { x: 0, y: 0 };
   let dragging = null;
-  let projectiles = [], sparks = [], damage = new WeakMap(), lastShot = 0, previous = 0, frame = 0;
+  let projectiles = [], sparks = [], lastShot = 0, previous = 0, frame = 0;
   const changed = new Set();
+  const masks = new Map();
   function resize() {
     canvas.width = Math.round(innerWidth * devicePixelRatio);
     canvas.height = Math.round(innerHeight * devicePixelRatio);
@@ -38,17 +78,22 @@
   }
   function muzzle() {
     const rect = launcher.getBoundingClientRect();
-    return { x: rect.right - 12, y: rect.top + rect.height * .30 };
+    return { x: launcher.dataset.facing === 'left' ? rect.left + 4 : rect.right - 4, y: rect.top + rect.height * .37 };
+  }
+  function updateFacing() {
+    const rect = launcher.getBoundingClientRect();
+    launcher.dataset.facing = rect.left + rect.width / 2 > innerWidth / 2 ? 'left' : 'right';
   }
   function moveLauncher(x, y) {
     const rect = launcher.getBoundingClientRect();
     launcher.style.left = Math.max(4, Math.min(innerWidth - rect.width - 4, x)) + 'px';
     launcher.style.top = Math.max(4, Math.min(innerHeight - rect.height - 4, y)) + 'px';
     launcher.style.bottom = 'auto';
+    updateFacing();
   }
   function setWeapon(type) {
     mode = type;
-    launcher.querySelector('.destruction-launcher-icon').textContent = weapons[type].icon;
+    launcher.querySelector('.destruction-gun-art').innerHTML = '<svg viewBox="0 0 116 64" role="img" aria-label="' + weapons[type].name + '"><path d="M6 40h103" stroke="#122a3b" stroke-width="2"/>' + gunShapes[type] + '</svg>';
     launcher.querySelector('.destruction-launcher-name').textContent = weapons[type].name;
     launcher.dataset.tool = type;
     toolbar.querySelectorAll('[data-tool]').forEach(el => el.setAttribute('aria-pressed', String(el.dataset.tool === type)));
@@ -65,26 +110,31 @@
   function targetAt(x, y) {
     const node = document.elementFromPoint(x, y);
     if (!node || !node.closest('main, header')) return null;
-    const target = node.closest('article, .card, .case, .hero-panel, .career-stop, .skill, .contact-positioning, .contact-action, .section-head, .hero-copy, .hero-metrics, .desk-note, .stat, .career-chapter, h1, h2, h3, p, li, a, button, img');
-    if (!target || target.classList.contains('destruction-hit')) return null;
+    const target = node.closest('h1, h2, h3, h4, p, li, a, button, img, svg, .metric, .tag, .stat, .career-stop, .case, .card, .desk-note, .contact-positioning, .contact-action, .section-head');
+    if (!target || target === launcher || toolbar.contains(target)) return null;
     const rect = target.getBoundingClientRect();
     return rect.width && rect.height ? target : null;
   }
   function impact(projectile) {
     const { x, y, type } = projectile;
     burst(x, y, type);
+    if (type === 'rocket') sound(type, true);
     const target = targetAt(x, y);
     if (!target) return;
-    const hits = (damage.get(target) || 0) + (type === 'rocket' ? 5 : 1);
-    damage.set(target, hits);
-    if (hits < weapons[type].threshold) {
-      target.animate(type === 'ice' ? [{ filter: 'brightness(1)' }, { filter: 'brightness(1.6) drop-shadow(0 0 8px #69dafa)' }, { filter: 'brightness(1)' }] : [{ transform: 'translateX(0)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(0)' }], { duration: 180 });
-      return;
+    const rect = target.getBoundingClientRect();
+    const radius = type === 'rocket' ? 75 : type === 'fire' ? 22 : type === 'ice' ? 26 : type === 'shot' ? 15 : 10;
+    let state = masks.get(target);
+    if (!state) {
+      state = { holes: [], original: target.style.maskImage, composite: target.style.maskComposite, webkit: target.style.webkitMaskImage };
+      masks.set(target, state);
     }
-    target.dataset.effect = type === 'ice' ? 'ice' : type === 'fire' ? 'fire' : 'shot';
-    target.classList.add('destruction-hit');
+    state.holes.push({ x: x - rect.left, y: y - rect.top, radius });
+    // Each transparent circle punches a local hole. Intersecting masks preserve earlier hits.
+    const gradients = state.holes.map(h => `radial-gradient(circle ${h.radius}px at ${h.x}px ${h.y}px, transparent 90%, #000 100%)`);
+    target.style.maskImage = gradients.join(',');
+    target.style.webkitMaskImage = gradients.join(',');
+    target.style.maskComposite = gradients.map(() => 'intersect').join(',');
     changed.add(target);
-    setTimeout(() => { if (active && target.classList.contains('destruction-hit')) target.style.visibility = 'hidden'; }, 850);
   }
   function shoot(now) {
     if (now - lastShot < weapons[mode].rate) return;
@@ -96,6 +146,7 @@
     const duration = Math.max(130, distance / weapons[mode].speed * 1000);
     projectiles.push({ sx: startPoint.x, sy: startPoint.y, x: startPoint.x, y: startPoint.y, tx: target.x, ty: target.y, progress: 0, duration, type: mode, trail: [] });
     launcher.classList.remove('firing'); void launcher.offsetWidth; launcher.classList.add('firing');
+    sound(mode);
   }
   function drawProjectile(p) {
     const config = weapons[p.type];
@@ -109,19 +160,24 @@
       ctx.strokeStyle = '#e5fbff'; ctx.lineWidth = 2; ctx.stroke();
       ctx.globalAlpha = 1;
     } else if (p.type === 'fire') {
-      ctx.lineWidth = 12; ctx.globalAlpha = .28;
-      ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.x, p.y); ctx.stroke();
-      ctx.globalAlpha = .85; ctx.lineWidth = 3; ctx.stroke();
+      // A short, flickering jet keeps the flame attached to the nozzle.
+      for (let i = 0; i < 9; i++) {
+        const t = p.progress * (i + 1) / 9;
+        const fx = p.sx + (p.tx - p.sx) * t, fy = p.sy + (p.ty - p.sy) * t;
+        ctx.globalAlpha = .18 + .48 * i / 9;
+        ctx.fillStyle = i % 3 ? '#ff7a25' : '#ffe16b';
+        ctx.beginPath(); ctx.arc(fx + (Math.random() - .5) * 12, fy + (Math.random() - .5) * 12, 4 + i * .55, 0, Math.PI * 2); ctx.fill();
+      }
     } else if (p.type === 'rocket') {
-      ctx.strokeStyle = '#ff9b39'; ctx.globalAlpha = .55; ctx.lineWidth = 7;
-      ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.x, p.y); ctx.stroke();
+      ctx.strokeStyle = '#ff9b39'; ctx.globalAlpha = .4; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.moveTo(p.sx + (p.x-p.sx)*.78, p.sy + (p.y-p.sy)*.78); ctx.lineTo(p.x, p.y); ctx.stroke();
       ctx.globalAlpha = 1; ctx.translate(p.x, p.y); ctx.rotate(Math.atan2(p.ty - p.sy, p.tx - p.sx));
       ctx.fillStyle = '#243949'; ctx.fillRect(-18, -6, 23, 12);
       ctx.fillStyle = '#f6a230'; ctx.beginPath(); ctx.moveTo(12, 0); ctx.lineTo(2, -7); ctx.lineTo(2, 7); ctx.fill();
       ctx.fillStyle = '#ffdd68'; ctx.beginPath(); ctx.moveTo(-18, 0); ctx.lineTo(-30, -5); ctx.lineTo(-30, 5); ctx.fill();
     } else {
       ctx.lineWidth = p.type === 'machine' ? 2 : 3;
-      ctx.globalAlpha = .55; ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.x, p.y); ctx.stroke();
+      ctx.globalAlpha = .55; ctx.beginPath(); ctx.moveTo(p.x-(p.x-p.sx)*.22, p.y-(p.y-p.sy)*.22); ctx.lineTo(p.x, p.y); ctx.stroke();
       ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(p.x, p.y, p.type === 'machine' ? 4 : 6, 0, Math.PI * 2); ctx.fill();
     }
     if (p.type === 'ice' || p.type === 'fire') {
@@ -155,19 +211,33 @@
     stop(); active = false; document.body.classList.remove('destruction-active');
     dragging = null; launcher.classList.remove('dragging');
     toolbar.hidden = launcher.hidden = canvas.hidden = true;
-    for (const node of changed) { node.style.visibility = ''; node.classList.remove('destruction-hit'); delete node.dataset.effect; }
-    changed.clear(); damage = new WeakMap(); projectiles = []; sparks = [];
+    for (const node of changed) {
+      const state = masks.get(node);
+      node.style.maskImage = state.original;
+      node.style.webkitMaskImage = state.webkit;
+      node.style.maskComposite = state.composite;
+    }
+    changed.clear(); masks.clear(); projectiles = []; sparks = [];
     if (frame) cancelAnimationFrame(frame); frame = 0; previous = 0;
     ctx.clearRect(0, 0, innerWidth, innerHeight); start.focus();
   }
   start.addEventListener('click', () => {
     active = true; resize(); toolbar.hidden = launcher.hidden = canvas.hidden = false;
-    document.body.classList.add('destruction-active'); setWeapon('fire');
+    document.body.classList.add('destruction-active'); setWeapon('fire'); updateFacing(); audio();
     toolbar.querySelector('[data-tool]').focus();
     frame = requestAnimationFrame(animate);
   });
   toolbar.addEventListener('click', event => {
     if (event.target.closest('.destruction-exit')) return restore();
+    if (event.target.closest('.destruction-sound')) {
+      soundOn = !soundOn;
+      const button = toolbar.querySelector('.destruction-sound');
+      button.textContent = soundOn ? '♪ On' : '♪ Off';
+      button.setAttribute('aria-pressed', String(soundOn));
+      button.setAttribute('aria-label', soundOn ? 'Mute weapon sounds' : 'Enable weapon sounds');
+      if (soundOn) audio();
+      return;
+    }
     const button = event.target.closest('[data-tool]');
     if (button) { stop(); setWeapon(button.dataset.tool); }
   });
