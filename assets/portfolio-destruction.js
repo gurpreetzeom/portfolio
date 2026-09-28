@@ -13,7 +13,7 @@
   launcher.tabIndex = 0;
   launcher.setAttribute('role', 'button');
   launcher.setAttribute('aria-label', 'Drag weapon to reposition it. Arrow keys also move it.');
-  launcher.innerHTML = '<span class="destruction-gun-art" aria-hidden="true"></span><span class="destruction-launcher-name">FIRE</span><span class="destruction-drag-hint">DRAG TO MOVE</span>';
+  launcher.innerHTML = '<span class="destruction-gun-art" aria-hidden="true"></span>';
   const canvas = document.createElement('canvas');
   canvas.className = 'destruction-canvas';
   canvas.hidden = true;
@@ -71,6 +71,8 @@
   let projectiles = [], sparks = [], lastShot = 0, previous = 0, frame = 0;
   const changed = new Set();
   const masks = new Map();
+  const impactElements = new Set();
+  let lastVisual = 0;
   function resize() {
     canvas.width = Math.round(innerWidth * devicePixelRatio);
     canvas.height = Math.round(innerHeight * devicePixelRatio);
@@ -94,7 +96,7 @@
   function setWeapon(type) {
     mode = type;
     launcher.querySelector('.destruction-gun-art').innerHTML = '<svg viewBox="0 0 116 64" role="img" aria-label="' + weapons[type].name + '"><path d="M6 40h103" stroke="#122a3b" stroke-width="2"/>' + gunShapes[type] + '</svg>';
-    launcher.querySelector('.destruction-launcher-name').textContent = weapons[type].name;
+    launcher.setAttribute('aria-label', weapons[type].name + '. Drag to reposition, or use arrow keys.');
     launcher.dataset.tool = type;
     toolbar.querySelectorAll('[data-tool]').forEach(el => el.setAttribute('aria-pressed', String(el.dataset.tool === type)));
     lastShot = 0;
@@ -115,26 +117,56 @@
     const rect = target.getBoundingClientRect();
     return rect.width && rect.height ? target : null;
   }
-  function impact(projectile) {
-    const { x, y, type } = projectile;
-    burst(x, y, type);
-    if (type === 'rocket') sound(type, true);
-    const target = targetAt(x, y);
-    if (!target) return;
+  function visualImpact(x, y, type, radius, target) {
+    const effect = document.createElement('div');
+    effect.className = 'destruction-impact destruction-impact-' + type;
+    effect.style.left = x + 'px'; effect.style.top = y + 'px';
+    effect.style.setProperty('--impact-size', radius * 2 + 'px');
+    if (type === 'shot' || type === 'machine' || type === 'rocket') {
+      const color = getComputedStyle(target).backgroundColor;
+      effect.style.setProperty('--tile-color', color === 'rgba(0, 0, 0, 0)' || color === 'transparent' ? '#d9e4eb' : color);
+      for (let i = 0; i < (type === 'rocket' ? 16 : 9); i++) {
+        const shard = document.createElement('i');
+        const angle = Math.PI * 2 * i / (type === 'rocket' ? 16 : 9);
+        shard.style.setProperty('--dx', Math.round(Math.cos(angle) * (25 + Math.random() * radius)) + 'px');
+        shard.style.setProperty('--dy', Math.round(45 + Math.random() * (radius + 65)) + 'px');
+        shard.style.setProperty('--turn', Math.round((Math.random() - .5) * 260) + 'deg');
+        shard.style.left = (Math.random() * 60 - 30) + '%';
+        shard.style.top = (Math.random() * 50 - 25) + '%';
+        effect.append(shard);
+      }
+    }
+    document.body.append(effect);
+    impactElements.add(effect);
+    setTimeout(() => { effect.remove(); impactElements.delete(effect); }, 950);
+  }
+  function punchHole(target, x, y, radius) {
+    if (!active || !target.isConnected) return;
     const rect = target.getBoundingClientRect();
-    const radius = type === 'rocket' ? 75 : type === 'fire' ? 22 : type === 'ice' ? 26 : type === 'shot' ? 15 : 10;
     let state = masks.get(target);
     if (!state) {
       state = { holes: [], original: target.style.maskImage, composite: target.style.maskComposite, webkit: target.style.webkitMaskImage };
       masks.set(target, state);
     }
     state.holes.push({ x: x - rect.left, y: y - rect.top, radius });
-    // Each transparent circle punches a local hole. Intersecting masks preserve earlier hits.
     const gradients = state.holes.map(h => `radial-gradient(circle ${h.radius}px at ${h.x}px ${h.y}px, transparent 90%, #000 100%)`);
     target.style.maskImage = gradients.join(',');
     target.style.webkitMaskImage = gradients.join(',');
     target.style.maskComposite = gradients.map(() => 'intersect').join(',');
     changed.add(target);
+  }
+  function impact(projectile) {
+    const { x, y, type } = projectile;
+    burst(x, y, type);
+    if (type === 'rocket') sound(type, true);
+    const target = targetAt(x, y);
+    if (!target) return;
+    const radius = type === 'rocket' ? 75 : type === 'fire' ? 22 : type === 'ice' ? 26 : type === 'shot' ? 15 : 10;
+    if (performance.now() - lastVisual > (type === 'fire' || type === 'ice' ? 100 : 35)) {
+      visualImpact(x, y, type, radius, target);
+      lastVisual = performance.now();
+    }
+    setTimeout(() => punchHole(target, x, y, radius), type === 'fire' ? 390 : type === 'ice' ? 470 : 170);
   }
   function shoot(now) {
     if (now - lastShot < weapons[mode].rate) return;
@@ -218,6 +250,7 @@
       node.style.maskComposite = state.composite;
     }
     changed.clear(); masks.clear(); projectiles = []; sparks = [];
+    impactElements.forEach(effect => effect.remove()); impactElements.clear();
     if (frame) cancelAnimationFrame(frame); frame = 0; previous = 0;
     ctx.clearRect(0, 0, innerWidth, innerHeight); start.focus();
   }
