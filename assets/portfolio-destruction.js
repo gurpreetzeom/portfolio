@@ -21,11 +21,11 @@
   document.body.append(canvas, launcher, toolbar);
   const ctx = canvas.getContext('2d');
   const weapons = {
-    fire: { name: 'FLAMETHROWER', color: '#ff7926', rate: 58, speed: 630 },
-    ice: { name: 'FREEZE RAY', color: '#72dcff', rate: 68, speed: 930 },
-    shot: { name: 'PISTOL', color: '#ffdc82', rate: 250, speed: 1300 },
-    machine: { name: 'MACHINE GUN', color: '#ffda71', rate: 65, speed: 1250 },
-    rocket: { name: 'ROCKET LAUNCHER', color: '#ff9b39', rate: 680, speed: 480 }
+    fire: { name: 'FLAMETHROWER', color: '#ff7926', rate: 58, speed: 630, nozzle: [105, 26] },
+    ice: { name: 'FREEZE RAY', color: '#72dcff', rate: 68, speed: 930, nozzle: [110, 24] },
+    shot: { name: 'PISTOL', color: '#ffdc82', rate: 250, speed: 1300, nozzle: [103, 27] },
+    machine: { name: 'MACHINE GUN', color: '#ffda71', rate: 65, speed: 1250, nozzle: [108, 27] },
+    rocket: { name: 'ROCKET LAUNCHER', color: '#ff9b39', rate: 680, speed: 480, nozzle: [111, 28] }
   };
   const gunShapes = {
     fire: '<rect x="5" y="23" width="23" height="24" rx="8" fill="#c84e35"/><path d="M20 24V14h18l9 11" fill="none" stroke="#ffa64b" stroke-width="5"/><path d="M22 25h45l12-6h20v13H78l-12-4H22z" fill="#526b77"/><rect x="88" y="21" width="17" height="9" rx="2" fill="#eeb443"/><path d="M43 30 36 55h17l8-23" fill="#294353"/><circle cx="15" cy="35" r="7" fill="#ffaf50"/>',
@@ -80,7 +80,15 @@
   }
   function muzzle() {
     const rect = launcher.getBoundingClientRect();
-    return { x: launcher.dataset.facing === 'left' ? rect.left + 4 : rect.right - 4, y: rect.top + rect.height * .37 };
+    // Match the SVG's 116 × 64 viewBox and its centered preserveAspectRatio scaling.
+    const scale = Math.min(rect.width / 116, rect.height / 64);
+    const offsetX = (rect.width - 116 * scale) / 2;
+    const offsetY = (rect.height - 64 * scale) / 2;
+    const [nozzleX, nozzleY] = weapons[mode].nozzle;
+    return {
+      x: rect.left + offsetX + (launcher.dataset.facing === 'left' ? 116 - nozzleX : nozzleX) * scale,
+      y: rect.top + offsetY + nozzleY * scale
+    };
   }
   function updateFacing() {
     const rect = launcher.getBoundingClientRect();
@@ -177,6 +185,8 @@
     if (distance < 20) return;
     const duration = Math.max(130, distance / weapons[mode].speed * 1000);
     projectiles.push({ sx: startPoint.x, sy: startPoint.y, x: startPoint.x, y: startPoint.y, tx: target.x, ty: target.y, progress: 0, duration, type: mode, trail: [] });
+    // The first visible flash is anchored to the actual barrel tip.
+    sparks.push({ x: startPoint.x, y: startPoint.y, vx: 0, vy: 0, life: 5, max: 5, size: mode === 'rocket' ? 8 : 4, color: weapons[mode].color });
     launcher.classList.remove('firing'); void launcher.offsetWidth; launcher.classList.add('firing');
     sound(mode);
   }
