@@ -196,30 +196,40 @@
     ctx.strokeStyle = config.color;
     ctx.fillStyle = config.color;
     ctx.lineCap = 'round';
+    // Keep the visible trail connected to the SVG barrel throughout flight.
+    ctx.beginPath(); ctx.arc(p.sx, p.sy, p.type === 'rocket' ? 6 : 3, 0, Math.PI * 2); ctx.fill();
     if (p.type === 'ice') {
       ctx.globalAlpha = .65; ctx.lineWidth = 5;
       ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.x, p.y); ctx.stroke();
       ctx.strokeStyle = '#e5fbff'; ctx.lineWidth = 2; ctx.stroke();
       ctx.globalAlpha = 1;
     } else if (p.type === 'fire') {
-      // A short, flickering jet keeps the flame attached to the nozzle.
-      for (let i = 0; i < 9; i++) {
-        const t = p.progress * (i + 1) / 9;
-        const fx = p.sx + (p.tx - p.sx) * t, fy = p.sy + (p.ty - p.sy) * t;
-        ctx.globalAlpha = .18 + .48 * i / 9;
+      const length = Math.hypot(p.x - p.sx, p.y - p.sy);
+      const count = Math.max(2, Math.ceil(length / 9));
+      const glow = ctx.createLinearGradient(p.sx, p.sy, p.x, p.y);
+      glow.addColorStop(0, '#ffe37a'); glow.addColorStop(.45, '#ff9d35'); glow.addColorStop(1, '#f15323');
+      ctx.globalAlpha = .25; ctx.strokeStyle = glow; ctx.lineWidth = 13;
+      ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.x, p.y); ctx.stroke();
+      for (let i = 0; i <= count; i++) {
+        const t = i / count;
+        const fx = p.sx + (p.x - p.sx) * t, fy = p.sy + (p.y - p.sy) * t;
+        ctx.globalAlpha = .36 + .34 * t;
         ctx.fillStyle = i % 3 ? '#ff7a25' : '#ffe16b';
-        ctx.beginPath(); ctx.arc(fx + (Math.random() - .5) * 12, fy + (Math.random() - .5) * 12, 4 + i * .55, 0, Math.PI * 2); ctx.fill();
+        const jitter = i === 0 ? 0 : 7;
+        ctx.beginPath(); ctx.arc(fx + (Math.random() - .5) * jitter, fy + (Math.random() - .5) * jitter, 3 + t * 5, 0, Math.PI * 2); ctx.fill();
       }
     } else if (p.type === 'rocket') {
-      ctx.strokeStyle = '#ff9b39'; ctx.globalAlpha = .4; ctx.lineWidth = 6;
-      ctx.beginPath(); ctx.moveTo(p.sx + (p.x-p.sx)*.78, p.sy + (p.y-p.sy)*.78); ctx.lineTo(p.x, p.y); ctx.stroke();
+      ctx.strokeStyle = '#ff9b39'; ctx.globalAlpha = .35; ctx.lineWidth = 5;
+      ctx.setLineDash([10, 7]);
+      ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.x, p.y); ctx.stroke();
+      ctx.setLineDash([]);
       ctx.globalAlpha = 1; ctx.translate(p.x, p.y); ctx.rotate(Math.atan2(p.ty - p.sy, p.tx - p.sx));
       ctx.fillStyle = '#243949'; ctx.fillRect(-18, -6, 23, 12);
       ctx.fillStyle = '#f6a230'; ctx.beginPath(); ctx.moveTo(12, 0); ctx.lineTo(2, -7); ctx.lineTo(2, 7); ctx.fill();
       ctx.fillStyle = '#ffdd68'; ctx.beginPath(); ctx.moveTo(-18, 0); ctx.lineTo(-30, -5); ctx.lineTo(-30, 5); ctx.fill();
     } else {
       ctx.lineWidth = p.type === 'machine' ? 2 : 3;
-      ctx.globalAlpha = .55; ctx.beginPath(); ctx.moveTo(p.x-(p.x-p.sx)*.22, p.y-(p.y-p.sy)*.22); ctx.lineTo(p.x, p.y); ctx.stroke();
+      ctx.globalAlpha = .5; ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.x, p.y); ctx.stroke();
       ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(p.x, p.y, p.type === 'machine' ? 4 : 6, 0, Math.PI * 2); ctx.fill();
     }
     if (p.type === 'ice' || p.type === 'fire') {
