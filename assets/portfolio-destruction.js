@@ -152,7 +152,7 @@
     const effect = document.createElement('div');
     effect.className = 'destruction-impact destruction-impact-' + type;
     effect.style.left = x + 'px'; effect.style.top = y + 'px';
-    effect.style.setProperty('--impact-size', radius * 2 + 'px');
+    effect.style.setProperty('--impact-size', radius * (type === 'fire' ? 3 : 2) + 'px');
     if (type === 'fire') {
       for (let i = 0; i < 4; i++) {
         const flame = document.createElement('b');
