@@ -186,14 +186,22 @@
     impactElements.add(effect);
     setTimeout(() => { effect.remove(); impactElements.delete(effect); }, type === 'fire' ? 1950 : 950);
   }
-  function punchHole(target, localX, localY, radius) {
+  function punchHole(target, localX, localY, radius, type) {
     if (!active || !target.isConnected) return;
     let state = masks.get(target);
     if (!state) {
       state = { holes: [], original: target.style.maskImage, composite: target.style.maskComposite, webkit: target.style.webkitMaskImage };
       masks.set(target, state);
     }
+    if (state.holes.some(h => Math.hypot(h.x - localX, h.y - localY) < radius * .45)) return;
     state.holes.push({ x: localX, y: localY, radius });
+    if (type === 'fire') {
+      // Uneven ash edges read more like scorched material than a circular punch-out.
+      for (let i = 0; i < 4; i++) {
+        const angle = i * Math.PI / 2 + .35;
+        state.holes.push({ x: localX + Math.cos(angle) * radius * .72, y: localY + Math.sin(angle) * radius * .72, radius: radius * (.36 + i % 2 * .1) });
+      }
+    }
     const gradients = state.holes.map(h => `radial-gradient(circle ${h.radius}px at ${h.x}px ${h.y}px, transparent 90%, #000 100%)`);
     target.style.maskImage = gradients.join(',');
     target.style.webkitMaskImage = gradients.join(',');
@@ -214,7 +222,7 @@
       visualImpact(point.x, point.y, type, radius, target);
       lastVisual = performance.now();
     }
-    setTimeout(() => punchHole(target, localX, localY, radius), type === 'fire' ? 800 : type === 'ice' ? 470 : 170);
+    setTimeout(() => punchHole(target, localX, localY, radius, type), type === 'fire' ? 800 : type === 'ice' ? 470 : 170);
   }
   function shoot(now) {
     if (now - lastShot < weapons[mode].rate) return;
@@ -230,6 +238,55 @@
     launcher.classList.remove('firing'); void launcher.offsetWidth; launcher.classList.add('firing');
     sound(mode);
   }
+  function drawFlameStream(p) {
+    const length = Math.hypot(p.x - p.sx, p.y - p.sy);
+    if (length < 3) return;
+    const time = performance.now() * .017;
+    const width = Math.min(innerWidth < 620 ? 18 : 30, 7 + length * .065);
+    ctx.save();
+    ctx.translate(p.sx, p.sy);
+    ctx.rotate(Math.atan2(p.y - p.sy, p.x - p.sx));
+    // Three uneven, flowing silhouettes form a hot core inside a turbulent outer jet.
+    for (const layer of [
+      { scale: 1.25, start: '#b8270d', middle: '#f25a16', end: '#ed4a13', alpha: .62, blur: 16 },
+      { scale: .83, start: '#ff9b25', middle: '#ffb328', end: '#ff771a', alpha: .92, blur: 9 },
+      { scale: .38, start: '#fff5ba', middle: '#ffe16b', end: '#ffad33', alpha: .88, blur: 5 }
+    ]) {
+      const gradient = ctx.createLinearGradient(0, 0, length, 0);
+      gradient.addColorStop(0, layer.start);
+      gradient.addColorStop(.55, layer.middle);
+      gradient.addColorStop(1, layer.end);
+      ctx.fillStyle = gradient;
+      ctx.globalAlpha = layer.alpha;
+      ctx.shadowColor = layer.middle;
+      ctx.shadowBlur = layer.blur;
+      ctx.beginPath();
+      const steps = Math.max(8, Math.ceil(length / 13));
+      for (let side = 1; side >= -1; side -= 2) {
+        for (let i = side === 1 ? 0 : steps; side === 1 ? i <= steps : i >= 0; i += side) {
+          const t = i / steps;
+          const envelope = Math.min(1, .25 + t * 1.65) * Math.pow(1 - t, .43);
+          const flicker = Math.sin(t * 30 - time * 2 + side) * .22 + Math.sin(t * 67 + time * 1.3) * .12;
+          const edge = width * layer.scale * envelope * (1 + flicker);
+          const drift = Math.sin(t * 18 - time) * width * .13 * t;
+          const y = drift + side * Math.max(i === 0 ? 3 : 0, edge);
+          if (side === 1 && i === 0) ctx.moveTo(0, y);
+          else ctx.lineTo(length * t, y);
+        }
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    for (let i = 0; i < Math.min(10, length / 24); i++) {
+      const t = (i / 10 + time * .025) % 1;
+      const y = Math.sin(i * 5.2 + time) * width * t;
+      ctx.globalAlpha = .7 * (1 - t);
+      ctx.fillStyle = i % 2 ? '#ffaf35' : '#ffdc69';
+      ctx.beginPath(); ctx.arc(length * t, y, 1.5 + 2.5 * t, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  }
   function drawProjectile(p) {
     const config = weapons[p.type];
     ctx.save();
@@ -244,20 +301,7 @@
       ctx.strokeStyle = '#e5fbff'; ctx.lineWidth = 2; ctx.stroke();
       ctx.globalAlpha = 1;
     } else if (p.type === 'fire') {
-      const length = Math.hypot(p.x - p.sx, p.y - p.sy);
-      const count = Math.max(2, Math.ceil(length / 9));
-      const glow = ctx.createLinearGradient(p.sx, p.sy, p.x, p.y);
-      glow.addColorStop(0, '#ffe37a'); glow.addColorStop(.45, '#ff9d35'); glow.addColorStop(1, '#f15323');
-      ctx.globalAlpha = .25; ctx.strokeStyle = glow; ctx.lineWidth = 13;
-      ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.x, p.y); ctx.stroke();
-      for (let i = 0; i <= count; i++) {
-        const t = i / count;
-        const fx = p.sx + (p.x - p.sx) * t, fy = p.sy + (p.y - p.sy) * t;
-        ctx.globalAlpha = .36 + .34 * t;
-        ctx.fillStyle = i % 3 ? '#ff7a25' : '#ffe16b';
-        const jitter = i === 0 ? 0 : 7;
-        ctx.beginPath(); ctx.arc(fx + (Math.random() - .5) * jitter, fy + (Math.random() - .5) * jitter, 3 + t * 5, 0, Math.PI * 2); ctx.fill();
-      }
+      drawFlameStream(p);
     } else if (p.type === 'rocket') {
       ctx.strokeStyle = '#ff9b39'; ctx.globalAlpha = .35; ctx.lineWidth = 5;
       ctx.setLineDash([10, 7]);
@@ -272,8 +316,8 @@
       ctx.globalAlpha = .5; ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.x, p.y); ctx.stroke();
       ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(p.x, p.y, p.type === 'machine' ? 4 : 6, 0, Math.PI * 2); ctx.fill();
     }
-    if (p.type === 'ice' || p.type === 'fire') {
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.type === 'fire' ? 8 : 5, 0, Math.PI * 2); ctx.fill();
+    if (p.type === 'ice') {
+      ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2); ctx.fill();
     }
     ctx.restore();
   }
@@ -282,6 +326,7 @@
     if (!active) { frame = 0; return; }
     if (firing) shoot(now);
     ctx.clearRect(0, 0, innerWidth, innerHeight);
+    let flameDrawn = false;
     projectiles = projectiles.filter(p => {
       // A beam remains visually attached if the visitor drags the gun while firing.
       const origin = muzzle();
@@ -290,7 +335,11 @@
       p.x = p.sx + (p.tx - p.sx) * p.progress;
       p.y = p.sy + (p.ty - p.sy) * p.progress;
       if (p.progress >= 1) { impact(p); return false; }
-      drawProjectile(p); return true;
+      if (p.type !== 'fire' || !flameDrawn) {
+        drawProjectile(p);
+        if (p.type === 'fire') flameDrawn = true;
+      }
+      return true;
     });
     sparks = sparks.filter(p => p.life > 0);
     for (const p of sparks) {
