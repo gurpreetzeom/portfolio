@@ -153,7 +153,22 @@
     effect.className = 'destruction-impact destruction-impact-' + type;
     effect.style.left = x + 'px'; effect.style.top = y + 'px';
     effect.style.setProperty('--impact-size', radius * 2 + 'px');
-    if (type === 'shot' || type === 'machine' || type === 'rocket') {
+    if (type === 'fire') {
+      for (let i = 0; i < 4; i++) {
+        const flame = document.createElement('b');
+        flame.className = 'destruction-flame';
+        flame.style.setProperty('--offset', (i - 1.5) * 12 + 'px');
+        flame.style.setProperty('--delay', i * -0.11 + 's');
+        effect.append(flame);
+      }
+      for (let i = 0; i < 5; i++) {
+        const smoke = document.createElement('span');
+        smoke.className = 'destruction-smoke';
+        smoke.style.setProperty('--drift', (i - 2) * 17 + 'px');
+        smoke.style.setProperty('--delay', i * .16 + 's');
+        effect.append(smoke);
+      }
+    } else if (type === 'shot' || type === 'machine' || type === 'rocket') {
       const color = getComputedStyle(target).backgroundColor;
       effect.style.setProperty('--tile-color', color === 'rgba(0, 0, 0, 0)' || color === 'transparent' ? '#d9e4eb' : color);
       for (let i = 0; i < (type === 'rocket' ? 16 : 9); i++) {
@@ -169,7 +184,7 @@
     }
     document.body.append(effect);
     impactElements.add(effect);
-    setTimeout(() => { effect.remove(); impactElements.delete(effect); }, 950);
+    setTimeout(() => { effect.remove(); impactElements.delete(effect); }, type === 'fire' ? 1950 : 950);
   }
   function punchHole(target, localX, localY, radius) {
     if (!active || !target.isConnected) return;
@@ -199,7 +214,7 @@
       visualImpact(point.x, point.y, type, radius, target);
       lastVisual = performance.now();
     }
-    setTimeout(() => punchHole(target, localX, localY, radius), type === 'fire' ? 390 : type === 'ice' ? 470 : 170);
+    setTimeout(() => punchHole(target, localX, localY, radius), type === 'fire' ? 800 : type === 'ice' ? 470 : 170);
   }
   function shoot(now) {
     if (now - lastShot < weapons[mode].rate) return;
