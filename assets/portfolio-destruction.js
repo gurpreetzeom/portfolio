@@ -98,6 +98,22 @@
   function updateFacing() {
     const rect = launcher.getBoundingClientRect();
     launcher.dataset.facing = rect.left + rect.width / 2 > innerWidth / 2 ? 'left' : 'right';
+    updateAim();
+  }
+  function updateAim() {
+    const art = launcher.querySelector('.destruction-gun-art');
+    // The grip remains anchored while the barrel tracks the pointer.
+    // Use the untransformed launcher box, as the art's rect expands when tilted.
+    const base = launcher.getBoundingClientRect();
+    const pivotX = base.left + base.width * .39;
+    const pivotY = base.top + base.height * .65;
+    const dx = aim.x - pivotX, dy = aim.y - pivotY;
+    if (Math.hypot(dx, dy) < 12) return;
+    const left = dx < 0;
+    launcher.dataset.facing = left ? 'left' : 'right';
+    let angle = Math.atan2(dy, dx) - (left ? Math.PI : 0);
+    if (angle < -Math.PI) angle += Math.PI * 2;
+    art.style.setProperty('--aim-angle', angle + 'rad');
   }
   function moveLauncher(x, y) {
     const rect = launcher.getBoundingClientRect();
@@ -114,6 +130,7 @@
     launcher.dataset.tool = type;
     toolbar.querySelectorAll('[data-tool]').forEach(el => el.setAttribute('aria-pressed', String(el.dataset.tool === type)));
     lastShot = 0;
+    updateAim();
   }
   function burst(x, y, type) {
     const palette = type === 'ice' ? ['#ecfdff','#9beaff','#35a8d6'] : type === 'fire' ? ['#ffdc57','#ff7426','#c93320','#34363b'] : type === 'rocket' ? ['#ffe27a','#ff782b','#dc3926','#37404b'] : ['#fff2bc','#8799a9','#263d4d'];
@@ -287,6 +304,7 @@
   }
   start.addEventListener('click', () => {
     active = true; resize(); toolbar.hidden = launcher.hidden = canvas.hidden = false;
+    aim = { x: innerWidth - 20, y: innerHeight - 18 };
     document.body.classList.add('destruction-active'); setWeapon('fire'); updateFacing(); audio();
     toolbar.querySelector('[data-tool]').focus();
     frame = requestAnimationFrame(animate);
@@ -333,11 +351,17 @@
   document.addEventListener('pointerdown', event => {
     if (!active || !event.isPrimary || toolbar.contains(event.target) || launcher.contains(event.target) || !event.target.closest('main, header')) return;
     event.preventDefault(); event.stopPropagation();
-    pointerId = event.pointerId; aim = { x: event.clientX, y: event.clientY }; firing = true;
+    pointerId = event.pointerId; aim = { x: event.clientX, y: event.clientY }; updateAim(); firing = true;
     shoot(performance.now());
   }, true);
   document.addEventListener('pointermove', event => {
-    if (active && firing && event.pointerId === pointerId) aim = { x: event.clientX, y: event.clientY };
+    if (active && firing && event.pointerId === pointerId) {
+      aim = { x: event.clientX, y: event.clientY };
+      updateAim();
+    } else if (active && !dragging && event.pointerType === 'mouse' && !toolbar.contains(event.target) && !launcher.contains(event.target)) {
+      aim = { x: event.clientX, y: event.clientY };
+      updateAim();
+    }
   }, true);
   document.addEventListener('pointerup', event => { if (event.pointerId === pointerId) stop(); }, true);
   document.addEventListener('pointercancel', event => { if (event.pointerId === pointerId) stop(); }, true);
