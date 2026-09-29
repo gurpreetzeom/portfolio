@@ -29,5 +29,7 @@
 /* Trails and muzzle flashes paint over the barrel tip without blocking controls. */
 .destruction-canvas{z-index:99999}
 .destruction-gun-art{transition:none}
+.destruction-gun-art{transform-origin:39% 65%;transform:rotate(var(--aim-angle,0rad)) scaleX(1);transition:transform .1s ease-out}
+.destruction-launcher[data-facing="left"] .destruction-gun-art{transform:rotate(var(--aim-angle,0rad)) scaleX(-1)}
 .destruction-launcher.firing .destruction-gun-art{animation:gun-glint .15s ease-out}
 @keyframes gun-glint{50%{filter:brightness(1.35)}}
