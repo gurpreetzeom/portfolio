@@ -74,21 +74,26 @@
   const impactElements = new Set();
   let lastVisual = 0;
   function resize() {
+    // 100vh can be taller than the visible mobile viewport when browser chrome is shown.
+    // Match the bitmap and its displayed CSS box to the same measured viewport.
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
     canvas.width = Math.round(innerWidth * devicePixelRatio);
     canvas.height = Math.round(innerHeight * devicePixelRatio);
-    ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    ctx.setTransform(canvas.width / innerWidth, 0, 0, canvas.height / innerHeight, 0, 0);
+  }
+  function toCanvas(x, y) {
+    const rect = canvas.getBoundingClientRect();
+    return { x: (x - rect.left) * innerWidth / rect.width, y: (y - rect.top) * innerHeight / rect.height };
+  }
+  function toViewport(x, y) {
+    const rect = canvas.getBoundingClientRect();
+    return { x: rect.left + x * rect.width / innerWidth, y: rect.top + y * rect.height / innerHeight };
   }
   function muzzle() {
-    const rect = launcher.getBoundingClientRect();
-    // Match the SVG's 116 × 64 viewBox and its centered preserveAspectRatio scaling.
-    const scale = Math.min(rect.width / 116, rect.height / 64);
-    const offsetX = (rect.width - 116 * scale) / 2;
-    const offsetY = (rect.height - 64 * scale) / 2;
-    const [nozzleX, nozzleY] = weapons[mode].nozzle;
-    return {
-      x: rect.left + offsetX + (launcher.dataset.facing === 'left' ? 116 - nozzleX : nozzleX) * scale,
-      y: rect.top + offsetY + nozzleY * scale
-    };
+    const marker = launcher.querySelector('.destruction-muzzle-anchor');
+    const rect = marker.getBoundingClientRect();
+    return toCanvas(rect.left + rect.width / 2, rect.top + rect.height / 2);
   }
   function updateFacing() {
     const rect = launcher.getBoundingClientRect();
@@ -103,7 +108,8 @@
   }
   function setWeapon(type) {
     mode = type;
-    launcher.querySelector('.destruction-gun-art').innerHTML = '<svg viewBox="0 0 116 64" role="img" aria-label="' + weapons[type].name + '"><path d="M6 40h103" stroke="#122a3b" stroke-width="2"/>' + gunShapes[type] + '</svg>';
+    const [nx, ny] = weapons[type].nozzle;
+    launcher.querySelector('.destruction-gun-art').innerHTML = '<svg viewBox="0 0 116 64" role="img" aria-label="' + weapons[type].name + '"><path d="M6 40h103" stroke="#122a3b" stroke-width="2"/>' + gunShapes[type] + '<circle class="destruction-muzzle-anchor" cx="' + nx + '" cy="' + ny + '" r="1" fill="transparent"/></svg>';
     launcher.setAttribute('aria-label', weapons[type].name + '. Drag to reposition, or use arrow keys.');
     launcher.dataset.tool = type;
     toolbar.querySelectorAll('[data-tool]').forEach(el => el.setAttribute('aria-pressed', String(el.dataset.tool === type)));
@@ -120,7 +126,7 @@
   function targetAt(x, y) {
     const node = document.elementFromPoint(x, y);
     if (!node || !node.closest('main, header')) return null;
-    const target = node.closest('h1, h2, h3, h4, p, li, a, button, img, svg, .metric, .tag, .stat, .career-stop, .case, .card, .desk-note, .contact-positioning, .contact-action, .section-head');
+    const target = node.closest('h1, h2, h3, h4, p, li, a, button, img, svg, .metric, .tag, .stat, .career-stop, .case, .card, .desk-note, .contact-positioning, .contact-action, .section-head, .quote, .skill, section');
     if (!target || target === launcher || toolbar.contains(target)) return null;
     const rect = target.getBoundingClientRect();
     return rect.width && rect.height ? target : null;
@@ -148,15 +154,14 @@
     impactElements.add(effect);
     setTimeout(() => { effect.remove(); impactElements.delete(effect); }, 950);
   }
-  function punchHole(target, x, y, radius) {
+  function punchHole(target, localX, localY, radius) {
     if (!active || !target.isConnected) return;
-    const rect = target.getBoundingClientRect();
     let state = masks.get(target);
     if (!state) {
       state = { holes: [], original: target.style.maskImage, composite: target.style.maskComposite, webkit: target.style.webkitMaskImage };
       masks.set(target, state);
     }
-    state.holes.push({ x: x - rect.left, y: y - rect.top, radius });
+    state.holes.push({ x: localX, y: localY, radius });
     const gradients = state.holes.map(h => `radial-gradient(circle ${h.radius}px at ${h.x}px ${h.y}px, transparent 90%, #000 100%)`);
     target.style.maskImage = gradients.join(',');
     target.style.webkitMaskImage = gradients.join(',');
@@ -167,20 +172,23 @@
     const { x, y, type } = projectile;
     burst(x, y, type);
     if (type === 'rocket') sound(type, true);
-    const target = targetAt(x, y);
+    const point = toViewport(x, y);
+    const target = targetAt(point.x, point.y);
     if (!target) return;
+    const rect = target.getBoundingClientRect();
+    const localX = point.x - rect.left, localY = point.y - rect.top;
     const radius = type === 'rocket' ? 75 : type === 'fire' ? 22 : type === 'ice' ? 26 : type === 'shot' ? 15 : 10;
     if (performance.now() - lastVisual > (type === 'fire' || type === 'ice' ? 100 : 35)) {
-      visualImpact(x, y, type, radius, target);
+      visualImpact(point.x, point.y, type, radius, target);
       lastVisual = performance.now();
     }
-    setTimeout(() => punchHole(target, x, y, radius), type === 'fire' ? 390 : type === 'ice' ? 470 : 170);
+    setTimeout(() => punchHole(target, localX, localY, radius), type === 'fire' ? 390 : type === 'ice' ? 470 : 170);
   }
   function shoot(now) {
     if (now - lastShot < weapons[mode].rate) return;
     lastShot = now;
     const startPoint = muzzle();
-    const target = { ...aim };
+    const target = toCanvas(aim.x, aim.y);
     const distance = Math.hypot(target.x - startPoint.x, target.y - startPoint.y);
     if (distance < 20) return;
     const duration = Math.max(130, distance / weapons[mode].speed * 1000);
@@ -243,6 +251,9 @@
     if (firing) shoot(now);
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     projectiles = projectiles.filter(p => {
+      // A beam remains visually attached if the visitor drags the gun while firing.
+      const origin = muzzle();
+      p.sx = origin.x; p.sy = origin.y;
       p.progress = Math.min(1, p.progress + dt / p.duration);
       p.x = p.sx + (p.tx - p.sx) * p.progress;
       p.y = p.sy + (p.ty - p.sy) * p.progress;
