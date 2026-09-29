@@ -262,18 +262,22 @@
       ctx.shadowBlur = layer.blur;
       ctx.beginPath();
       const steps = Math.max(10, Math.ceil(length / 10));
+      let previousPoint = null;
       for (let side = 1; side >= -1; side -= 2) {
         for (let i = side === 1 ? 0 : steps; side === 1 ? i <= steps : i >= 0; i += side) {
           const t = i / steps;
           const envelope = Math.min(1, .25 + t * 1.65) * Math.pow(1 - t, .43);
-          const flicker = Math.sin(t * 34 - time * 2 + side) * .3 + Math.sin(t * 82 + time * 1.3) * .17;
+          const flicker = Math.sin(t * 20 - time * 2 + side) * .27 + Math.sin(t * 47 + time * 1.3) * .12;
           const edge = width * layer.scale * envelope * (1 + flicker);
           const drift = Math.sin(t * 18 - time) * width * .13 * t;
           const y = drift + side * Math.max(i === 0 ? 3 : 0, edge);
-          if (side === 1 && i === 0) ctx.moveTo(0, y);
-          else ctx.lineTo(length * t, y);
+          const point = { x: length * t, y };
+          if (!previousPoint) ctx.moveTo(point.x, point.y);
+          else ctx.quadraticCurveTo(previousPoint.x, previousPoint.y, (previousPoint.x + point.x) / 2, (previousPoint.y + point.y) / 2);
+          previousPoint = point;
         }
       }
+      ctx.lineTo(previousPoint.x, previousPoint.y);
       ctx.closePath();
       ctx.fill();
     }
