@@ -242,15 +242,15 @@
     const length = Math.hypot(p.x - p.sx, p.y - p.sy);
     if (length < 3) return;
     const time = performance.now() * .017;
-    const width = Math.min(innerWidth < 620 ? 18 : 30, 7 + length * .065);
+    const width = Math.min(innerWidth < 620 ? 25 : 48, 10 + length * .105);
     ctx.save();
     ctx.translate(p.sx, p.sy);
     ctx.rotate(Math.atan2(p.y - p.sy, p.x - p.sx));
     // Three uneven, flowing silhouettes form a hot core inside a turbulent outer jet.
     for (const layer of [
-      { scale: 1.25, start: '#b8270d', middle: '#f25a16', end: '#ed4a13', alpha: .62, blur: 16 },
-      { scale: .83, start: '#ff9b25', middle: '#ffb328', end: '#ff771a', alpha: .92, blur: 9 },
-      { scale: .38, start: '#fff5ba', middle: '#ffe16b', end: '#ffad33', alpha: .88, blur: 5 }
+      { scale: 1.3, start: '#a92c10', middle: '#e94710', end: '#bb2f0c', alpha: .48, blur: 21 },
+      { scale: .86, start: '#ff9626', middle: '#ffad22', end: '#f56816', alpha: .92, blur: 12 },
+      { scale: .37, start: '#fff7cf', middle: '#ffe679', end: '#ffb23c', alpha: .84, blur: 7 }
     ]) {
       const gradient = ctx.createLinearGradient(0, 0, length, 0);
       gradient.addColorStop(0, layer.start);
@@ -261,12 +261,12 @@
       ctx.shadowColor = layer.middle;
       ctx.shadowBlur = layer.blur;
       ctx.beginPath();
-      const steps = Math.max(8, Math.ceil(length / 13));
+      const steps = Math.max(10, Math.ceil(length / 10));
       for (let side = 1; side >= -1; side -= 2) {
         for (let i = side === 1 ? 0 : steps; side === 1 ? i <= steps : i >= 0; i += side) {
           const t = i / steps;
           const envelope = Math.min(1, .25 + t * 1.65) * Math.pow(1 - t, .43);
-          const flicker = Math.sin(t * 30 - time * 2 + side) * .22 + Math.sin(t * 67 + time * 1.3) * .12;
+          const flicker = Math.sin(t * 34 - time * 2 + side) * .3 + Math.sin(t * 82 + time * 1.3) * .17;
           const edge = width * layer.scale * envelope * (1 + flicker);
           const drift = Math.sin(t * 18 - time) * width * .13 * t;
           const y = drift + side * Math.max(i === 0 ? 3 : 0, edge);
