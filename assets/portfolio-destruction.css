@@ -46,3 +46,7 @@
 .destruction-impact-fire{animation-duration:1.95s}
 .destruction-impact-fire::after{content:'';position:absolute;inset:7%;border-radius:42% 58% 49% 51%;background:radial-gradient(circle at 18% 70%,#ffdc66 0 2px,transparent 4px),radial-gradient(circle at 75% 24%,#ff9d29 0 3px,transparent 6px),radial-gradient(circle at 82% 76%,#e34b1d 0 2px,transparent 5px),radial-gradient(circle at 36% 15%,#ffd466 0 2px,transparent 5px);filter:drop-shadow(0 0 5px #fa752d);animation:ember-pulse .35s ease-in-out infinite alternate;pointer-events:none}
 @media(prefers-reduced-motion:reduce){.destruction-impact-fire .destruction-flame,.destruction-impact-fire .destruction-smoke,.destruction-impact-fire::before{animation-duration:.2s!important;animation-iteration-count:1!important}}
+
+.gravity-controls{display:flex;gap:5px;flex-wrap:wrap}.gravity-controls button[aria-pressed="true"]{background:#e9f1fa;color:#152c3c}.gravity-moon main,.gravity-moon header{cursor:default;touch-action:auto}.gravity-sun main,.gravity-sun header{cursor:default;touch-action:auto}.gravity-moon.destruction-active main,.gravity-moon.destruction-active header,.gravity-sun.destruction-active main,.gravity-sun.destruction-active header{cursor:default;touch-action:auto}
+@media(max-width:950px){.gravity-controls{justify-content:flex-end}}
+@media(max-width:620px){.gravity-controls{gap:3px}.gravity-controls button{padding:7px;font-size:10px}}
