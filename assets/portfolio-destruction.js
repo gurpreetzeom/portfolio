@@ -6,7 +6,7 @@
   toolbar.hidden = true;
   toolbar.setAttribute('role', 'group');
   toolbar.setAttribute('aria-label', 'Portfolio destruction controls');
-  toolbar.innerHTML = '<span class="destruction-instruction">Aim at the page · hold to fire</span><div class="destruction-weapons"><button type="button" data-tool="fire" aria-pressed="true">🔥 Fire</button><button type="button" data-tool="ice" aria-pressed="false">❄️ Freeze ray</button><button type="button" data-tool="shot" aria-pressed="false">🔫 Pistol</button><button type="button" data-tool="machine" aria-pressed="false">⚙️ Machine gun</button><button type="button" data-tool="rocket" aria-pressed="false">🚀 Rocket launcher</button></div><button type="button" class="destruction-sound" aria-pressed="true" aria-label="Mute weapon sounds">♪ On</button><button type="button" class="destruction-exit">Restore site ✕</button>';
+  toolbar.innerHTML = '<span class="destruction-instruction">Aim at the page · hold to fire</span><div class="destruction-weapons"><button type="button" data-tool="fire" aria-pressed="true">🔥 Fire</button><button type="button" data-tool="ice" aria-pressed="false">❄️ Freeze ray</button><button type="button" data-tool="shot" aria-pressed="false">🔫 Pistol</button><button type="button" data-tool="machine" aria-pressed="false">⚙️ Machine gun</button><button type="button" data-tool="rocket" aria-pressed="false">🚀 Rocket launcher</button></div><div class="gravity-controls" aria-label="Gravity effects"><button type="button" data-gravity="moon" aria-pressed="false">🌙 Moon Gravity</button><button type="button" data-gravity="sun" aria-pressed="false">☀️ Sun Gravity</button></div><button type="button" class="destruction-sound" aria-pressed="true" aria-label="Mute weapon sounds">♪ On</button><button type="button" class="destruction-exit">Restore site ✕</button>';
   const launcher = document.createElement('div');
   launcher.className = 'destruction-launcher';
   launcher.hidden = true;
@@ -67,6 +67,7 @@
     }
   }
   let mode = 'fire', active = false, firing = false, pointerId = null, aim = { x: 0, y: 0 };
+  let gravityMode = null, gravityItems = [], gravityFrame = 0, gravityPrevious = 0;
   let dragging = null;
   let projectiles = [], sparks = [], lastShot = 0, previous = 0, frame = 0;
   const changed = new Set();
@@ -355,8 +356,75 @@
     frame = requestAnimationFrame(animate);
   }
   function stop() { firing = false; pointerId = null; launcher.classList.remove('firing'); }
+  function gravityTargets() {
+    const selector = 'h1,h2,h3,h4,p,li,a,button,img,svg,.metric,.tag,.stat,.career-stop,.case,.card,.desk-note,.contact-positioning,.contact-action,.section-head,.quote,.skill';
+    const candidates = [...document.querySelectorAll('header ' + selector + ', main ' + selector + ', footer ' + selector + ', .destruction-invite ' + selector)];
+    const candidateSet = new Set(candidates);
+    return candidates.filter(node => {
+      if (node === launcher || toolbar.contains(node) || !node.getBoundingClientRect().width || !node.getBoundingClientRect().height) return false;
+      // Move a card as one piece so its text and buttons stay together and clickable.
+      for (let parent = node.parentElement; parent && parent !== document.body; parent = parent.parentElement) {
+        if (candidateSet.has(parent)) return false;
+      }
+      return true;
+    });
+  }
+  function clearGravity() {
+    if (gravityFrame) cancelAnimationFrame(gravityFrame);
+    gravityFrame = 0; gravityPrevious = 0; gravityMode = null;
+    document.body.classList.remove('gravity-moon', 'gravity-sun');
+    for (const item of gravityItems) {
+      item.node.style.translate = item.translate;
+      item.node.style.willChange = item.willChange;
+    }
+    gravityItems = [];
+    toolbar.querySelectorAll('[data-gravity]').forEach(button => button.setAttribute('aria-pressed', 'false'));
+  }
+  function startGravity(type) {
+    clearGravity(); stop(); gravityMode = type;
+    document.body.classList.add('gravity-' + type);
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    gravityItems = gravityTargets().map((node, index) => {
+      const rect = node.getBoundingClientRect();
+      const item = { node, x: 0, y: 0, vx: (Math.random() - .5) * (type === 'moon' ? .2 : .06), vy: type === 'moon' ? (Math.random() - .5) * .2 : 0, width: rect.width, height: rect.height, translate: node.style.translate, willChange: node.style.willChange, seed: index * 1.7, baseTop: rect.top };
+      node.style.willChange = 'translate';
+      return item;
+    });
+    toolbar.querySelectorAll('[data-gravity]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.gravity === type)));
+    gravityPrevious = performance.now();
+    const tick = now => {
+      if (!gravityMode) return;
+      const dt = Math.min(32, now - gravityPrevious || 16); gravityPrevious = now;
+      const scale = reduced ? .55 : 1;
+      for (const item of gravityItems) {
+        if (!item.node.isConnected) continue;
+        if (gravityMode === 'moon') {
+          item.vx += Math.sin(now / 900 + item.seed) * .00017 * dt;
+          item.vy += (-.00012 + Math.cos(now / 1100 + item.seed) * .00008) * dt;
+          item.vx *= .999; item.vy *= .999;
+          item.x += item.vx * dt * scale; item.y += item.vy * dt * scale;
+          const rect = item.node.getBoundingClientRect();
+          if (rect.left < 0 || rect.right > innerWidth) { item.vx *= -.82; item.x += rect.left < 0 ? -rect.left : innerWidth - rect.right; }
+          if (rect.top < 0 || rect.bottom > innerHeight) { item.vy *= -.82; item.y += rect.top < 0 ? -rect.top : innerHeight - rect.bottom; }
+        } else {
+          item.vy = Math.min(1.8, item.vy + .0015 * dt);
+          item.y += item.vy * dt * scale;
+          const rect = item.node.getBoundingClientRect();
+          const floor = Math.max(0, innerHeight - Math.min(item.height, 48));
+          if (rect.bottom > innerHeight - 8 || rect.top > floor) {
+            item.y -= Math.max(0, rect.bottom - (innerHeight - 8));
+            item.vy *= -.12;
+            if (Math.abs(item.vy) < .08) item.vy = 0;
+          }
+        }
+        item.node.style.translate = item.x.toFixed(1) + 'px ' + item.y.toFixed(1) + 'px';
+      }
+      gravityFrame = requestAnimationFrame(tick);
+    };
+    gravityFrame = requestAnimationFrame(tick);
+  }
   function restore() {
-    stop(); active = false; document.body.classList.remove('destruction-active');
+    stop(); clearGravity(); active = false; document.body.classList.remove('destruction-active');
     dragging = null; launcher.classList.remove('dragging');
     toolbar.hidden = launcher.hidden = canvas.hidden = true;
     for (const node of changed) {
@@ -379,6 +447,8 @@
   });
   toolbar.addEventListener('click', event => {
     if (event.target.closest('.destruction-exit')) return restore();
+    const gravityButton = event.target.closest('[data-gravity]');
+    if (gravityButton) return startGravity(gravityButton.dataset.gravity);
     if (event.target.closest('.destruction-sound')) {
       soundOn = !soundOn;
       const button = toolbar.querySelector('.destruction-sound');
@@ -389,7 +459,7 @@
       return;
     }
     const button = event.target.closest('[data-tool]');
-    if (button) { stop(); setWeapon(button.dataset.tool); }
+    if (button) { if (gravityMode) clearGravity(); stop(); setWeapon(button.dataset.tool); }
   });
   launcher.addEventListener('pointerdown', event => {
     if (!active || !event.isPrimary) return;
@@ -417,7 +487,7 @@
     moveLauncher(rect.left + dx, rect.top + dy);
   });
   document.addEventListener('pointerdown', event => {
-    if (!active || !event.isPrimary || toolbar.contains(event.target) || launcher.contains(event.target) || !event.target.closest('main, header')) return;
+    if (!active || gravityMode || !event.isPrimary || toolbar.contains(event.target) || launcher.contains(event.target) || !event.target.closest('main, header')) return;
     event.preventDefault(); event.stopPropagation();
     pointerId = event.pointerId; aim = { x: event.clientX, y: event.clientY }; updateAim(); firing = true;
     shoot(performance.now());
@@ -435,7 +505,7 @@
   document.addEventListener('pointercancel', event => { if (event.pointerId === pointerId) stop(); }, true);
   addEventListener('blur', stop);
   document.addEventListener('click', event => {
-    if (active && !toolbar.contains(event.target) && event.target !== start) { event.preventDefault(); event.stopPropagation(); }
+    if (active && !gravityMode && !toolbar.contains(event.target) && event.target !== start) { event.preventDefault(); event.stopPropagation(); }
   }, true);
   document.addEventListener('keydown', event => { if (active && event.key === 'Escape') restore(); });
   addEventListener('resize', () => {
