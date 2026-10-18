@@ -74,6 +74,16 @@
 /* Keep the shorter Zomato card at its natural height instead of stretching it to Stanza. */
 .grid>.case.case-compact:not(.featured){min-height:0}
 .grid>.case.case-compact:not(.featured)>.metrics{margin-top:0;min-height:0}
+
+/* October 2026 UI polish: keyboard, reading comfort, responsive controls */
+:where(a,button,summary,input,textarea,select):focus-visible{outline:3px solid #175ac6;outline-offset:4px}
+:where(.btn,.filter,.arcade-tab,.choice,.career-stop){transition-duration:.16s}
+:where(.btn,.filter,.arcade-tab,.choice,.career-stop):focus-visible{box-shadow:0 0 0 5px #175ac625}
+.case,.game-card,.desk-note{min-width:0}
+.case p,.detail-body p,.hero-description{overflow-wrap:break-word}
+@media(max-width:760px){.wrap{padding-left:clamp(16px,4vw,28px);padding-right:clamp(16px,4vw,28px)}.hero-thesis{line-height:1.28}.cta .btn{min-height:48px}.career-rail{scroll-padding-inline:16px}.career-stop{flex-basis:165px}.rally-hud{flex-wrap:wrap}.drive-controls button{min-width:46px;min-height:46px}.case{padding:clamp(18px,4vw,26px)}.game-card{padding:clamp(18px,4vw,28px)}}
+@media(max-width:420px){.cta{display:grid;grid-template-columns:1fr}.cta .btn{width:100%}.work-filters{gap:7px}.filter{padding:10px 13px}.arcade-tab{min-height:48px}.choice{min-height:58px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style><style>
 .hero-senior{padding:32px 0 44px}.hero-senior .intro-line{flex-wrap:wrap}.hero-senior .hero-grid{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);align-items:start;gap:clamp(28px,4vw,56px);padding-top:36px}.hero-senior .hero-headline{max-width:14ch;margin:0 0 24px;font-size:clamp(38px,4.6vw,64px);line-height:1.08;letter-spacing:-.055em;text-wrap:balance}.hero-senior .hero-description{max-width:56ch;margin-bottom:26px}.hero-senior .desk-note h2{font-size:clamp(25px,2.4vw,31px);line-height:1.2}.hero-senior .chapter-scale{margin:20px 0 14px;color:var(--lime);font-size:15px;font-weight:700}.hero-senior .chapter-link{display:inline-flex;align-items:center;min-height:44px;color:#f6f9fc;font-size:14px;text-underline-offset:4px}.statbar .stat b{font-size:clamp(21px,2.2vw,29px)}.contact-senior>div{min-width:0}.contact-senior h2{max-width:15ch;text-wrap:balance}.contact-senior .contact-address{margin:22px 0 12px;overflow-wrap:anywhere}.contact-senior .contact-prompt{margin-bottom:0;font-size:14px}.metric b{font-size:clamp(21px,2.2vw,27px)}.metrics .metric:last-child:nth-child(odd){grid-column:1/-1}.case .case-result{margin-top:auto;padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:6px}
 @media(max-width:760px){.hero-senior .hero-grid{grid-template-columns:1fr;padding-top:26px}.contact-senior{grid-template-columns:1fr;gap:24px}}
